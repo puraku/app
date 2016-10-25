@@ -2306,6 +2306,10 @@ oauth-sign@~0.8.1:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.8.2.tgz#46a6ab7f0aead8deae9ec0565780b7d4efeb9d43"
 
+oauth@^0.9.14:
+  version "0.9.14"
+  resolved "https://registry.yarnpkg.com/oauth/-/oauth-0.9.14.tgz#c5748883a40b53de30ade9cabf2100414b8a0971"
+
 object-assign@^4.0.1, object-assign@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.0.tgz#7a3b3d0e98063d43f4c03f2e8ae6cd51a86883a0"
@@ -2562,6 +2566,13 @@ punycode@1.3.2:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.3.2.tgz#9653a036fb7c1ee42342f2325cceefea3926c48d"
 
+purakujs:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/purakujs/-/purakujs-0.0.10.tgz#13e1f610a9710b1fdc83967d5963259094696040"
+  dependencies:
+    oauth "^0.9.14"
+    qs "^6.3.0"
+
 pushserve@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/pushserve/-/pushserve-1.0.2.tgz#fdfb803939ca33752d38f2d1aa975ac01a93253f"
@@ -2570,6 +2581,10 @@ pushserve@^1.0.2:
     connect-slashes "^1.3.1"
     express "^4.0.0"
     serve-static "^1.10.0"
+
+qs@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.3.0.tgz#f403b264f23bc01228c74131b407f18d5ea5d442"
 
 qs@~6.2.0:
   version "6.2.1"
