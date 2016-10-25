@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+	<head>
+		<title>Enter PIN code</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!--<link href="" rel="stylesheet">-->
+	</head>
+	<body>
+		<form id="pin-form">
+			<input type="text" id="pin-code" value="" placeholder="ex: 123456">
+		</form>
+	</body>
+	<script>
+		var { ipcRenderer } = require('electron');
+
+		var input = document.getElementById('pin-code');
+		var form = document.getElementById('pin-form');
+
+		form.addEventListener('submit', function() {
+			ipcRenderer.send('pin_submit', {oauthVerifier: input.value});
+		});
+	</script>
+</html>
