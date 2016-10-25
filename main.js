@@ -10,8 +10,8 @@ let mainWindow;
 
 app.on('ready', () => {
 	var client = new Puraku({consumerKey: plurkConfig.consumerKey, consumerSecret: plurkConfig.consumerSecret});
-	client.getRequestToken((error, oauthToken, oauthTokenSecret, results) => {
-		// if (error) {  }
+	client.getRequestToken().then(({oauthToken, oauthTokenSecret}) => {
+		// if (error) {  } handle error here
 
 		let authWin, popupWin;
 		authWin = new BrowserWindow();
@@ -33,8 +33,11 @@ app.on('ready', () => {
 		// shell.openExternal(`http://www.plurk.com/OAuth/authorize?oauth_token=${oauthToken}`);
 
 		ipcMain.once('pin_submit', (event, {oauthVerifier}) => {
-			client.getOAuthAccessToken({oauthToken, oauthTokenSecret, oauthVerifier}, () => {
-				client.request('GET', '/APP/Users/me').then(({data, response}) => {
+			client.getOAuthAccessToken({oauthToken, oauthTokenSecret, oauthVerifier}).then(() => {
+				// client.request('GET', '/APP/Users/me').then(({data, response}) => {
+				// 	console.log(data);
+				// });
+				client.request('POST', '/APP/checkToken').then(({data, response}) => {
 					console.log(data);
 				});
 				// authWin.close();
