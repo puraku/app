@@ -33,10 +33,10 @@ app.on('ready', () => {
 		// shell.openExternal(`http://www.plurk.com/OAuth/authorize?oauth_token=${oauthToken}`);
 
 		ipcMain.once('pin_submit', (event, {oauthVerifier}) => {
-			client.getOAuthAccessToken({oauthToken, oauthTokenSecret, oauthVerifier}, ({accessToken, accessTokenSecret}) => {
-				console.log(accessToken);
-				console.log(accessTokenSecret);
-
+			client.getOAuthAccessToken({oauthToken, oauthTokenSecret, oauthVerifier}, () => {
+				client.request('GET', '/APP/Users/me').then(({data, response}) => {
+					console.log(data);
+				});
 				// authWin.close();
 				// popupWin.close();
 			});
