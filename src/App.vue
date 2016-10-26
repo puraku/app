@@ -1,21 +1,145 @@
 <template>
   <div id="app">
-   	<!-- <img src="./assets/logo.png"> -->
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+		<div class="navigation-bar"></div>
+		<div class="container">
+			<div id="header">
+				<p>Title</p>
+			</div>
+			<div class="plurk-cards-container">
+				<div class="plurk-card">
+					<div class="profile">
+						<a class="avatar">
+							<img src="https://i.imgur.com/abcde.png" alt="avatar">
+						</a>
+						<a class="name">
+							XXDVVVD
+						</a>
+					</div>
+					<div class="content">
+						關於最近很多人跟我們回報網頁標題變成undefine的情況
+						可能是瀏覽器第三方噗浪外掛的問題，建議可以暫時停用外掛看看，應該可以解決該問題。
+					</div>
+					<div class="actions">
+					</div>
+				</div>
+
+
+
+				<div class="plurk-card">
+					<div class="profile">
+						<a class="avatar">
+							<img src="https://i.imgur.com/abcde.png" alt="avatar">
+						</a>
+						<a class="name">
+							XXDVVVD
+						</a>
+					</div>
+					<div class="content">
+						關於最近很多人跟我們回報網頁標題變成undefine的情況
+						可能是瀏覽器第三方噗浪外掛的問題，建議可以暫時停用外掛看看，應該可以解決該問題。
+					</div>
+					<div class="actions">
+					</div>
+				</div>
+				<div class="plurk-card">
+					<div class="profile">
+						<a class="avatar">
+							<img src="https://i.imgur.com/abcde.png" alt="avatar">
+						</a>
+						<a class="name">
+							XXDVVVD
+						</a>
+					</div>
+					<div class="content">
+						關於最近很多人跟我們回報網頁標題變成undefine的情況
+						可能是瀏覽器第三方噗浪外掛的問題，建議可以暫時停用外掛看看，應該可以解決該問題。
+					</div>
+					<div class="actions">
+					</div>
+				</div>
+				<div class="plurk-card">
+					<div class="profile">
+						<a class="avatar">
+							<img src="https://i.imgur.com/abcde.png" alt="avatar">
+						</a>
+						<a class="name">
+							XXDVVVD
+						</a>
+					</div>
+					<div class="content">
+						關於最近很多人跟我們回報網頁標題變成undefine的情況
+						可能是瀏覽器第三方噗浪外掛的問題，建議可以暫時停用外掛看看，應該可以解決該問題。
+					</div>
+					<div class="actions">
+					</div>
+				</div>
+				<div class="plurk-card">
+					<div class="profile">
+						<a class="avatar">
+							<img src="https://i.imgur.com/abcde.png" alt="avatar">
+						</a>
+						<a class="name">
+							XXDVVVD
+						</a>
+					</div>
+					<div class="content">
+						關於最近很多人跟我們回報網頁標題變成undefine的情況
+						可能是瀏覽器第三方噗浪外掛的問題，建議可以暫時停用外掛看看，應該可以解決該問題。
+					</div>
+					<div class="actions">
+					</div>
+				</div>
+				<div class="plurk-card">
+					<div class="profile">
+						<a class="avatar">
+							<img src="https://i.imgur.com/abcde.png" alt="avatar">
+						</a>
+						<a class="name">
+							XXDVVVD
+						</a>
+					</div>
+					<div class="content">
+						關於最近很多人跟我們回報網頁標題變成undefine的情況
+						可能是瀏覽器第三方噗浪外掛的問題，建議可以暫時停用外掛看看，應該可以解決該問題。
+					</div>
+					<div class="actions">
+					</div>
+				</div>
+				<div class="plurk-card">
+					<div class="profile">
+						<a class="avatar">
+							<img src="https://i.imgur.com/abcde.png" alt="avatar">
+						</a>
+						<a class="name">
+							XXDVVVD
+						</a>
+					</div>
+					<div class="content">
+						關於最近很多人跟我們回報網頁標題變成undefine的情況
+						可能是瀏覽器第三方噗浪外掛的問題，建議可以暫時停用外掛看看，應該可以解決該問題。
+					</div>
+					<div class="actions">
+					</div>
+				</div>
+				<div class="plurk-card">
+					<div class="profile">
+						<a class="avatar">
+							<img src="https://i.imgur.com/abcde.png" alt="avatar">
+						</a>
+						<a class="name">
+							XXDVVVD
+						</a>
+					</div>
+					<div class="content">
+						關於最近很多人跟我們回報網頁標題變成undefine的情況
+						可能是瀏覽器第三方噗浪外掛的問題，建議可以暫時停用外掛看看，應該可以解決該問題。
+					</div>
+					<div class="actions">
+					</div>
+				</div>
+
+			</div>
+		</div>
   </div>
 </template>
 
@@ -30,27 +154,67 @@ export default {
 }
 </script>
 
-<style>
+<style lang="sass">
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
 }
-h1, h2 {
-  font-weight: normal;
+
+.navigation-bar	{
+	height: 100%;
+	min-width: 92px;
+	color: #f6882d;
+	background-color: #26323f;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+
+.container {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+
+#header {
+	width: 100%;
+	height: 45px;
+	color: white;
+	background-color: #1a2733;
+	text-align: center;
 }
-a {
-  color: #42b983;
+
+.plurk-cards-container {
+	padding: 1em .5em;
+	overflow-y: scroll;
+	height: 100%;
+
+	background-color: #f5ede8;
+}
+
+.plurk-card {
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+	padding: 5px;
+
+	&:not(:first-child) {
+		margin: 1em 0;
+	}
+
+	.profile {
+		display: flex;
+		flex-direction: row;
+
+		.avatar {
+			width: 50px;
+
+			img {
+				width: 100%;
+			}
+		}
+	}
+
+	.content {
+		font-size: 1.3em;
+	}
 }
 </style>
