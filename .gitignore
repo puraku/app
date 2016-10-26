@@ -51,6 +51,6 @@ jspm_packages
 build
 
 # build config file
-config.js
+app/config.js
 
 jsconfig.json

@@ -21,7 +21,7 @@ app.on('ready', () => {
 			if (url.match(/www\.plurk\.com\/OAuth\/authorizeDone/)) {
 				setTimeout(() => {
 					popupWin = new BrowserWindow();
-					popupWin.loadURL(`file://${__dirname}/static/pin.html`);
+					popupWin.loadURL(`file://${path.resolve(__dirname, '../static/pin.html')}`);
 				}, 1000);
 			}
 		});

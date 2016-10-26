@@ -2,10 +2,10 @@
   "name": "puraku-client",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "main": "app/main.js",
   "scripts": {
     "electron:start": "electron .",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --content-base static/",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "repository": {
