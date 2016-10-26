@@ -1,46 +1,63 @@
-const path = require('path');
-const fs = require('fs');
-const { app, BrowserWindow, shell, ipcMain } = require('electron');
-const electron = require('electron');
-
-const plurkConfig = require('./config').plurk;
+const { app, BrowserWindow, protocol } = require('electron');
+const url = require('url');
+const qs = require('qs');
 const Puraku = require('purakujs');
 
-let mainWindow;
+const Config = require('electron-config');
+const config = new Config();
 
-app.on('ready', () => {
-	var client = new Puraku({consumerKey: plurkConfig.consumerKey, consumerSecret: plurkConfig.consumerSecret});
-	client.getRequestToken().then(({oauthToken, oauthTokenSecret}) => {
-		// if (error) {  } handle error here
+const plurkConfig = require('./config').plurk;
 
-		let authWin, popupWin;
-		authWin = new BrowserWindow();
-		authWin.loadURL(`http://www.plurk.com/OAuth/authorize?oauth_token=${oauthToken}`);
+let authWin, puraku;
 
-		authWin.webContents.on('did-navigate', function (event, url) {
-			if (url.match(/www\.plurk\.com\/OAuth\/authorizeDone/)) {
-				setTimeout(() => {
-					popupWin = new BrowserWindow();
-					popupWin.loadURL(`file://${path.resolve(__dirname, '../static/pin.html')}`);
-				}, 1000);
-			}
-		});
+protocol.registerStandardSchemes(['puraku']);
 
-		// or open in default browser, TBD
-		// shell.openExternal(`http://www.plurk.com/OAuth/authorize?oauth_token=${oauthToken}`);
+function registerAuthFlow({oauthToken, oauthTokenSecret}) {
+	const handleAuth = (queryString) => {
+		authWin.hide();
 
-		ipcMain.once('pin_submit', (event, {oauthVerifier}) => {
-			client.getOAuthAccessToken({oauthToken, oauthTokenSecret, oauthVerifier}).then(() => {
-				// client.request('GET', '/APP/Users/me').then(({data, response}) => {
-				// 	console.log(data);
-				// });
-				client.request('POST', '/APP/checkToken').then(({data, response}) => {
-					console.log(data);
-				});
-				// authWin.close();
-				// popupWin.close();
+		const {
+			oauth_verifier: oauthVerifier,
+			oauth_token: oauthToken
+		} = qs.parse(queryString);
+
+		puraku.getOAuthAccessToken({oauthToken, oauthTokenSecret, oauthVerifier}).then(({accessToken, accessTokenSecret}) => {
+			config.set('puraku:accessToken', accessToken);
+			config.set('puraku:accessTokenSecret', accessTokenSecret);
+
+			puraku.request('POST', '/APP/checkToken').then(({data, response}) => {
+				// console.log(data);
+				authWin.close();
+
+				// TODO: initialize app
 			});
 		});
+	};
 
+	protocol.registerStringProtocol('puraku', req => {
+		if (url.parse(req.url).host === 'oauth_callback') {
+			handleAuth(url.parse(req.url).query);
+		}
+	});
+}
+
+app.on('ready', () => {
+	puraku = new Puraku({
+		consumerKey: plurkConfig.consumerKey,
+		consumerSecret: plurkConfig.consumerSecret,
+		accessToken: config.get('puraku:accessToken'),
+		accessTokenSecret: config.get('puraku:accessTokenSecret'),
+	});
+
+	puraku.request('GET', '/APP/checkToken').then(() => {
+		// TODO: initialize app
+	}).catch(() => {
+		// start authorize flow
+		puraku.getRequestToken().then(({oauthToken, oauthTokenSecret}) => {
+			authWin = new BrowserWindow();
+			authWin.loadURL(`https://www.plurk.com/OAuth/authorize?oauth_token=${oauthToken}`);
+
+			registerAuthFlow({oauthToken, oauthTokenSecret});
+		});
 	});
 });
