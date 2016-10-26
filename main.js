@@ -17,16 +17,13 @@ app.on('ready', () => {
 		authWin = new BrowserWindow();
 		authWin.loadURL(`http://www.plurk.com/OAuth/authorize?oauth_token=${oauthToken}`);
 
-		const handleCallback = (url) => {
+		authWin.webContents.on('did-navigate', function (event, url) {
 			if (url.match(/www\.plurk\.com\/OAuth\/authorizeDone/)) {
 				setTimeout(() => {
 					popupWin = new BrowserWindow();
 					popupWin.loadURL(`file://${__dirname}/static/pin.html`);
 				}, 1000);
 			}
-		};
-		authWin.webContents.on('did-navigate', function (event, url) {
-			handleCallback(url);
 		});
 
 		// or open in default browser, TBD
