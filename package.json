@@ -33,6 +33,8 @@
     "file-loader": "^0.9.0",
     "node-sass": "^3.10.1",
     "sass-loader": "^4.0.2",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
     "vue-loader": "^9.7.0",
     "webpack": "2.1.0-beta.25",
     "webpack-dev-server": "2.1.0-beta.9"
