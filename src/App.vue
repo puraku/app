@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-		<div class="navigation-bar"></div>
+		<navigation-bar />
 		<div class="container">
 			<div id="header">
 				<p>Title</p>
@@ -21,12 +21,14 @@
 
 <script>
 import PlurkCard from './components/PlurkCard.vue';
+import NavigationBar from './components/NavigationBar.vue';
 
 export default {
   name: 'app',
 
 	components: {
-		PlurkCard
+		PlurkCard,
+		NavigationBar
 	},
 
   data () {
@@ -42,13 +44,6 @@ export default {
 	height: 100%;
 	display: flex;
 	flex-direction: row;
-}
-
-.navigation-bar	{
-	height: 100%;
-	min-width: 92px;
-	color: #f6882d;
-	background-color: #26323f;
 }
 
 .container {

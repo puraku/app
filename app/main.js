@@ -1,6 +1,7 @@
 const { app, BrowserWindow, protocol } = require('electron');
 const url = require('url');
 const qs = require('qs');
+const path = require('path');
 const Puraku = require('purakujs');
 
 const Config = require('electron-config');
@@ -8,7 +9,7 @@ const config = new Config();
 
 const plurkConfig = require('./config').plurk;
 
-let authWin, puraku;
+let authWin, mainWin, puraku;
 
 protocol.registerStandardSchemes(['puraku']);
 
@@ -51,6 +52,11 @@ app.on('ready', () => {
 
 	puraku.request('GET', '/APP/checkToken').then(() => {
 		// TODO: initialize app
+		mainWin = new BrowserWindow({
+			width: 400,
+			height: 825
+		});
+		mainWin.loadURL(`file://${path.join(__dirname, '../static/index.html')}`);
 	}).catch(() => {
 		// start authorize flow
 		puraku.getRequestToken().then(({oauthToken, oauthTokenSecret}) => {
