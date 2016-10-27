@@ -1,5 +1,11 @@
 <template>
 	<div class="plurk-card">
+		<div class="timestamp">
+			19:40
+		</div>
+		<div class="reply-count">
+			2
+		</div>
 		<div class="profile">
 			<a class="avatar">
 				<img src="https://i.imgur.com/abcde.png" alt="avatar">
@@ -36,7 +42,32 @@ export default {
 	padding: 5px;
 
 	&:not(:first-child) {
-		margin: 1em 0;
+		margin: .5em 0;
+	}
+
+	.reply-count {
+		position: absolute;
+		background-color: #cecece;
+		color: white;
+
+    right: 2em;
+    margin-right: -1.5px;
+    margin-top: -5.5px;
+		width: 1.3em;
+    height: 1.3em;
+    text-align: center;
+	}
+
+	.timestamp {
+		color: #cecece;
+		text-align: center;
+		transform: rotate(90deg);
+		width: 3em;
+    right: -.7em;
+		margin-top: -1em;
+		background-color: white;
+    border-radius: 5px;
+		position: absolute;
 	}
 
 	.profile {

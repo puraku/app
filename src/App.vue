@@ -49,6 +49,8 @@ export default {
 	display: flex;
 	flex-direction: column;
 	flex-grow: 1;
+
+	background-color: #f7ede8;
 }
 
 #header {
@@ -58,11 +60,19 @@ export default {
 	background-color: #1a2733;
 	text-align: center;
 
+	z-index: 9999;
+
 	-webkit-app-region: drag;
 }
 
 .plurk-cards-container {
-	padding: 1em .5em;
+	border-style: solid;
+	border-width: 0;
+	border-right-width: .3em;
+	margin-right: .7em;
+	border-color: white;
+	padding: 1em 0.9em 1em 0.5em;
+
 	overflow-y: scroll;
 	height: 100%;
 
