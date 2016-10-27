@@ -53,9 +53,9 @@ app.on('ready', () => {
 	puraku.request('GET', '/APP/checkToken').then(() => {
 		// TODO: initialize app
 		mainWin = new BrowserWindow({
-			width: 450,
-			height: 825,
-			titleBarStyle: 'hidden'
+			width: 426,
+			height: 817,
+			titleBarStyle: 'hidden-inset'
 		});
 
 		if (process.env.NODE_ENV === 'development') {
