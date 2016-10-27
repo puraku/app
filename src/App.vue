@@ -6,6 +6,12 @@
 				<p>Title</p>
 			</div>
 			<div class="plurk-cards-container">
+				<div class="timeline"></div>
+				<plurk-card />
+				<plurk-card />
+				<plurk-card />
+				<plurk-card />
+				<plurk-card />
 				<plurk-card />
 				<plurk-card />
 				<plurk-card />
@@ -66,16 +72,20 @@ export default {
 }
 
 .plurk-cards-container {
-	border-style: solid;
-	border-width: 0;
-	border-right-width: .3em;
-	margin-right: .7em;
-	border-color: white;
-	padding: 1em 0.9em 1em 0.5em;
+	padding: 1em 2em 1em 0.5em;
 
 	overflow-y: scroll;
 	height: 100%;
 
 	background-color: #f5ede8;
+
+	.timeline {
+		position: absolute;
+		height: 100%;
+		width: 0.2em;
+		background-color: white;
+		right: 1.5em;
+		top: 0;
+	}
 }
 </style>

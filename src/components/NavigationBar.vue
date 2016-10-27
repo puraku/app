@@ -33,8 +33,8 @@
 .navigation-bar	{
 	height: 100%;
 	padding-top: 3em;
-	min-width: 92px;
-	max-width: 92px;
+	min-width: 70px;
+	max-width: 70px;
 	color: #f6882d;
 	background-color: #26323f;
 
@@ -53,15 +53,15 @@
 	}
 
 	.icon {
-		width: 2em;
+		width: 1.5em;
 		margin: 0 auto;
 
 		& > .fa {
-			font-size: 1.8em;
+			font-size: 1.5em;
 			text-align: center;
 
 			cursor: pointer;
-			margin: 20px 0;
+			margin: .7em 0;
 		}
 	}
 }

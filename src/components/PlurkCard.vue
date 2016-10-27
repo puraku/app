@@ -36,6 +36,7 @@ export default {
 
 <style lang="sass" scoped>
 .plurk-card {
+	position: relative;
 	background-color: white;
 	display: flex;
 	flex-direction: column;
@@ -50,8 +51,7 @@ export default {
 		background-color: #cecece;
 		color: white;
 
-    right: 2em;
-    margin-right: -1.5px;
+    right: 0;
     margin-top: -.5em;
 		width: 1.3em;
     height: 1.3em;
@@ -63,8 +63,9 @@ export default {
 		text-align: center;
 		transform: rotate(90deg);
 		width: 3em;
-    right: -.7em;
+    right: 0;
 		margin-top: -1em;
+		margin-right: -2.8em;
 		background-color: white;
     border-radius: 5px;
 		position: absolute;
@@ -95,7 +96,7 @@ export default {
 
 	.content {
 		margin-top: .5em;
-		font-size: 1.3em;
+		font-size: 1em;
 	}
 }
 </style>
