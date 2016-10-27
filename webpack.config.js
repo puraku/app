@@ -25,6 +25,12 @@ module.exports = {
 			options: {
 				name: '[name].[ext]?[hash]'
 			}
+		}, {
+			test: /\.css$/,
+			loader: 'style!css?sourceMap'
+		}, {
+			test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/,
+			loader: 'url-loader'
 		}]
 	},
 	resolve: {
@@ -36,12 +42,13 @@ module.exports = {
 		historyApiFallback: true,
 		noInfo: true
 	},
-	devtool: '#eval-source-map'
+	devtool: '#eval-source-map',
+	target: 'electron'
 };
 
 if (process.env.NODE_ENV === 'production') {
 	module.exports.devtool = '#source-map';
-		// http://vue-loader.vuejs.org/en/workflow/production.html
+	// http://vue-loader.vuejs.org/en/workflow/production.html
 	module.exports.plugins = (module.exports.plugins || []).concat([
 		new webpack.DefinePlugin({
 			'process.env': {

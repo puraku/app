@@ -1,27 +1,41 @@
 <template>
   <div id="app">
-   	<!-- <img src="./assets/logo.png"> -->
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
+		<navigation-bar />
+		<div class="container">
+			<div id="header">
+				<p>Title</p>
+			</div>
+			<div class="plurk-cards-container">
+				<div class="timeline"></div>
+				<plurk-card />
+				<plurk-card />
+				<plurk-card />
+				<plurk-card />
+				<plurk-card />
+				<plurk-card />
+				<plurk-card />
+				<plurk-card />
+				<comment />
+
+			</div>
+		</div>
   </div>
 </template>
 
 <script>
+import PlurkCard from './components/PlurkCard.vue';
+import NavigationBar from './components/NavigationBar.vue';
+import Comment from './components/Comment.vue';
+
 export default {
   name: 'app',
+
+	components: {
+		PlurkCard,
+		NavigationBar,
+		Comment
+	},
+
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
@@ -30,27 +44,48 @@ export default {
 }
 </script>
 
-<style>
+<style lang="sass">
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
 }
-h1, h2 {
-  font-weight: normal;
+
+.container {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+
+	background-color: #f7ede8;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+
+#header {
+	width: 100%;
+	height: 45px;
+	color: white;
+	background-color: #1a2733;
+	text-align: center;
+
+	z-index: 9999;
+
+	-webkit-app-region: drag;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+
+.plurk-cards-container {
+	padding: 1em 2em 1em 0.5em;
+
+	overflow-y: scroll;
+	height: 100%;
+
+	background-color: #f5ede8;
+
+	.timeline {
+		position: absolute;
+		height: 100%;
+		width: 0.2em;
+		background-color: white;
+		right: 1.5em;
+		top: 0;
+	}
 }
 </style>

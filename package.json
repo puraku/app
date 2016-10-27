@@ -4,9 +4,10 @@
   "description": "",
   "main": "app/main.js",
   "scripts": {
-    "electron:start": "electron .",
+    "electron:dev": "cross-env NODE_ENV=development electron .",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --content-base static/",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "build:watch": "cross-env NODE_ENV=production webpack --progress --watch --hide-modules"
   },
   "repository": {
     "type": "git",
@@ -15,9 +16,9 @@
   "author": "Yukai Huang <yukaihuangtw@gmail.com> (https://yukaii.tw)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Yukaii/puraku/issues"
+    "url": "https://github.com/puraku/client/issues"
   },
-  "homepage": "https://github.com/Yukaii/puraku#readme",
+  "homepage": "https://github.com/puraku/client#readme",
   "devDependencies": {
     "babel-cli": "^6.16.0",
     "babel-core": "^6.17.0",
@@ -31,16 +32,20 @@
     "electron": "^1.4.4",
     "eslint": "^3.8.1",
     "file-loader": "^0.9.0",
+    "node-sass": "^3.10.1",
+    "sass-loader": "^4.0.2",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
     "vue-loader": "^9.7.0",
     "webpack": "2.1.0-beta.25",
-    "webpack-dev-server": ">=2.1.0-beta.0 || ^2.1.0"
+    "webpack-dev-server": "2.1.0-beta.9"
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
     "electron-config": "^0.2.1",
     "font-awesome": "^4.7.0",
     "isomorphic-fetch": "^2.2.1",
-    "purakujs": "^0.0.10",
+    "purakujs": "^0.1.0",
     "qs": "^6.3.0",
     "vue": "^2.0.3"
   }

@@ -49,6 +49,7 @@ jspm_packages
 
 # webpack build
 build
+dist
 
 # build config file
 app/config.js
