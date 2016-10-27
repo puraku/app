@@ -1,6 +1,6 @@
 module.exports = {
-	plurk: {
-		consumerKey: '',
-		consumerSecret: ''
-	}
+  plurk: {
+    consumerKey: '',
+    consumerSecret: ''
+  }
 };

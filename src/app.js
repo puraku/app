@@ -9,6 +9,6 @@ webFrame.setZoomFactor(1);
 webFrame.setZoomLevelLimits(1, 1);
 
 new Vue({
-	el: '#app',
-	render: h => h(App)
+  el: '#app',
+  render: h => h(App)
 });
