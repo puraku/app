@@ -9,10 +9,7 @@
 				<plurk-card />
 				<plurk-card />
 				<plurk-card />
-				<plurk-card />
-				<plurk-card />
-				<plurk-card />
-				<plurk-card />
+				<comment />
 
 			</div>
 		</div>
@@ -22,13 +19,15 @@
 <script>
 import PlurkCard from './components/PlurkCard.vue';
 import NavigationBar from './components/NavigationBar.vue';
+import Comment from './components/Comment.vue';
 
 export default {
   name: 'app',
 
 	components: {
 		PlurkCard,
-		NavigationBar
+		NavigationBar,
+		Comment
 	},
 
   data () {
