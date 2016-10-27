@@ -15,4 +15,6 @@ new Vue({
   render: h => h(App)
 });
 
-console.log(getPlurks());
+getPlurks().then(result => {
+  console.log(result);
+});
