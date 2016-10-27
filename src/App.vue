@@ -58,6 +58,8 @@ export default {
 	color: white;
 	background-color: #1a2733;
 	text-align: center;
+
+	-webkit-app-region: drag;
 }
 
 .plurk-cards-container {

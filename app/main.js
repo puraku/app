@@ -54,7 +54,8 @@ app.on('ready', () => {
 		// TODO: initialize app
 		mainWin = new BrowserWindow({
 			width: 400,
-			height: 825
+			height: 825,
+			titleBarStyle: 'hidden'
 		});
 		mainWin.loadURL(`file://${path.join(__dirname, '../static/index.html')}`);
 	}).catch(() => {
