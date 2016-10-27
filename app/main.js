@@ -53,11 +53,16 @@ app.on('ready', () => {
 	puraku.request('GET', '/APP/checkToken').then(() => {
 		// TODO: initialize app
 		mainWin = new BrowserWindow({
-			width: 400,
+			width: 450,
 			height: 825,
 			titleBarStyle: 'hidden'
 		});
-		mainWin.loadURL(`file://${path.join(__dirname, '../static/index.html')}`);
+
+		if (process.env.NODE_ENV === 'development') {
+			mainWin.loadURL('http://localhost:8080');
+		} else {
+			mainWin.loadURL(`file://${path.join(__dirname, '../static/index.html')}`);
+		}
 	}).catch(() => {
 		// start authorize flow
 		puraku.getRequestToken().then(({oauthToken, oauthTokenSecret}) => {
