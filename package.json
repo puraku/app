@@ -6,7 +6,8 @@
   "scripts": {
     "electron:start": "electron .",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --content-base static/",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "build:watch": "cross-env NODE_ENV=production webpack --progress --watch --hide-modules"
   },
   "repository": {
     "type": "git",
