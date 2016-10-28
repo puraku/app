@@ -48,10 +48,6 @@ export default {
   },
 
   methods: {
-    unreadCovert(unread) {
-      return unread == 1;
-    },
-
     goToDetail() {
       this.$router.push(`/plurks/${this.plurk.plurk_id}`);
     }
@@ -76,18 +72,21 @@ export default {
 
     showTimestamp() {
       return this.postedAt && this.displayTimestamp;
+    },
+
+    postedAt() {
+      return moment.parseZone(this.plurk.posted);
+    },
+
+    isUnread() {
+      return this.plurk.is_unread == 1;
     }
   },
 
   mounted() {
-    this.postedAt = moment.parseZone(this.plurk.posted);
-    this.isUnread = this.unreadCovert(this.plurk.is_unread);
-
     getPublicProfile(this.plurk.owner_id).then(data => {
       this.avatarURL = data.user_info.avatar_medium;
       this.displayName = data.user_info.display_name;
-
-      console.log(data);
     }).catch(error => {
       // TODO: error handling
       console.log(error);
