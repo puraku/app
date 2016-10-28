@@ -58,11 +58,11 @@ function initializeApp() {
 
   // listen for api call
   ipcMain.on('puraku:api', (event, args) => {
-    const { method, endpoint, params } = args;
+    const { method, endpoint, params, timestamp } = args;
     puraku.request(method, endpoint, params).then(({data}) => {
-      event.returnValue = JSON.parse(data);
+      event.sender.send(`puraku:api:${endpoint}:${timestamp}`, JSON.parse(data));
     }).catch(error => {
-      event.returnValue = { error };
+      event.sender.send(`puraku:api:${endpoint}:${timestamp}`, {error});
     });
   });
 }
