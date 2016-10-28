@@ -13,6 +13,9 @@
       <div class="name">
         {{ displayName }}
       </div>
+      <div :class="qualifierClasses">
+        {{ plurk.qualifier_translated }}
+      </div>
     </div>
     <div class="content" v-html="plurk.content" />
     <div class="actions">
@@ -47,6 +50,18 @@ export default {
   computed: {
     timestamp() {
       return this.postedAt.format('HH:mm');
+    },
+
+    qualifierClasses() {
+      let classes = ['qualifier'];
+
+      if (typeof this.plurk.qualifier_translated === 'string' && this.plurk.qualifier_translated.length > 0) {
+        classes.push('show')
+      }
+
+      classes.push(this.plurk.qualifier);
+
+      return classes;
     }
   },
 
@@ -131,6 +146,42 @@ export default {
       margin-top: 0.5em;
       margin-left: .5em;
     }
+
+    .qualifier {
+      height: 1.4em;
+      margin-top: 0.5em;
+      margin-left: .5em;
+      background-color: #cccccc;
+      padding: 0 4px;
+      border-radius: 5px;
+      display: none;
+
+      color: white;
+
+      &.show {
+        display: block;
+      }
+
+      &.loves     { background-color: #b32e25; }
+      &.likes     { background-color: #cc362c; }
+      &.shares    { background-color: #a74949; }
+      &.gives     { background-color: #621510; }
+      &.hates     { background-color: #111111; }
+      &.wants     { background-color: #8db241; }
+      &.has       { background-color: #777777; }
+      &.will      { background-color: #b46db9; }
+      &.asks      { background-color: #8361bc; }
+      &.wishes    { background-color: #e05be9; }
+      &.was       { background-color: #525252; }
+      &.feels     { background-color: #3083be; }
+      &.thinks    { background-color: #3083be; }
+      &.says      { background-color: #e25731; }
+      &.is        { background-color: #e57c43; }
+      &.freestyle { background-color: #cccccc; color: black; }
+      &.hopes     { background-color: #e05be9; }
+      &.needs     { background-color: #7a9a37; }
+      &.wonders   { background-color: #2e4e9e; }
+    }
   }
 
   .content {
@@ -145,6 +196,7 @@ export default {
     border-color: #e5ebfa;
     font-size: 0.9em;
     padding: 2px 5px;
+    margin-bottom: 5px;
   }
 }
 </style>
