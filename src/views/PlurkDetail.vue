@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <plurk-card :plurk="plurk" v-if="plurk" />
+  <div id="detail-container">
+    <plurk-card :plurk="plurk" v-if="plurk" :displayTimestamp="displayTimestamp"/>
   </div>
 </template>
 
@@ -25,7 +25,8 @@ export default {
 
   data() {
     return {
-      plurk: null
+      plurk: null,
+      displayTimestamp: false
     };
   }
 }
@@ -33,5 +34,8 @@ export default {
 
 
 <style>
-
+#detail-container {
+  overflow-y: scroll;
+  height: 100%;
+}
 </style>

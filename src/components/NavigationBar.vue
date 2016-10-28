@@ -8,7 +8,7 @@
       <i class="fa fa-arrow-left" aria-hidden="true"></i>
     </div>
 
-    <div class="icon">
+    <div class="icon" @click="goHome">
       <i class="fa fa-home" aria-hidden="true"></i>
     </div>
 
@@ -29,6 +29,10 @@ export default {
   methods: {
     goBack() {
       this.$router.go(-1);
+    },
+
+    goHome() {
+      this.$router.push('/');
     }
   }
 }

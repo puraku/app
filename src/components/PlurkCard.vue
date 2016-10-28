@@ -1,6 +1,6 @@
 <template>
-  <div class="plurk-card" @click="goToDetail" v-if="plurk">
-    <div class="timestamp" v-if="postedAt">
+  <div class="plurk-card" @click.stop.prevent="goToDetail" v-if="plurk">
+    <div class="timestamp" v-if="showTimestamp">
       {{ timestamp }}
     </div>
     <div class="reply-count" v-if="plurk.response_count > 0" :class="{unread: isUnread}">
@@ -30,7 +30,13 @@ import moment from 'moment';
 export default {
   name: 'PlurkCard',
 
-  props: ['plurk'],
+  props: {
+    plurk: Object,
+    displayTimestamp: {
+      type: Boolean,
+      default: true
+    }
+  },
 
   data () {
     return {
@@ -66,6 +72,10 @@ export default {
       classes.push(this.plurk.qualifier);
 
       return classes;
+    },
+
+    showTimestamp() {
+      return this.postedAt && this.displayTimestamp;
     }
   },
 
