@@ -13,7 +13,7 @@
       <div class="name">
         {{ displayName }}
       </div>
-      <div :class="qualifierClasses">
+      <div :class="qualifierClasses" v-if="plurk.qualifier_translated">
         {{ plurk.qualifier_translated }}
       </div>
     </div>
@@ -59,15 +59,7 @@ export default {
     },
 
     qualifierClasses() {
-      let classes = ['qualifier'];
-
-      if (typeof this.plurk.qualifier_translated === 'string' && this.plurk.qualifier_translated.length > 0) {
-        classes.push('show')
-      }
-
-      classes.push(this.plurk.qualifier);
-
-      return classes;
+      return ['qualifier', this.plurk.qualifier];
     },
 
     showTimestamp() {
@@ -167,13 +159,8 @@ export default {
       background-color: #cccccc;
       padding: 0 4px;
       border-radius: 5px;
-      display: none;
 
       color: white;
-
-      &.show {
-        display: block;
-      }
 
       &.loves     { background-color: #b32e25; }
       &.likes     { background-color: #cc362c; }
