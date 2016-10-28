@@ -1,7 +1,7 @@
 <template>
   <div class="navigation-bar">
     <a class="avatar">
-      <img src="https://i.imgur.com/6fh3i.png" alt="">
+      <img :src="avatarURL" alt="">
     </a>
 
     <div class="icon" @click="goBack">
@@ -24,8 +24,12 @@
 </template>
 
 <script>
+import { avatarURL } from '../helpers/userHelper';
+import { getMe } from '../api/users';
+
 export default {
   name: 'NavigationBar',
+
   methods: {
     goBack() {
       this.$router.go(-1);
@@ -34,6 +38,24 @@ export default {
     goHome() {
       this.$router.push('/');
     }
+  },
+
+  computed: {
+    avatarURL() {
+      return avatarURL(this.user);
+    }
+  },
+
+  mounted() {
+    getMe().then(data => {
+      this.user = data;
+    });
+  },
+
+  data() {
+    return {
+      user: null
+    };
   }
 }
 </script>
@@ -55,9 +77,11 @@ export default {
   a.avatar {
     padding: 10px;
     max-width: 100%;
+    text-align: center;
 
     img {
       max-width: 100%;
+      border-radius: 5px;
     }
   }
 
