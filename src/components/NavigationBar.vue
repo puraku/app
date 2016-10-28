@@ -4,6 +4,10 @@
       <img src="https://i.imgur.com/6fh3i.png" alt="">
     </a>
 
+    <div class="icon" @click="goBack">
+      <i class="fa fa-arrow-left" aria-hidden="true"></i>
+    </div>
+
     <div class="icon">
       <i class="fa fa-home" aria-hidden="true"></i>
     </div>
@@ -16,17 +20,18 @@
       <i class="fa fa-heart" aria-hidden="true"></i>
     </div>
 
-    <div class="icon">
-      <i class="fa fa-reply" aria-hidden="true"></i>
-    </div>
-
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'NavigationBar'
+export default {
+  name: 'NavigationBar',
+  methods: {
+    goBack() {
+      this.$router.go(-1);
+    }
   }
+}
 </script>
 
 <style lang="sass" scoped>

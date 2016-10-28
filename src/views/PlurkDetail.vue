@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div @click="goBack">
-      Back
-    </div>
     <plurk-card :plurk="plurk" v-if="plurk" />
   </div>
 </template>
@@ -24,12 +21,6 @@ export default {
     getPlurk(plurk_id).then(data => {
       this.plurk = data.plurk;
     })
-  },
-
-  methods: {
-    goBack() {
-      this.$router.go(-1);
-    }
   },
 
   data() {
