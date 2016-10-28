@@ -33,8 +33,8 @@
 .navigation-bar	{
   height: 100%;
   padding-top: 3em;
-  min-width: 80px;
-  max-width: 80px;
+  min-width: 75px;
+  max-width: 75px;
   color: #f6882d;
   background-color: #26323f;
 
