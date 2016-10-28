@@ -1,5 +1,5 @@
 <template>
-  <div class="plurk-card" @click.stop.prevent="goToDetail" v-if="plurk">
+  <div class="plurk-card" @click.stop.prevent="goToDetail" v-if="plurk && user">
     <div class="timestamp" v-if="showTimestamp">
       {{ timestamp }}
     </div>
@@ -11,7 +11,7 @@
         <img :src="avatarURL" alt="avatar">
       </a>
       <div class="name">
-        {{ displayName }}
+        {{ user.display_name }}
       </div>
       <qualifier :qualifierKey="plurk.qualifier" :text="plurk.qualifier_translated"/>
     </div>
@@ -25,6 +25,7 @@
 import moment from 'moment';
 
 import { getPublicProfile } from '../api/profile';
+import { avatarURL } from '../helpers/userHelper';
 import Qualifier from './Qualifier.vue';
 
 export default {
@@ -39,12 +40,12 @@ export default {
     displayTimestamp: {
       type: Boolean,
       default: true
-    }
+    },
+    userList: Object
   },
 
   data () {
     return {
-      avatarURL: 'http://www.plurk.com/static/default_medium.gif',
       displayName: '',
       isUnread: true,
       postedAt: null
@@ -72,18 +73,16 @@ export default {
 
     isUnread() {
       return this.plurk.is_unread == 1;
+    },
+
+    user() {
+      return this.userList && this.userList[this.plurk.owner_id];
+    },
+
+    avatarURL() {
+      return avatarURL(this.user);
     }
   },
-
-  mounted() {
-    getPublicProfile(this.plurk.owner_id).then(data => {
-      this.avatarURL = data.user_info.avatar_medium;
-      this.displayName = data.user_info.display_name;
-    }).catch(error => {
-      // TODO: error handling
-      console.log(error);
-    });
-  }
 }
 </script>
 
