@@ -3,7 +3,7 @@
     <div class="timestamp" v-if="postedAt">
       {{ this.formatTimestamp(postedAt) }}
     </div>
-    <div class="reply-count" v-if="plurk.response_count > 0">
+    <div class="reply-count" v-if="plurk.response_count > 0" :class="{unread: isUnread}">
       {{ plurk.response_count }}
     </div>
     <div class="profile">
@@ -41,11 +41,16 @@ export default {
   methods: {
     formatTimestamp(momentObj) {
       return momentObj.format('HH:MM');
+    },
+
+    unreadCovert(unread) {
+      return unread == 1;
     }
   },
 
   mounted() {
     this.postedAt = moment.parseZone(this.plurk.posted);
+    this.isUnread = this.unreadCovert(this.plurk.is_unread);
 
     getPublicProfile(this.plurk.owner_id).then(data => {
       this.avatarURL = data.user_info.avatar_medium;
@@ -82,6 +87,11 @@ export default {
     width: 1.3em;
     height: 1.3em;
     text-align: center;
+    padding: 0.1em 2px 0 2px;
+
+    &.unread {
+      background-color: #ff002b;
+    }
   }
 
   .timestamp {
