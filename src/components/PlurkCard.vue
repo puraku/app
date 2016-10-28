@@ -65,7 +65,7 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
 .plurk-card {
   position: relative;
   background-color: white;
@@ -134,6 +134,15 @@ export default {
   .content {
     margin-top: .5em;
     font-size: 1em;
+  }
+
+  a.ex_link.meta {
+    background-color: #f6f8fd;
+    display: flex;
+    border-style: solid;
+    border-color: #e5ebfa;
+    font-size: 0.9em;
+    padding: 2px 5px;
   }
 }
 </style>
