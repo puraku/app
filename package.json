@@ -46,6 +46,8 @@
     "electron-config": "^0.2.1",
     "font-awesome": "^4.7.0",
     "isomorphic-fetch": "^2.2.1",
+    "moment": "^2.15.2",
+    "moment-timezone": "^0.5.7",
     "purakujs": "^0.1.0",
     "qs": "^6.3.0",
     "vue": "^2.0.3",

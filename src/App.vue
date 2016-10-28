@@ -1,57 +1,28 @@
 <template>
-  <div id="plurks-timeline">
+  <div id="main-container">
     <navigation-bar />
     <div class="container">
       <div id="header">
         <p>我的河道</p>
       </div>
-      <div class="plurk-cards-container">
-        <div class="timeline"></div>
-        <plurk-card v-for="plurk in plurks" :plurk="plurk" />
-        <comment />
-
-      </div>
+      <router-view />
     </div>
   </div>
 </template>
 
 <script>
-import PlurkCard from './components/PlurkCard.vue';
 import NavigationBar from './components/NavigationBar.vue';
-import Comment from './components/Comment.vue';
-
-import { getPlurks } from './api/timeline';
 
 export default {
   name: 'app',
 
   components: {
-    PlurkCard,
-    NavigationBar,
-    Comment
-  },
-
-  data() {
-    return {
-      plurks: []
-    }
-  },
-
-  mounted() {
-    getPlurks().then(({plurk_users, plurks}) => {
-      this.plurks = plurks;
-    });
+    NavigationBar
   }
 }
 </script>
 
 <style lang="sass">
-#plurks-timeline {
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-}
-
 .container {
   display: flex;
   flex-direction: column;
@@ -72,21 +43,9 @@ export default {
   -webkit-app-region: drag;
 }
 
-.plurk-cards-container {
-  padding: 1em 2em 1em 0.5em;
-
-  overflow-y: scroll;
+#main-container {
   height: 100%;
-
-  background-color: #f5ede8;
-
-  .timeline {
-    position: absolute;
-    height: 100%;
-    width: 0.2em;
-    background-color: white;
-    right: 1.5em;
-    top: 0;
-  }
+  display: flex;
+  flex-direction: row;
 }
 </style>

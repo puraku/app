@@ -1,9 +1,9 @@
 <template>
   <div class="plurk-card">
-    <div class="timestamp">
-      19:40
+    <div class="timestamp" v-if="postedAt">
+      {{ timestamp }}
     </div>
-    <div class="reply-count">
+    <div class="reply-count" v-if="plurk.response_count > 0" :class="{unread: isUnread}">
       {{ plurk.response_count }}
     </div>
     <div class="profile">
@@ -12,6 +12,9 @@
       </a>
       <div class="name">
         {{ displayName }}
+      </div>
+      <div :class="qualifierClasses">
+        {{ plurk.qualifier_translated }}
       </div>
     </div>
     <div class="content" v-html="plurk.content" />
@@ -22,6 +25,7 @@
 
 <script>
 import { getPublicProfile } from '../api/profile';
+import moment from 'moment';
 
 export default {
   name: 'PlurkCard',
@@ -31,18 +35,44 @@ export default {
   data () {
     return {
       avatarURL: 'http://www.plurk.com/static/default_medium.gif',
-      displayName: ''
+      displayName: '',
+      isUnread: true,
+      postedAt: null
     }
   },
 
   methods: {
+    unreadCovert(unread) {
+      return unread == 1;
+    }
+  },
+
+  computed: {
+    timestamp() {
+      return this.postedAt.format('HH:mm');
+    },
+
+    qualifierClasses() {
+      let classes = ['qualifier'];
+
+      if (typeof this.plurk.qualifier_translated === 'string' && this.plurk.qualifier_translated.length > 0) {
+        classes.push('show')
+      }
+
+      classes.push(this.plurk.qualifier);
+
+      return classes;
+    }
   },
 
   mounted() {
-    // console.log(this.plurk.owner_id);
+    this.postedAt = moment.parseZone(this.plurk.posted);
+    this.isUnread = this.unreadCovert(this.plurk.is_unread);
+
     getPublicProfile(this.plurk.owner_id).then(data => {
       this.avatarURL = data.user_info.avatar_medium;
       this.displayName = data.user_info.display_name;
+
       console.log(data);
     }).catch(error => {
       // TODO: error handling
@@ -52,7 +82,7 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
 .plurk-card {
   position: relative;
   background-color: white;
@@ -74,16 +104,22 @@ export default {
     width: 1.3em;
     height: 1.3em;
     text-align: center;
+    padding: 0.1em 2px 0 2px;
+
+    &.unread {
+      background-color: #ff002b;
+    }
   }
 
   .timestamp {
+    font-size: .8em;
     color: #cecece;
     text-align: center;
     transform: rotate(90deg);
     width: 3em;
     right: 0;
     margin-top: -1em;
-    margin-right: -2.8em;
+    margin-right: -3.1em;
     background-color: white;
     border-radius: 5px;
     position: absolute;
@@ -110,11 +146,57 @@ export default {
       margin-top: 0.5em;
       margin-left: .5em;
     }
+
+    .qualifier {
+      height: 1.4em;
+      margin-top: 0.5em;
+      margin-left: .5em;
+      background-color: #cccccc;
+      padding: 0 4px;
+      border-radius: 5px;
+      display: none;
+
+      color: white;
+
+      &.show {
+        display: block;
+      }
+
+      &.loves     { background-color: #b32e25; }
+      &.likes     { background-color: #cc362c; }
+      &.shares    { background-color: #a74949; }
+      &.gives     { background-color: #621510; }
+      &.hates     { background-color: #111111; }
+      &.wants     { background-color: #8db241; }
+      &.has       { background-color: #777777; }
+      &.will      { background-color: #b46db9; }
+      &.asks      { background-color: #8361bc; }
+      &.wishes    { background-color: #e05be9; }
+      &.was       { background-color: #525252; }
+      &.feels     { background-color: #3083be; }
+      &.thinks    { background-color: #3083be; }
+      &.says      { background-color: #e25731; }
+      &.is        { background-color: #e57c43; }
+      &.freestyle { background-color: #cccccc; color: black; }
+      &.hopes     { background-color: #e05be9; }
+      &.needs     { background-color: #7a9a37; }
+      &.wonders   { background-color: #2e4e9e; }
+    }
   }
 
   .content {
     margin-top: .5em;
     font-size: 1em;
+  }
+
+  a.ex_link.meta {
+    background-color: #f6f8fd;
+    display: flex;
+    border-style: solid;
+    border-color: #e5ebfa;
+    font-size: 0.9em;
+    padding: 2px 5px;
+    margin-bottom: 5px;
   }
 }
 </style>

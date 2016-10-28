@@ -5,6 +5,7 @@ import VueRouter from 'vue-router';
 import { webFrame } from 'electron';
 
 import App from './App.vue';
+import Timeline from './views/Timeline.vue';
 
 Vue.use(VueRouter);
 
@@ -14,7 +15,13 @@ webFrame.setZoomLevelLimits(1, 1);
 
 const router = new VueRouter({
   routes: [
-    { path: '/', component: App }
+    {
+      path: '/',
+      component: App,
+      children: [
+        { path: '',  component: Timeline}
+      ]
+    }
   ]
 });
 
