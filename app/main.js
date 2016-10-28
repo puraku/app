@@ -11,6 +11,13 @@ const plurkConfig = require('./config').plurk;
 
 let authWin, mainWin, puraku;
 
+if (process.env.NODE_ENV === 'development') {
+  const installExtension = require('electron-devtools-installer').default;
+  const { VUEJS_DEVTOOLS } = require('electron-devtools-installer');
+
+  installExtension(VUEJS_DEVTOOLS);
+}
+
 protocol.registerStandardSchemes(['puraku']);
 
 function registerAuthFlow({oauthToken, oauthTokenSecret}) {
