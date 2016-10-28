@@ -7,14 +7,7 @@
       </div>
       <div class="plurk-cards-container">
         <div class="timeline"></div>
-        <plurk-card />
-        <plurk-card />
-        <plurk-card />
-        <plurk-card />
-        <plurk-card />
-        <plurk-card />
-        <plurk-card />
-        <plurk-card />
+        <plurk-card v-for="plurk in plurks" :plurk="plurk" />
         <comment />
 
       </div>
@@ -27,6 +20,8 @@ import PlurkCard from './components/PlurkCard.vue';
 import NavigationBar from './components/NavigationBar.vue';
 import Comment from './components/Comment.vue';
 
+import { getPlurks } from './api/timeline';
+
 export default {
   name: 'app',
 
@@ -36,10 +31,16 @@ export default {
     Comment
   },
 
-  data () {
+  data() {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      plurks: []
     }
+  },
+
+  mounted() {
+    getPlurks().then(({plurk_users, plurks}) => {
+      this.plurks = plurks;
+    });
   }
 }
 </script>

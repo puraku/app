@@ -1,4 +1,4 @@
-const { app, BrowserWindow, protocol } = require('electron');
+const { app, BrowserWindow, protocol, ipcMain } = require('electron');
 const url = require('url');
 const qs = require('qs');
 const path = require('path');
@@ -26,11 +26,12 @@ function registerAuthFlow({oauthToken, oauthTokenSecret}) {
       config.set('puraku:accessToken', accessToken);
       config.set('puraku:accessTokenSecret', accessTokenSecret);
 
-      puraku.request('POST', '/APP/checkToken').then(({data, response}) => {
-        // console.log(data);
-        authWin.close();
+      puraku.request('POST', '/APP/checkToken').then(() => {
+        initializeApp();
 
-        // TODO: initialize app
+        authWin.close();
+      }).catch(error => {
+         // TODO: restart auth flow
       });
     });
   };
@@ -39,6 +40,30 @@ function registerAuthFlow({oauthToken, oauthTokenSecret}) {
     if (url.parse(req.url).host === 'oauth_callback') {
       handleAuth(url.parse(req.url).query);
     }
+  });
+}
+
+function initializeApp() {
+  mainWin = new BrowserWindow({
+    width: 426,
+    height: 817,
+    titleBarStyle: 'hidden-inset'
+  });
+
+  if (process.env.NODE_ENV === 'development') {
+    mainWin.loadURL('http://localhost:8080');
+  } else {
+    mainWin.loadURL(`file://${path.join(__dirname, '../static/index.html')}`);
+  }
+
+  // listen for api call
+  ipcMain.on('puraku:api', (event, args) => {
+    const { method, endpoint, params, randomSeed } = args;
+    puraku.request(method, endpoint, params).then(({data}) => {
+      event.sender.send(`puraku:api:${endpoint}:${randomSeed}`, JSON.parse(data));
+    }).catch(error => {
+      event.sender.send(`puraku:api:${endpoint}:${randomSeed}`, {error});
+    });
   });
 }
 
@@ -51,22 +76,13 @@ app.on('ready', () => {
   });
 
   puraku.request('GET', '/APP/checkToken').then(() => {
-    // TODO: initialize app
-    mainWin = new BrowserWindow({
-      width: 426,
-      height: 817,
-      titleBarStyle: 'hidden-inset'
-    });
-
-    if (process.env.NODE_ENV === 'development') {
-      mainWin.loadURL('http://localhost:8080');
-    } else {
-      mainWin.loadURL(`file://${path.join(__dirname, '../static/index.html')}`);
-    }
+    initializeApp();
   }).catch(() => {
     // start authorize flow
     puraku.getRequestToken().then(({oauthToken, oauthTokenSecret}) => {
       authWin = new BrowserWindow();
+
+      // TODO: generate device id
       authWin.loadURL(`https://www.plurk.com/OAuth/authorize?oauth_token=${oauthToken}`);
 
       registerAuthFlow({oauthToken, oauthTokenSecret});

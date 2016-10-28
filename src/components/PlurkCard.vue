@@ -4,32 +4,50 @@
       19:40
     </div>
     <div class="reply-count">
-      2
+      {{ plurk.response_count }}
     </div>
     <div class="profile">
       <a class="avatar">
-        <img src="https://i.imgur.com/abcde.png" alt="avatar">
+        <img :src="avatarURL" alt="avatar">
       </a>
       <div class="name">
-        必殺系權貴超人
+        {{ displayName }}
       </div>
     </div>
-    <div class="content">
-      關於最近很多人跟我們回報網頁標題變成undefine的情況
-      可能是瀏覽器第三方噗浪外掛的問題，建議可以暫時停用外掛看看，應該可以解決該問題。
-    </div>
+    <div class="content" v-html="plurk.content" />
     <div class="actions">
     </div>
   </div>
 </template>
 
 <script>
+import { getPublicProfile } from '../api/profile';
+
 export default {
   name: 'PlurkCard',
+
+  props: ['plurk'],
+
   data () {
     return {
-      msg: ''
+      avatarURL: 'http://www.plurk.com/static/default_medium.gif',
+      displayName: ''
     }
+  },
+
+  methods: {
+  },
+
+  mounted() {
+    // console.log(this.plurk.owner_id);
+    getPublicProfile(this.plurk.owner_id).then(data => {
+      this.avatarURL = data.user_info.avatar_medium;
+      this.displayName = data.user_info.display_name;
+      console.log(data);
+    }).catch(error => {
+      // TODO: error handling
+      console.log(error);
+    });
   }
 }
 </script>
