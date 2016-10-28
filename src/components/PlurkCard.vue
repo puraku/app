@@ -1,7 +1,7 @@
 <template>
   <div class="plurk-card">
     <div class="timestamp" v-if="postedAt">
-      {{ this.formatTimestamp(postedAt) }}
+      {{ timestamp }}
     </div>
     <div class="reply-count" v-if="plurk.response_count > 0" :class="{unread: isUnread}">
       {{ plurk.response_count }}
@@ -39,12 +39,14 @@ export default {
   },
 
   methods: {
-    formatTimestamp(momentObj) {
-      return momentObj.format('HH:MM');
-    },
-
     unreadCovert(unread) {
       return unread == 1;
+    }
+  },
+
+  computed: {
+    timestamp() {
+      return this.postedAt.format('HH:mm');
     }
   },
 
