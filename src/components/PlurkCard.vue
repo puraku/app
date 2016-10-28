@@ -13,9 +13,7 @@
       <div class="name">
         {{ displayName }}
       </div>
-      <div :class="qualifierClasses" v-if="plurk.qualifier_translated">
-        {{ plurk.qualifier_translated }}
-      </div>
+      <qualifier :qualifierKey="plurk.qualifier" :text="plurk.qualifier_translated"/>
     </div>
     <div class="content" v-html="plurk.content" />
     <div class="actions">
@@ -24,11 +22,17 @@
 </template>
 
 <script>
-import { getPublicProfile } from '../api/profile';
 import moment from 'moment';
+
+import { getPublicProfile } from '../api/profile';
+import Qualifier from './Qualifier.vue';
 
 export default {
   name: 'PlurkCard',
+
+  components: {
+    Qualifier
+  },
 
   props: {
     plurk: Object,
@@ -56,10 +60,6 @@ export default {
   computed: {
     timestamp() {
       return this.postedAt.format('HH:mm');
-    },
-
-    qualifierClasses() {
-      return ['qualifier', this.plurk.qualifier];
     },
 
     showTimestamp() {
@@ -152,36 +152,6 @@ export default {
       margin-left: .5em;
     }
 
-    .qualifier {
-      height: 1.4em;
-      margin-top: 0.5em;
-      margin-left: .5em;
-      background-color: #cccccc;
-      padding: 0 4px;
-      border-radius: 5px;
-
-      color: white;
-
-      &.loves     { background-color: #b32e25; }
-      &.likes     { background-color: #cc362c; }
-      &.shares    { background-color: #a74949; }
-      &.gives     { background-color: #621510; }
-      &.hates     { background-color: #111111; }
-      &.wants     { background-color: #8db241; }
-      &.has       { background-color: #777777; }
-      &.will      { background-color: #b46db9; }
-      &.asks      { background-color: #8361bc; }
-      &.wishes    { background-color: #e05be9; }
-      &.was       { background-color: #525252; }
-      &.feels     { background-color: #3083be; }
-      &.thinks    { background-color: #3083be; }
-      &.says      { background-color: #e25731; }
-      &.is        { background-color: #e57c43; }
-      &.freestyle { background-color: #cccccc; color: black; }
-      &.hopes     { background-color: #e05be9; }
-      &.needs     { background-color: #7a9a37; }
-      &.wonders   { background-color: #2e4e9e; }
-    }
   }
 
   .content {
