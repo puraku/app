@@ -1,10 +1,14 @@
 <template>
   <div class="navigation-bar">
     <a class="avatar">
-      <img src="https://i.imgur.com/6fh3i.png" alt="">
+      <img :src="avatarURL" alt="">
     </a>
 
-    <div class="icon">
+    <div class="icon" @click="goBack">
+      <i class="fa fa-arrow-left" aria-hidden="true"></i>
+    </div>
+
+    <div class="icon" @click="goHome">
       <i class="fa fa-home" aria-hidden="true"></i>
     </div>
 
@@ -16,17 +20,44 @@
       <i class="fa fa-heart" aria-hidden="true"></i>
     </div>
 
-    <div class="icon">
-      <i class="fa fa-reply" aria-hidden="true"></i>
-    </div>
-
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'NavigationBar'
+import { avatarURL } from '../helpers/userHelper';
+import { getMe } from '../api/users';
+
+export default {
+  name: 'NavigationBar',
+
+  methods: {
+    goBack() {
+      this.$router.go(-1);
+    },
+
+    goHome() {
+      this.$router.push('/');
+    }
+  },
+
+  computed: {
+    avatarURL() {
+      return avatarURL(this.user);
+    }
+  },
+
+  mounted() {
+    getMe().then(data => {
+      this.user = data;
+    });
+  },
+
+  data() {
+    return {
+      user: null
+    };
   }
+}
 </script>
 
 <style lang="sass" scoped>
@@ -46,9 +77,11 @@
   a.avatar {
     padding: 10px;
     max-width: 100%;
+    text-align: center;
 
     img {
       max-width: 100%;
+      border-radius: 5px;
     }
   }
 

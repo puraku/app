@@ -1,7 +1,7 @@
 <template>
   <div class="plurk-cards-container">
     <div class="timeline"></div>
-    <plurk-card v-for="plurk in plurks" :plurk="plurk" />
+    <plurk-card v-for="plurk in plurks" :plurk="plurk" :userList="userList" />
   </div>
 </template>
 
@@ -25,6 +25,7 @@ export default {
 
   mounted() {
     getPlurks().then(({plurk_users, plurks}) => {
+      this.userList = plurk_users;
       this.plurks = plurks;
     });
   }

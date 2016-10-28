@@ -5,7 +5,9 @@ import VueRouter from 'vue-router';
 import { webFrame } from 'electron';
 
 import App from './App.vue';
+
 import Timeline from './views/Timeline.vue';
+import PlurkDetail from './views/PlurkDetail.vue';
 
 Vue.use(VueRouter);
 
@@ -19,7 +21,8 @@ const router = new VueRouter({
       path: '/',
       component: App,
       children: [
-        { path: '',  component: Timeline}
+        { path: '',  component: Timeline},
+        { path: '/plurks/:plurk_id', component: PlurkDetail }
       ]
     }
   ]
