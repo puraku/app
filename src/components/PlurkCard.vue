@@ -1,5 +1,5 @@
 <template>
-  <div class="plurk-card">
+  <div class="plurk-card" @click="goToDetail" v-if="plurk">
     <div class="timestamp" v-if="postedAt">
       {{ timestamp }}
     </div>
@@ -44,6 +44,10 @@ export default {
   methods: {
     unreadCovert(unread) {
       return unread == 1;
+    },
+
+    goToDetail() {
+      this.$router.push(`/plurks/${this.plurk.plurk_id}`);
     }
   },
 
