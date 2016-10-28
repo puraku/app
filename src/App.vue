@@ -1,9 +1,9 @@
 <template>
-  <div id="app">
+  <div id="plurks-timeline">
     <navigation-bar />
     <div class="container">
       <div id="header">
-        <p>Title</p>
+        <p>我的河道</p>
       </div>
       <div class="plurk-cards-container">
         <div class="timeline"></div>
@@ -46,7 +46,7 @@ export default {
 </script>
 
 <style lang="sass">
-#app {
+#plurks-timeline {
   height: 100%;
   display: flex;
   flex-direction: row;
