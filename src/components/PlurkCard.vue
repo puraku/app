@@ -1,9 +1,9 @@
 <template>
   <div class="plurk-card">
-    <div class="timestamp">
-      19:40
+    <div class="timestamp" v-if="postedAt">
+      {{ this.formatTimestamp(postedAt) }}
     </div>
-    <div class="reply-count">
+    <div class="reply-count" v-if="plurk.response_count > 0">
       {{ plurk.response_count }}
     </div>
     <div class="profile">
@@ -22,6 +22,7 @@
 
 <script>
 import { getPublicProfile } from '../api/profile';
+import moment from 'moment';
 
 export default {
   name: 'PlurkCard',
@@ -31,18 +32,25 @@ export default {
   data () {
     return {
       avatarURL: 'http://www.plurk.com/static/default_medium.gif',
-      displayName: ''
+      displayName: '',
+      isUnread: true,
+      postedAt: null
     }
   },
 
   methods: {
+    formatTimestamp(momentObj) {
+      return momentObj.format('HH:MM');
+    }
   },
 
   mounted() {
-    // console.log(this.plurk.owner_id);
+    this.postedAt = moment.parseZone(this.plurk.posted);
+
     getPublicProfile(this.plurk.owner_id).then(data => {
       this.avatarURL = data.user_info.avatar_medium;
       this.displayName = data.user_info.display_name;
+
       console.log(data);
     }).catch(error => {
       // TODO: error handling
@@ -77,13 +85,14 @@ export default {
   }
 
   .timestamp {
+    font-size: .8em;
     color: #cecece;
     text-align: center;
     transform: rotate(90deg);
     width: 3em;
     right: 0;
     margin-top: -1em;
-    margin-right: -2.8em;
+    margin-right: -3.1em;
     background-color: white;
     border-radius: 5px;
     position: absolute;
