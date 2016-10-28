@@ -5,21 +5,19 @@
       <div id="header">
         <p>我的河道</p>
       </div>
-      <timeline />
+      <router-view />
     </div>
   </div>
 </template>
 
 <script>
 import NavigationBar from './components/NavigationBar.vue';
-import Timeline from './views/Timeline.vue';
 
 export default {
   name: 'app',
 
   components: {
-    NavigationBar,
-    Timeline
+    NavigationBar
   }
 }
 </script>
