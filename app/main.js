@@ -52,6 +52,8 @@ function registerAuthFlow({oauthToken, oauthTokenSecret}) {
 
 function initializeApp() {
   mainWin = new BrowserWindow({
+    x: 100,
+    y: 20,
     width: 426,
     height: 817,
     titleBarStyle: 'hidden-inset'
@@ -59,6 +61,7 @@ function initializeApp() {
 
   if (process.env.NODE_ENV === 'development') {
     mainWin.loadURL('http://localhost:8080');
+    mainWin.openDevTools();
   } else {
     mainWin.loadURL(`file://${path.join(__dirname, '../static/index.html')}`);
   }
