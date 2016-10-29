@@ -1,9 +1,9 @@
 <template>
-  <div class="plurk-card" @click.stop.prevent="goToDetail" v-if="plurk && user">
+  <div class="plurk-card"  @dblclick="goToDetail" v-if="plurk && user">
     <div class="timestamp" v-if="showTimestamp">
       {{ timestamp }}
     </div>
-    <div class="reply-count" v-if="plurk.response_count > 0" :class="{unread: isUnread}">
+    <div class="reply-count" v-if="plurk.response_count > 0" :class="{unread: isUnread}" @click="goToDetail" >
       {{ plurk.response_count }}
     </div>
     <div class="profile">
@@ -102,6 +102,7 @@ export default {
     position: absolute;
     background-color: #cecece;
     color: white;
+    cursor: pointer;
 
     right: 0;
     margin-top: -.5em;
