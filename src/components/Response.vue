@@ -6,7 +6,7 @@
       </div>
 
       <div class="name" @click="goToAbout">
-        {{ user.display_name }}
+        {{ user.display_name || user.nick_name }}
       </div>
       <qualifier :qualifierKey="response.qualifier" :text="response.qualifier_translated" :styles="{height: '1.8em'}" />
     </div>
@@ -62,7 +62,7 @@ export default {
   data() {
     return {
     };
-  },
+  }
 }
 </script>
 
