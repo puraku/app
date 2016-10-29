@@ -56,12 +56,15 @@ function initializeApp() {
     y: 20,
     width: 426,
     height: 817,
+    minWidth: 360,
     titleBarStyle: 'hidden-inset'
   });
 
   if (process.env.NODE_ENV === 'development') {
     mainWin.loadURL('http://localhost:8080');
-    mainWin.openDevTools();
+    setTimeout(() => {
+      mainWin.openDevTools();
+    }, 3000);
   } else {
     mainWin.loadURL(`file://${path.join(__dirname, '../static/index.html')}`);
   }
