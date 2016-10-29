@@ -119,7 +119,7 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
 .plurk-container {
   display: flex;
   flex-direction: column;
@@ -208,16 +208,24 @@ export default {
       margin-top: .5em;
       font-size: 1em;
       word-break: break-all;
-    }
 
-    a.ex_link.meta {
-      background-color: #f6f8fd;
-      display: flex;
-      border-style: solid;
-      border-color: #e5ebfa;
-      font-size: 0.9em;
-      padding: 2px 5px;
-      margin-bottom: 5px;
+      a.ex_link.meta {
+        background-color: #f6f8fd;
+        display: flex;
+        border-style: solid;
+        border-color: #e5ebfa;
+        font-size: 0.9em;
+        padding: 2px 5px;
+        margin-bottom: 5px;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      a.ex_link {
+        text-decoration: none;
+      }
     }
 
     .actions {
