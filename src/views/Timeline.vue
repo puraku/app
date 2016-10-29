@@ -1,12 +1,13 @@
 <template>
   <div class="plurk-cards-container">
-    <div class="timeline"></div>
+    <time-baseline />
     <plurk-card v-for="plurk in plurks" :plurk="plurk" :userList="userList" />
   </div>
 </template>
 
 <script>
 import PlurkCard from '../components/PlurkCard.vue';
+import TimeBaseline from '../components/TimeBaseline.vue';
 
 import { getPlurks } from '../api/timeline';
 
@@ -14,7 +15,8 @@ export default {
   name: 'Timeline',
 
   components: {
-    PlurkCard
+    PlurkCard,
+    TimeBaseline
   },
 
   data() {
@@ -40,14 +42,5 @@ export default {
   height: 100%;
 
   background-color: #f5ede8;
-
-  .timeline {
-    position: absolute;
-    height: 100%;
-    width: 0.2em;
-    background-color: white;
-    right: 1.5em;
-    top: 0;
-  }
 }
 </style>
