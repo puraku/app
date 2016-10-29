@@ -11,12 +11,6 @@ const plurkConfig = require('./config').plurk;
 
 let authWin, mainWin, puraku;
 
-if (process.env.NODE_ENV === 'development') {
-  const installExtension = require('electron-devtools-installer').default;
-  const { VUEJS_DEVTOOLS } = require('electron-devtools-installer');
-
-  installExtension(VUEJS_DEVTOOLS);
-}
 
 protocol.registerStandardSchemes(['puraku']);
 
@@ -62,9 +56,13 @@ function initializeApp() {
 
   if (process.env.NODE_ENV === 'development') {
     mainWin.loadURL('http://localhost:8080');
-    setTimeout(() => {
+
+    let installExtension = require('electron-devtools-installer');
+
+    installExtension.default(installExtension.VUEJS_DEVTOOLS).then(() => {
       mainWin.openDevTools();
-    }, 3000);
+    });
+
   } else {
     mainWin.loadURL(`file://${path.join(__dirname, '../static/index.html')}`);
   }
