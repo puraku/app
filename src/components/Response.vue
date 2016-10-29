@@ -6,7 +6,7 @@
       </div>
 
       <div class="name" @click="goToAbout">
-        {{ user.display_name || user.nick_name }}
+        {{ username }}
       </div>
       <qualifier :qualifierKey="response.qualifier" :text="response.qualifier_translated" :styles="{height: '1.8em'}" />
     </div>
@@ -50,6 +50,10 @@ export default {
 
     avatarURL() {
       return avatarURL(this.user);
+    },
+
+    username() {
+      return this.user && (this.user.display_name || this.user.nick_name);
     }
   },
 
