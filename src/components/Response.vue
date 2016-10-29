@@ -89,13 +89,13 @@ export default {
 
     .qualifier {
       margin: 0 2px;
-      background-color: #ff8100;
     }
   }
 
   .content {
     padding: 0 30px;
     font-size: 1em;
+    word-break: break-all;
   }
 }
 
