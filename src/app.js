@@ -8,6 +8,7 @@ import App from './App.vue';
 
 import Timeline from './views/Timeline.vue';
 import PlurkDetail from './views/PlurkDetail.vue';
+import About from './views/About.vue';
 
 Vue.use(VueRouter);
 
@@ -22,7 +23,8 @@ const router = new VueRouter({
       component: App,
       children: [
         { path: '',  component: Timeline},
-        { path: '/plurks/:plurk_id', component: PlurkDetail }
+        { path: '/plurks/:plurk_id', component: PlurkDetail },
+        { path: '/about/:user_id', component: About }
       ]
     }
   ]
