@@ -29,6 +29,7 @@ export default {
 
   color: white;
 
+  // see http://i.imgur.com/wxefWL6.png
   &.loves     { background-color: #b32e25; }
   &.likes     { background-color: #cc362c; }
   &.shares    { background-color: #a74949; }
