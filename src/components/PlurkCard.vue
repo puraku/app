@@ -225,6 +225,10 @@ export default {
 
       a.ex_link {
         text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
 
