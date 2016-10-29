@@ -6,7 +6,7 @@
       </div>
 
       <div class="name">{{ user.display_name }}</div>
-      <qualifier :qualifierKey="response.qualifier" :text="response.qualifier_translated" />
+      <qualifier :qualifierKey="response.qualifier" :text="response.qualifier_translated" :styles="{height: '1.8em'}" />
     </div>
     <div class="content" v-html="response.content"/>
   </div>
@@ -67,6 +67,9 @@ export default {
   .profile {
     display: flex;
     flex-direction: row;
+    font-size: 0.8em;
+    line-height: 2em;
+    margin-bottom: 0.4em;
 
     .avatar {
       margin: 0 5px;
@@ -78,6 +81,10 @@ export default {
       img {
         width: 25px;
       }
+    }
+
+    .name {
+      text-shadow: black .1px .1px;
     }
 
     .qualifier {

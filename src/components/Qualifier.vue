@@ -1,5 +1,5 @@
 <template>
-  <div :class="qualifierClasses" v-if="text">
+  <div :class="qualifierClasses" v-if="text" :style="styles">
     {{ text }}
   </div>
 </template>
@@ -8,7 +8,7 @@
 export default {
   name: 'Qualifier',
 
-  props: ['qualifierKey', 'text'],
+  props: ['qualifierKey', 'text', 'styles'],
 
   computed: {
     qualifierClasses() {
