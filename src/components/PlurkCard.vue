@@ -1,22 +1,38 @@
 <template>
-  <div class="plurk-card"  @dblclick="goToDetail" v-if="plurk && user">
-    <div class="timestamp" v-if="showTimestamp">
-      {{ timestamp }}
+  <div class="plurk-container">
+    <div class="posted-date" v-if="plurk.showPostedDate">
+      {{ postedDate }}
     </div>
-    <div class="reply-count" v-if="plurk.response_count > 0" :class="{unread: isUnread}" @click="goToDetail" >
-      {{ plurk.response_count }}
-    </div>
-    <div class="profile">
-      <a class="avatar" @click="goToAbout">
-        <img :src="avatarURL" alt="avatar">
-      </a>
-      <div class="name" @click="goToAbout">
-        {{ user.display_name }}
+    <div class="plurk-card"  @dblclick="goToDetail" v-if="plurk && user">
+      <div class="timestamp" v-if="showTimestamp">
+        {{ timestamp }}
       </div>
-      <qualifier :qualifierKey="plurk.qualifier" :text="plurk.qualifier_translated"/>
-    </div>
-    <div class="content" v-html="plurk.content" />
-    <div class="actions">
+      <div class="reply-count" v-if="plurk.response_count > 0" :class="{unread: isUnread}" @click="goToDetail" >
+        {{ plurk.response_count }}
+      </div>
+      <div class="profile">
+        <a class="avatar" @click="goToAbout">
+          <img :src="avatarURL" alt="avatar">
+        </a>
+        <div class="name" @click="goToAbout">
+          {{ user.display_name }}
+        </div>
+        <qualifier :qualifierKey="plurk.qualifier" :text="plurk.qualifier_translated"/>
+      </div>
+      <div class="content" v-html="plurk.content" />
+      <div class="actions">
+        <div class="icon">
+          <i class="fa fa-heart" aria-hidden="true"></i>
+        </div>
+
+        <div class="icon">
+          <i class="fa fa-refresh" aria-hidden="true"></i>
+        </div>
+
+        <div class="icon">
+          <i class="fa fa-volume-off" aria-hidden="true"></i>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -41,7 +57,11 @@ export default {
       type: Boolean,
       default: true
     },
-    userList: Object
+    userList: Object,
+    showPostedDate: {
+      type: Boolean,
+      default: false
+    }
   },
 
   data () {
@@ -71,6 +91,15 @@ export default {
       return this.postedAt && this.displayTimestamp;
     },
 
+    postedDate() {
+      const formatedDate = this.postedAt.format('YYYY-MM-DD');
+      if (moment().format('YYYY-MM-DD') === formatedDate) {
+        return 'Today';
+      } else {
+        return formatedDate;
+      }
+    },
+
     postedAt() {
       return moment.parseZone(this.plurk.posted);
     },
@@ -90,90 +119,120 @@ export default {
 }
 </script>
 
-<style lang="sass">
-.plurk-card {
-  position: relative;
-  background-color: white;
+<style lang="sass" scoped>
+.plurk-container {
   display: flex;
   flex-direction: column;
-  padding: .5em;
 
   &:not(:first-child) {
     margin: .5em 0;
   }
 
-  .reply-count {
-    position: absolute;
-    background-color: #cecece;
-    color: white;
-    cursor: pointer;
-
-    right: 0;
-    margin-top: -.5em;
-    min-width: 1.3em;
-    height: 1.3em;
+  .posted-date {
+    padding: 0 .5em;
     text-align: center;
-    padding: 0.1em 2px 0 2px;
-
-    &.unread {
-      background-color: #ff002b;
-    }
-  }
-
-  .timestamp {
-    font-size: .8em;
+    margin: 0 auto 5px;
+    font-size: 0.8em;
     color: #cecece;
-    text-align: center;
-    transform: rotate(90deg);
-    width: 3em;
-    right: 0;
-    margin-top: -1em;
-    margin-right: -3.1em;
     background-color: white;
-    border-radius: 5px;
-    position: absolute;
+    overflow: hidden;
+    border-radius: 7px;
   }
 
-  .profile {
+  .plurk-card {
+    position: relative;
+    background-color: white;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    padding: .5em;
 
-    .avatar {
-      width: 2.5em;
-      height: 2.5em;
-      border-radius: 50%;
-      overflow: hidden;
+    .reply-count {
+      position: absolute;
+      background-color: #cecece;
+      color: white;
       cursor: pointer;
 
-      img {
-        width: 100%;
-        height: 100%;
+      right: 0;
+      margin-top: -.5em;
+      min-width: 1.3em;
+      height: 1.3em;
+      text-align: center;
+      padding: 0.1em 2px 0 2px;
+
+      &.unread {
+        background-color: #ff002b;
       }
     }
 
-    .name {
-      height: 2em;
-      margin-top: 0.5em;
-      margin-left: .5em;
-      cursor: pointer;
+    .timestamp {
+      font-size: .8em;
+      color: #cecece;
+      text-align: center;
+      transform: rotate(90deg);
+      padding: 0 .2em;
+      right: 0;
+      margin-top: -1em;
+      margin-right: -2.5em;
+      background-color: white;
+      border-radius: 5px;
+      position: absolute;
     }
 
-  }
+    .profile {
+      display: flex;
+      flex-direction: row;
 
-  .content {
-    margin-top: .5em;
-    font-size: 1em;
-    word-break: break-all;
-  }
+      .avatar {
+        width: 2.5em;
+        height: 2.5em;
+        border-radius: 50%;
+        overflow: hidden;
+        cursor: pointer;
 
-  a.ex_link.meta {
-    background-color: #f6f8fd;
-    display: flex;
-    border-style: solid;
-    border-color: #e5ebfa;
-    font-size: 0.9em;
-    padding: 2px 5px;
-    margin-bottom: 5px;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .name {
+        height: 2em;
+        margin-top: 0.5em;
+        margin-left: .5em;
+        cursor: pointer;
+      }
+
+    }
+
+    .content {
+      margin-top: .5em;
+      font-size: 1em;
+      word-break: break-all;
+    }
+
+    a.ex_link.meta {
+      background-color: #f6f8fd;
+      display: flex;
+      border-style: solid;
+      border-color: #e5ebfa;
+      font-size: 0.9em;
+      padding: 2px 5px;
+      margin-bottom: 5px;
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      padding: 0.3em 0;
+      font-size: 1.2em;
+
+      .icon {
+        color: #c2c2c2;
+        margin-right: 1em;
+        cursor: pointer;
+      }
+    }
   }
 }
 </style>
