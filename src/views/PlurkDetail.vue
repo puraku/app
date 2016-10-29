@@ -27,10 +27,11 @@ export default {
 
     getPlurk(plurk_id).then(data => {
       this.plurk = data.plurk;
+      this.userList = { [data.user.id]: data.user };
     })
 
     getResponses(plurk_id).then(data => {
-      this.userList = data.friends;
+      this.userList = {...this.userList, ...data.friends};
       this.responses = data.responses;
     });
   },
