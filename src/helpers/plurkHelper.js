@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { ipcRenderer } from 'electron';
 
 export function postedDateTagger(plurks) {
   return plurks.map((plurk, index) => {
@@ -18,5 +19,15 @@ export function formatDate(plurk) {
     return 'Today';
   } else {
     return formatedDate;
+  }
+}
+
+export function registerContentEvent(dom) {
+  for (let anchor of dom.querySelectorAll('.content a')) {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+
+      ipcRenderer.send('open:externalURL', { url: e.target.href });
+    });
   }
 }

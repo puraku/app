@@ -34,6 +34,7 @@ import moment from 'moment';
 
 import { getPublicProfile } from 'api/profile';
 import { avatarURL } from 'helpers/userHelper';
+import { registerContentEvent } from 'helpers/plurkHelper';
 
 import Qualifier from 'components/Qualifier.vue';
 import FaIcon from 'components/FaIcon.vue';
@@ -116,6 +117,14 @@ export default {
       return avatarURL(this.user);
     }
   },
+
+  mounted() {
+    registerContentEvent(this.$el);
+  },
+
+  updated() {
+    registerContentEvent(this.$el);
+  }
 }
 </script>
 

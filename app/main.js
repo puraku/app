@@ -1,4 +1,4 @@
-const { app, BrowserWindow, protocol, ipcMain } = require('electron');
+const { app, BrowserWindow, protocol, ipcMain, shell } = require('electron');
 const url = require('url');
 const qs = require('qs');
 const path = require('path');
@@ -75,6 +75,19 @@ function initializeApp() {
     }).catch(error => {
       event.sender.send(`puraku:api:${endpoint}:${randomSeed}`, {error});
     });
+  });
+
+  ipcMain.on('open:externalURL', (event, args) => {
+    // TODO: option for opening in shell
+    // TODO: customized webview
+    // TODO: customized for image preview
+    // ipcMain.on('open:externalImage')
+
+    const { url } = args;
+    // const win = new BrowserWindow();
+    // win.loadURL(url);
+
+    shell.openExternal(url);
   });
 }
 
