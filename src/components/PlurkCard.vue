@@ -110,7 +110,7 @@ export default {
 
     right: 0;
     margin-top: -.5em;
-    width: 1.3em;
+    min-width: 1.3em;
     height: 1.3em;
     text-align: center;
     padding: 0.1em 2px 0 2px;
