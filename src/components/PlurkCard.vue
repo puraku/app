@@ -163,6 +163,7 @@ export default {
   .content {
     margin-top: .5em;
     font-size: 1em;
+    word-break: break-all;
   }
 
   a.ex_link.meta {
