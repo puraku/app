@@ -21,17 +21,9 @@
       </div>
       <div class="content" v-html="plurk.content" />
       <div class="actions">
-        <div class="icon">
-          <i class="fa fa-heart" aria-hidden="true"></i>
-        </div>
-
-        <div class="icon">
-          <i class="fa fa-refresh" aria-hidden="true"></i>
-        </div>
-
-        <div class="icon">
-          <i class="fa fa-volume-off" aria-hidden="true"></i>
-        </div>
+        <fa-icon iconName="heart" :style="faStyle" />
+        <fa-icon iconName="refresh" :style="faStyle" />
+        <fa-icon iconName="volume-off" :style="faStyle" />
       </div>
     </div>
   </div>
@@ -42,13 +34,16 @@ import moment from 'moment';
 
 import { getPublicProfile } from '../api/profile';
 import { avatarURL } from '../helpers/userHelper';
+
 import Qualifier from './Qualifier.vue';
+import FaIcon from './FaIcon.vue';
 
 export default {
   name: 'PlurkCard',
 
   components: {
-    Qualifier
+    Qualifier,
+    FaIcon
   },
 
   props: {
@@ -68,7 +63,12 @@ export default {
     return {
       displayName: '',
       isUnread: true,
-      postedAt: null
+      postedAt: null,
+      faStyle: {
+        color: '#c2c2c2',
+        marginRight: '1em',
+        cursor: 'pointer'
+      }
     }
   },
 
@@ -234,12 +234,6 @@ export default {
       justify-content: flex-start;
       padding: 0.3em 0;
       font-size: 1.2em;
-
-      .icon {
-        color: #c2c2c2;
-        margin-right: 1em;
-        cursor: pointer;
-      }
     }
   }
 }

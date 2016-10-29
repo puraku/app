@@ -4,35 +4,27 @@
       <img :src="avatarURL" alt="">
     </a>
 
-    <div class="icon" @click="goBack">
-      <i class="fa fa-arrow-left" aria-hidden="true"></i>
-    </div>
-
-    <div class="icon" @click="goHome">
-      <i class="fa fa-home" aria-hidden="true"></i>
-    </div>
-
-    <div class="icon"  @click="goAbout">
-      <i class="fa fa-user" aria-hidden="true"></i>
-    </div>
-
-    <div class="icon">
-      <i class="fa fa-inbox" aria-hidden="true"></i>
-    </div>
-
-    <div class="icon">
-      <i class="fa fa-heart" aria-hidden="true"></i>
-    </div>
+    <fa-icon iconName="arrow-left" :style="faStyle" :iconStyle="iconStyle" :click="goBack" />
+    <fa-icon iconName="home" :style="faStyle" :iconStyle="iconStyle" :click="goHome" />
+    <fa-icon iconName="user" :style="faStyle" :iconStyle="iconStyle" :click="goAbout" />
+    <fa-icon iconName="inbox" :style="faStyle" :iconStyle="iconStyle" />
+    <fa-icon iconName="heart" :style="faStyle" :iconStyle="iconStyle" />
 
   </div>
 </template>
 
 <script>
+import FaIcon from './FaIcon.vue';
+
 import { avatarURL } from '../helpers/userHelper';
 import { getMe } from '../api/users';
 
 export default {
   name: 'NavigationBar',
+
+  components: {
+    FaIcon
+  },
 
   methods: {
     goBack() {
@@ -62,7 +54,19 @@ export default {
 
   data() {
     return {
-      user: null
+      user: null,
+
+      faStyle: {
+        width: '1.5em',
+        margin: '0 auto',
+        textAlign: 'center'
+      },
+
+      iconStyle: {
+        fontSize: '1.5em',
+        cursor: 'pointer',
+        margin: '.7em 0'
+      }
     };
   }
 }
@@ -90,19 +94,6 @@ export default {
     img {
       max-width: 100%;
       border-radius: 5px;
-    }
-  }
-
-  .icon {
-    width: 1.5em;
-    margin: 0 auto;
-    text-align: center;
-
-    & > .fa {
-      font-size: 1.5em;
-
-      cursor: pointer;
-      margin: .7em 0;
     }
   }
 }
