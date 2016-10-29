@@ -58,6 +58,7 @@ export default {
   flex-direction: column;
   position: relative;
   padding: 1.2em 1em;
+  min-height: 10em;
 
   // TODO: the color magic
   color: black;

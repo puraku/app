@@ -36,7 +36,7 @@ export default {
 
 <style lang="sass" scoped>
 .plurk-cards-container {
-  padding: 1em 2em 1em 0.5em;
+  padding: 0em 2em 1em 0.5em;
 
   overflow-y: scroll;
   height: 100%;

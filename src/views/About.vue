@@ -52,10 +52,13 @@ export default {
 <style lang="sass">
 .about-container {
   height: 100%;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .plurks-container {
-  padding: 1em 2em 1em 0.5em;
+  padding: 0em 2em 1em 0.5em;
 
   overflow-y: scroll;
   height: 100%;
