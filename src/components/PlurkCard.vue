@@ -169,10 +169,10 @@ export default {
       color: #cecece;
       text-align: center;
       transform: rotate(90deg);
-      width: 3em;
+      padding: 0 .2em;
       right: 0;
       margin-top: -1em;
-      margin-right: -3.1em;
+      margin-right: -2.5em;
       background-color: white;
       border-radius: 5px;
       position: absolute;

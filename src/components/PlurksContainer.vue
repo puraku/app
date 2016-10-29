@@ -34,7 +34,7 @@ export default {
 
 <style scoped>
 .plurks-container {
-  padding: 0em 2em 1em 0.5em;
+  padding: 0em 1.5em 1em 0.5em;
 
   overflow-y: scroll;
   height: 100%;
