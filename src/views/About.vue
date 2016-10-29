@@ -1,8 +1,11 @@
 <template>
   <div class="about-container">
-    <profile />
-    <time-baseline />
-    <plurk-card v-for="plurk in plurks" :plurk="plurk" :userList="userList" />
+    <profile :userData="userData" v-if="userData" />
+
+    <div class="plurks-container">
+      <time-baseline />
+      <plurk-card v-for="plurk in plurks" :plurk="plurk" :userList="userList" />
+    </div>
   </div>
 </template>
 
@@ -27,7 +30,7 @@ export default {
    const { user_id } = this.$route.params;
 
    getPublicProfile(user_id).then(data => {
-     this.profile = data;
+     this.userData = data;
    });
 
    getPublicPlurks(user_id).then(data => {
@@ -40,7 +43,7 @@ export default {
     return {
       userList: null,
       plurks: [],
-      profile: null
+      userData: null
     };
   }
 }
@@ -48,6 +51,10 @@ export default {
 
 <style lang="sass">
 .about-container {
+  height: 100%;
+}
+
+.plurks-container {
   padding: 1em 2em 1em 0.5em;
 
   overflow-y: scroll;
