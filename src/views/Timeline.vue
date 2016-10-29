@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import PlurksContainer from '../components/PlurksContainer.vue';
-import { getPlurks } from '../api/timeline';
+import PlurksContainer from 'components/PlurksContainer.vue';
+import { getPlurks } from 'api/timeline';
 
 export default {
   name: 'Timeline',

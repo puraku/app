@@ -6,12 +6,12 @@
 </template>
 
 <script>
-import Profile from '../components/Profile.vue';
-import PlurksContainer from '../components/PlurksContainer.vue';
+import Profile from 'components/Profile.vue';
+import PlurksContainer from 'components/PlurksContainer.vue';
 
-import { getPublicProfile } from '../api/profile';
-import { getPublicPlurks } from '../api/timeline';
-import { postedDateTagger } from '../helpers/plurkHelper';
+import { getPublicProfile } from 'api/profile';
+import { getPublicPlurks } from 'api/timeline';
+import { postedDateTagger } from 'helpers/plurkHelper';
 
 export default {
   name: 'About',

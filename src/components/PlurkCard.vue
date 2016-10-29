@@ -32,11 +32,11 @@
 <script>
 import moment from 'moment';
 
-import { getPublicProfile } from '../api/profile';
-import { avatarURL } from '../helpers/userHelper';
+import { getPublicProfile } from 'api/profile';
+import { avatarURL } from 'helpers/userHelper';
 
-import Qualifier from './Qualifier.vue';
-import FaIcon from './FaIcon.vue';
+import Qualifier from 'components/Qualifier.vue';
+import FaIcon from 'components/FaIcon.vue';
 
 export default {
   name: 'PlurkCard',

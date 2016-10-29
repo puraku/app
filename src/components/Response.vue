@@ -15,10 +15,10 @@
 </template>
 
 <script>
-import Qualifier from './Qualifier.vue';
+import Qualifier from 'components/Qualifier.vue';
 
-import { getPublicProfile } from '../api/profile';
-import { avatarURL } from '../helpers/userHelper';
+import { getPublicProfile } from 'api/profile';
+import { avatarURL } from 'helpers/userHelper';
 
 export default {
   name: 'Response',

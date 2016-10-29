@@ -14,10 +14,10 @@
 </template>
 
 <script>
-import FaIcon from './FaIcon.vue';
+import FaIcon from 'components/FaIcon.vue';
 
-import { avatarURL } from '../helpers/userHelper';
-import { getMe } from '../api/users';
+import { avatarURL } from 'helpers/userHelper';
+import { getMe } from 'api/users';
 
 export default {
   name: 'NavigationBar',

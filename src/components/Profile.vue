@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { avatarURL } from '../helpers/userHelper';
+import { avatarURL } from 'helpers/userHelper';
 
 export default {
   name: 'Profile',

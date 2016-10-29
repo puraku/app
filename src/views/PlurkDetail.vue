@@ -8,11 +8,11 @@
 </template>
 
 <script>
-import PlurkCard from '../components/PlurkCard.vue';
-import Response from '../components/Response.vue';
+import PlurkCard from 'components/PlurkCard.vue';
+import Response from 'components/Response.vue';
 
-import { getPlurk } from '../api/timeline';
-import { getResponses } from '../api/responses';
+import { getPlurk } from 'api/timeline';
+import { getResponses } from 'api/responses';
 
 export default {
   name: 'PlurkDetail',

@@ -6,10 +6,10 @@
 </template>
 
 <script>
-import PlurkCard from '../components/PlurkCard.vue';
-import TimeBaseline from '../components/TimeBaseline.vue';
+import PlurkCard from 'components/PlurkCard.vue';
+import TimeBaseline from 'components/TimeBaseline.vue';
 
-import { postedDateTagger } from '../helpers/plurkHelper';
+import { postedDateTagger } from 'helpers/plurkHelper';
 
 export default {
   name: 'PlurksContainer',

@@ -5,9 +5,9 @@ import VueRouter from 'vue-router';
 import { webFrame } from 'electron';
 
 import App from './App.vue';
-import Timeline from './views/Timeline.vue';
-import PlurkDetail from './views/PlurkDetail.vue';
-import About from './views/About.vue';
+import Timeline from 'views/Timeline.vue';
+import PlurkDetail from 'views/PlurkDetail.vue';
+import About from 'views/About.vue';
 
 Vue.use(VueRouter);
 
