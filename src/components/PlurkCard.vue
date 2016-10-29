@@ -21,6 +21,17 @@
       </div>
       <div class="content" v-html="plurk.content" />
       <div class="actions">
+        <div class="icon">
+          <i class="fa fa-heart" aria-hidden="true"></i>
+        </div>
+
+        <div class="icon">
+          <i class="fa fa-refresh" aria-hidden="true"></i>
+        </div>
+
+        <div class="icon">
+          <i class="fa fa-volume-off" aria-hidden="true"></i>
+        </div>
       </div>
     </div>
   </div>
@@ -108,7 +119,7 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 .plurk-container {
   display: flex;
   flex-direction: column;
@@ -207,6 +218,20 @@ export default {
       font-size: 0.9em;
       padding: 2px 5px;
       margin-bottom: 5px;
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      padding: 0.3em 0;
+      font-size: 1.2em;
+
+      .icon {
+        color: #c2c2c2;
+        margin-right: 1em;
+        cursor: pointer;
+      }
     }
   }
 }
