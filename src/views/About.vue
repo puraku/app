@@ -4,7 +4,7 @@
 
     <div class="plurks-container">
       <time-baseline />
-      <plurk-card v-for="plurk in plurks" :plurk="plurk" :userList="userList" />
+      <plurk-card v-for="plurk in taggedPlurks" :plurk="plurk" :userList="userList" />
     </div>
   </div>
 </template>
@@ -16,6 +16,7 @@ import PlurkCard from '../components/PlurkCard.vue';
 
 import { getPublicProfile } from '../api/profile';
 import { getPublicPlurks } from '../api/timeline';
+import { postedDateTagger } from '../helpers/plurkHelper';
 
 export default {
   name: 'About',
@@ -24,6 +25,12 @@ export default {
     Profile,
     TimeBaseline,
     PlurkCard
+  },
+
+  computed: {
+    taggedPlurks() {
+      return postedDateTagger(this.plurks);
+    }
   },
 
   mounted() {

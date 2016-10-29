@@ -1,6 +1,6 @@
 <template>
   <div class="plurk-container">
-    <div class="posted-date" v-if="showPostedDate">
+    <div class="posted-date" v-if="plurk.showPostedDate">
       {{ postedDate }}
     </div>
     <div class="plurk-card"  @dblclick="goToDetail" v-if="plurk && user">
