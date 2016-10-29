@@ -80,14 +80,15 @@ function initializeApp() {
   ipcMain.on('open:externalURL', (event, args) => {
     // TODO: option for opening in shell
     // TODO: customized webview
-    // TODO: customized for image preview
-    // ipcMain.on('open:externalImage')
 
     const { url } = args;
-    // const win = new BrowserWindow();
-    // win.loadURL(url);
-
     shell.openExternal(url);
+  });
+
+  ipcMain.on('open:externalImage', (event, args) => {
+    const { url, height, width } = args;
+    const win = new BrowserWindow({ height, width });
+    win.loadURL(url);
   });
 }
 

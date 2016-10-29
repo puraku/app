@@ -27,7 +27,22 @@ export function registerContentEvent(dom) {
     anchor.addEventListener('click', function(e) {
       e.preventDefault();
 
-      ipcRenderer.send('open:externalURL', { url: e.target.href });
+      if (typeof e.target.href === 'undefined') {
+        let img = new Image();
+        img.onload = function() {
+          ipcRenderer.send(
+            'open:externalImage',
+            {
+              url: e.target.parentElement.href,
+              height: this.height,
+              width: this.width
+            }
+          );
+        };
+        img.src = e.target.parentElement.href;
+      } else {
+        ipcRenderer.send('open:externalURL', { url: e.target.href });
+      }
     });
   }
 }
