@@ -12,6 +12,10 @@
       <i class="fa fa-home" aria-hidden="true"></i>
     </div>
 
+    <div class="icon"  @click="goAbout">
+      <i class="fa fa-user" aria-hidden="true"></i>
+    </div>
+
     <div class="icon">
       <i class="fa fa-inbox" aria-hidden="true"></i>
     </div>
@@ -37,6 +41,10 @@ export default {
 
     goHome() {
       this.$router.push('/');
+    },
+
+    goAbout() {
+      this.user && this.$router.push(`/about/${this.user.id}`);
     }
   },
 
@@ -88,10 +96,10 @@ export default {
   .icon {
     width: 1.5em;
     margin: 0 auto;
+    text-align: center;
 
     & > .fa {
       font-size: 1.5em;
-      text-align: center;
 
       cursor: pointer;
       margin: .7em 0;

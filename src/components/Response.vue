@@ -1,11 +1,13 @@
 <template>
   <div class="response" v-if="validResponse">
     <div class="profile">
-      <div class="avatar">
+      <div class="avatar" @click="goToAbout">
         <img :src="avatarURL" alt="">
       </div>
 
-      <div class="name">{{ user.display_name }}</div>
+      <div class="name" @click="goToAbout">
+        {{ user.display_name }}
+      </div>
       <qualifier :qualifierKey="response.qualifier" :text="response.qualifier_translated" :styles="{height: '1.8em'}" />
     </div>
     <div class="content" v-html="response.content"/>
@@ -51,6 +53,12 @@ export default {
     }
   },
 
+  methods: {
+    goToAbout() {
+      this.$router.push(`/about/${this.response.user_id}`);
+    }
+  },
+
   data() {
     return {
     };
@@ -77,6 +85,7 @@ export default {
       height: 25px;
       overflow: hidden;
       border-radius: 50%;
+      cursor: pointer;
 
       img {
         width: 25px;
@@ -85,17 +94,18 @@ export default {
 
     .name {
       text-shadow: black .1px .1px;
+      cursor: pointer;
     }
 
     .qualifier {
       margin: 0 2px;
-      background-color: #ff8100;
     }
   }
 
   .content {
     padding: 0 30px;
     font-size: 1em;
+    word-break: break-all;
   }
 }
 

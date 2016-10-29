@@ -7,10 +7,10 @@
       {{ plurk.response_count }}
     </div>
     <div class="profile">
-      <a class="avatar">
+      <a class="avatar" @click="goToAbout">
         <img :src="avatarURL" alt="avatar">
       </a>
-      <div class="name">
+      <div class="name" @click="goToAbout">
         {{ user.display_name }}
       </div>
       <qualifier :qualifierKey="plurk.qualifier" :text="plurk.qualifier_translated"/>
@@ -55,6 +55,10 @@ export default {
   methods: {
     goToDetail() {
       this.$router.push(`/plurks/${this.plurk.plurk_id}`);
+    },
+
+    goToAbout() {
+      this.$router.push(`/about/${this.plurk.owner_id}`);
     }
   },
 
@@ -106,7 +110,7 @@ export default {
 
     right: 0;
     margin-top: -.5em;
-    width: 1.3em;
+    min-width: 1.3em;
     height: 1.3em;
     text-align: center;
     padding: 0.1em 2px 0 2px;
@@ -139,6 +143,7 @@ export default {
       height: 2.5em;
       border-radius: 50%;
       overflow: hidden;
+      cursor: pointer;
 
       img {
         width: 100%;
@@ -150,6 +155,7 @@ export default {
       height: 2em;
       margin-top: 0.5em;
       margin-left: .5em;
+      cursor: pointer;
     }
 
   }
@@ -157,6 +163,7 @@ export default {
   .content {
     margin-top: .5em;
     font-size: 1em;
+    word-break: break-all;
   }
 
   a.ex_link.meta {

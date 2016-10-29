@@ -4,7 +4,7 @@
     "commonjs": true,
     "es6": true
   },
-  "extends": "eslint:recommended",
+  "extends": ["eslint:recommended", "vue"],
   "parserOptions": {
     "sourceType": "module",
     "ecmaFeatures": {
@@ -12,10 +12,6 @@
     }
   },
   "rules": {
-    "indent": [
-      "error",
-      2
-    ],
     "linebreak-style": [
       "error",
       "unix"
