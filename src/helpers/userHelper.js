@@ -1,7 +1,5 @@
 export function avatarURL(user, size = 'medium') {
-  let ext = 'gif';
-
-  if (size === 'big') { ext = 'jpg'; }
+  const ext = size === 'big' ? 'jpg' : 'gif';
 
   if (!user) {
     return `http://www.plurk.com/static/default_${size}.${ext}`;
