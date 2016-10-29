@@ -47,10 +47,11 @@ function registerAuthFlow({oauthToken, oauthTokenSecret}) {
 function initializeApp() {
   mainWin = new BrowserWindow({
     x: 100,
-    y: 20,
+    y: 30,
     width: 426,
     height: 817,
     minWidth: 360,
+    maxWidth: 560,
     titleBarStyle: 'hidden-inset'
   });
 
@@ -62,7 +63,6 @@ function initializeApp() {
     installExtension.default(installExtension.VUEJS_DEVTOOLS).then(() => {
       mainWin.openDevTools();
     });
-
   } else {
     mainWin.loadURL(`file://${path.join(__dirname, '../static/index.html')}`);
   }
