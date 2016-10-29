@@ -4,7 +4,7 @@
       {{ postedDate }}
     </div>
     <div class="plurk-card"  @dblclick="goToDetail" v-if="plurk && user">
-      <div class="timestamp" v-if="showTimestamp">
+      <div class="timestamp" v-if="showTimestamp" @click="goToDetail" >
         {{ timestamp }}
       </div>
       <div class="reply-count" v-if="plurk.response_count > 0" :class="{unread: isUnread}" @click="goToDetail" >
@@ -176,6 +176,7 @@ export default {
       background-color: white;
       border-radius: 5px;
       position: absolute;
+      cursor: pointer;
     }
 
     .profile {
