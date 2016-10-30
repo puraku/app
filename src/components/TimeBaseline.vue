@@ -17,6 +17,5 @@ export default {
   width: 0.2em;
   background-color: white;
   right: 1.5em;
-  top: 0;
 }
 </style>
