@@ -1,23 +1,25 @@
 <template>
   <div class="profile" v-if="user" >
     <div class="profile-background" :style="profileStyles" />
-    <div class="avatar">
-      <img :src="avatarURL" alt="avatar">
+    <div class="profile-container">
+      <div class="avatar">
+        <img :src="avatarURL" alt="avatar">
+      </div>
+      <div class="display-name">
+        {{ user.display_name }}
+      </div>
+      <div class="nickname">
+        @{{ user.nick_name }}
+      </div>
+      <!--
+      <div class="karma">
+        karma {{ user.karma }}
+      </div>
+      <div class="about">
+        {{ user.about }}
+      </div>
+      -->
     </div>
-    <div class="display-name">
-      {{ user.display_name }}
-    </div>
-    <div class="nickname">
-      @{{ user.nick_name }}
-    </div>
-    <div class="karma">
-      karma {{ user.karma }}
-    </div>
-    <!--
-    <div class="about">
-      {{ user.about }}
-    </div>
-    -->
   </div>
 </template>
 
@@ -53,8 +55,7 @@ export default {
   display: flex;
   flex-direction: column;
   position: relative;
-  padding: 1.2em 1em;
-  min-height: 10em;
+  height: 14em;
   z-index: 10;
 
   // TODO: the color magic
@@ -79,6 +80,13 @@ export default {
 
   & > * {
     z-index: 2;
+  }
+
+  .profile-container {
+    padding: 1.2em 1em;
+    position: absolute;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .avatar {
