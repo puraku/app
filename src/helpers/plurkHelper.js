@@ -22,27 +22,36 @@ export function formatDate(plurk) {
   }
 }
 
+function handleContentClick (e) {
+  e.preventDefault();
+
+  if (typeof e.target.href === 'undefined') {
+    let img = new Image();
+    img.onload = function () {
+      ipcRenderer.send(
+        'open:externalImage',
+        {
+          url: e.target.parentElement.href,
+          height: this.height,
+          width: this.width
+        }
+      );
+    };
+    img.src = e.target.parentElement.href;
+  } else {
+    ipcRenderer.send('open:externalURL', { url: e.target.href });
+  }
+}
+
 export function registerContentEvent(dom) {
   for (let anchor of dom.querySelectorAll('.content a')) {
-    anchor.addEventListener('click', function(e) {
-      e.preventDefault();
+    anchor.removeEventListener('click', handleContentClick);
+    anchor.addEventListener('click', handleContentClick);
+  }
+}
 
-      if (typeof e.target.href === 'undefined') {
-        let img = new Image();
-        img.onload = function() {
-          ipcRenderer.send(
-            'open:externalImage',
-            {
-              url: e.target.parentElement.href,
-              height: this.height,
-              width: this.width
-            }
-          );
-        };
-        img.src = e.target.parentElement.href;
-      } else {
-        ipcRenderer.send('open:externalURL', { url: e.target.href });
-      }
-    });
+export function unregisterContentEvent(dom) {
+  for (let anchor of dom.querySelectorAll('.content a')) {
+    anchor.removeEventListener('click', handleContentClick);
   }
 }

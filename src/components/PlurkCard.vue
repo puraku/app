@@ -35,7 +35,7 @@ import moment from 'moment';
 import { mapState } from 'vuex';
 
 import { avatarURL } from 'helpers/userHelper';
-import { registerContentEvent } from 'helpers/plurkHelper';
+import { registerContentEvent, unregisterContentEvent } from 'helpers/plurkHelper';
 
 import Qualifier from 'components/Qualifier.vue';
 import FaIcon from 'components/FaIcon.vue';
@@ -126,6 +126,10 @@ export default {
 
   updated() {
     registerContentEvent(this.$el);
+  },
+
+  beforeDestroy() {
+    unregisterContentEvent(this.$el);
   }
 }
 </script>

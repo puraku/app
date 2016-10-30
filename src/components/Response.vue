@@ -21,7 +21,7 @@ import { mapState } from 'vuex';
 
 import { getPublicProfile } from 'api/profile';
 import { avatarURL } from 'helpers/userHelper';
-import { registerContentEvent } from 'helpers/plurkHelper';
+import { registerContentEvent, unregisterContentEvent } from 'helpers/plurkHelper';
 
 export default {
   name: 'Response',
@@ -69,6 +69,10 @@ export default {
 
   updated() {
     registerContentEvent(this.$el);
+  },
+
+  beforeDestroy() {
+    unregisterContentEvent(this.$el);
   }
 }
 </script>
