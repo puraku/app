@@ -1,6 +1,6 @@
 <template>
   <div class="icon"  @click="onClick" :style="style">
-    <i :class="iconClasses" aria-hidden="true" :style="iconStyle" />
+    <i :class="iconClasses" aria-hidden="true" :style="styles" />
   </div>
 </template>
 
@@ -25,6 +25,15 @@ export default {
 
     iconStyle: {
       type: Object
+    },
+
+    highlighted: {
+      type: Boolean,
+      default: false
+    },
+
+    highlightedStyle: {
+      type: Object
     }
   },
 
@@ -37,6 +46,10 @@ export default {
   computed: {
     iconClasses() {
       return ['fa', `fa-${this.iconName}`];
+    },
+
+    styles() {
+      return this.highlighted ? [this.iconStyle, this.highlightedStyle] : this.iconStyle;
     }
   }
 }

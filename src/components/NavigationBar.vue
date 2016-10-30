@@ -5,8 +5,8 @@
     </a>
 
     <fa-icon iconName="arrow-left" :style="faStyle" :iconStyle="iconStyle" :click="goBack" />
-    <fa-icon iconName="home" :style="faStyle" :iconStyle="iconStyle" :click="goHome" />
-    <fa-icon iconName="user" :style="faStyle" :iconStyle="iconStyle" :click="goAbout" />
+    <fa-icon iconName="home" :style="faStyle" :iconStyle="iconStyle" :click="goHome" :highlighted="routeHome" :highlightedStyle="highlightedStyle" />
+    <fa-icon iconName="user" :style="faStyle" :iconStyle="iconStyle" :click="goAbout" :highlighted="routeProfile" :highlightedStyle="highlightedStyle" />
     <fa-icon iconName="inbox" :style="faStyle" :iconStyle="iconStyle" />
     <fa-icon iconName="heart" :style="faStyle" :iconStyle="iconStyle" />
 
@@ -45,6 +45,14 @@ export default {
       return avatarURL(this.user);
     },
 
+    routeHome() {
+      return this.$route.path === '/';
+    },
+
+    routeProfile() {
+      return this.user && this.$route.path === `/about/${this.user.id}`;
+    },
+
     ...mapGetters({
       user: 'currentUser'
     })
@@ -59,9 +67,14 @@ export default {
       },
 
       iconStyle: {
+        color: '#8899a6',
         fontSize: '1.5em',
         cursor: 'pointer',
         margin: '.7em 0'
+      },
+
+      highlightedStyle: {
+        color: '#f6882d'
       }
     };
   }
@@ -74,7 +87,7 @@ export default {
   padding-top: 3em;
   min-width: 75px;
   max-width: 75px;
-  color: #f6882d;
+
   background-color: #26323f;
 
   -webkit-app-region: drag;
