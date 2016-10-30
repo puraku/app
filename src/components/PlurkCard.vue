@@ -32,7 +32,8 @@
 <script>
 import moment from 'moment';
 
-import { getPublicProfile } from 'api/profile';
+import { mapState } from 'vuex';
+
 import { avatarURL } from 'helpers/userHelper';
 import { registerContentEvent } from 'helpers/plurkHelper';
 
@@ -53,7 +54,6 @@ export default {
       type: Boolean,
       default: true
     },
-    userList: Object,
     showPostedDate: {
       type: Boolean,
       default: false
@@ -109,13 +109,15 @@ export default {
       return this.plurk.is_unread == 1;
     },
 
-    user() {
-      return this.userList && this.userList[this.plurk.owner_id];
-    },
-
     avatarURL() {
       return avatarURL(this.user);
-    }
+    },
+
+    user() {
+      return this.userList[this.plurk.owner_id];
+    },
+
+    ...mapState(['userList'])
   },
 
   mounted() {

@@ -11,5 +11,7 @@ export const REGISTER_USER_ID = 'REGISTER_USER_ID';
 export const SELECT_USER_ID = 'SELECT_USER_ID';
 export const LOGOUT_USER = 'LOGOUT_USER';
 
+export const FETCH_USERS = 'FETCH_USERS';
+
 export const PUSH_HEADER = 'PUSH_HEADER';
 export const POP_HEADER = 'POP_HEADER';

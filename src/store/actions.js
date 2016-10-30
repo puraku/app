@@ -2,11 +2,22 @@ import * as types from './mutation-types';
 import { getPlurks } from 'api/timeline';
 import { getMe } from 'api/users';
 
-export const fetchTimelinePlurks = ({ commit }) => {
+export const fetchTimelinePlurks = ({ state, commit }) => {
   getPlurks().then(({ plurk_users, plurks }) => {
     commit({
       type: types.FETCH_PLURKS,
       plurks
+    });
+
+    commit({
+      type: types.PREPEND_TIMELINE,
+      plurkIds: plurks.map(plurk => plurk.plurk_id),
+      userID: state.selectedUserId
+    });
+
+    commit({
+      type: types.FETCH_USERS,
+      users: plurk_users
     });
   });
 };

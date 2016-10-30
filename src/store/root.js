@@ -10,7 +10,11 @@ const state = {
 
   // [userid, userid]
   loginUserIds: [],
-  selectedUserId: null
+  selectedUserId: null,
+
+
+  // { [user.id]: user }
+  userList: {}
 };
 
 const mutations = {
@@ -30,6 +34,10 @@ const mutations = {
 
   [types.SELECT_USER_ID] (state, { userID }) {
     state.selectedUserId = userID;
+  },
+
+  [types.FETCH_USERS] (state, { users }) {
+    state.userList = { ...state.userList, ...users };
   }
 };
 
