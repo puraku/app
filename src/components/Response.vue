@@ -19,6 +19,7 @@ import Qualifier from 'components/Qualifier.vue';
 
 import { getPublicProfile } from 'api/profile';
 import { avatarURL } from 'helpers/userHelper';
+import { registerContentEvent } from 'helpers/plurkHelper';
 
 export default {
   name: 'Response',
@@ -61,6 +62,14 @@ export default {
     goToAbout() {
       this.$router.push(`/about/${this.response.user_id}`);
     }
+  },
+
+  mounted() {
+    registerContentEvent(this.$el);
+  },
+
+  updated() {
+    registerContentEvent(this.$el);
   },
 
   data() {
