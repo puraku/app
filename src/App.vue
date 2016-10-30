@@ -51,9 +51,10 @@ export default {
 #header {
   width: 100%;
   height: 45px;
-  color: white;
+  color: #e1e4ea;
   background-color: #1a2733;
   text-align: center;
+  font-size: 0.9em;
 
   display: flex;
   flex-direction: column;
