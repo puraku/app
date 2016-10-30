@@ -3,7 +3,7 @@
     <div class="posted-date" v-if="plurk.showPostedDate">
       {{ postedDate }}
     </div>
-    <div class="plurk-card"  @dblclick="goToDetail" v-if="plurk && user">
+    <div class="plurk-card" v-if="plurk && user">
       <div class="timestamp" v-if="showTimestamp" @click="goToDetail" >
         {{ timestamp }}
       </div>
@@ -19,7 +19,7 @@
         </div>
         <qualifier :qualifierKey="plurk.qualifier" :text="plurk.qualifier_translated"/>
       </div>
-      <div class="content" v-html="plurk.content" />
+      <div class="content" v-html="plurk.content" @click="goToDetail" />
       <div class="actions">
         <fa-icon iconName="heart" :style="faStyle" />
         <fa-icon iconName="refresh" :style="faStyle" />
