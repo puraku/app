@@ -1,5 +1,6 @@
 /* plurks mutations */
-export const PREPEND_TIMELINE_PLURKS = 'PREPEND_TIMELINE_PLURKS';
+export const FETCH_PLURKS = 'FETCH_PLURKS';
+export const PREPEND_TIMELINE = 'PREPEND_TIMELINE';
 export const POLL_PLURKS = 'POLL_PLURKS';
 export const UPDATE_PLURK = 'UPDATE_PLURK';
 export const REMOVE_PLURK = 'REMOVE_PLURK';
