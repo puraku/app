@@ -4,7 +4,6 @@
 
 <script>
 import PlurksContainer from 'components/PlurksContainer.vue';
-import { getPlurks } from 'api/timeline';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
@@ -16,7 +15,8 @@ export default {
 
   methods: {
     ...mapActions([
-      'fetchTimelinePlurks'
+      'fetchTimelinePlurks',
+      'changeHeader'
     ])
   },
 
@@ -28,6 +28,7 @@ export default {
 
   mounted() {
     this.fetchTimelinePlurks();
+    this.changeHeader('我的河道');
   }
 }
 </script>

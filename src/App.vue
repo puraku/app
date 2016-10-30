@@ -3,7 +3,7 @@
     <navigation-bar />
     <div class="container">
       <div id="header">
-        <p>我的河道</p>
+        <p>{{ header }}</p>
       </div>
       <router-view />
     </div>
@@ -12,7 +12,7 @@
 
 <script>
 import NavigationBar from './components/NavigationBar.vue';
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'app',
@@ -25,6 +25,12 @@ export default {
     ...mapActions([
       'fetchUserInfo'
     ])
+  },
+
+  computed: {
+    ...mapState({
+      header: state => state.navbarHeader
+    })
   },
 
   mounted() {

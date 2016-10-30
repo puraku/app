@@ -49,3 +49,10 @@ export const fetchUserInfo = ({ commit }) => {
     });
   });
 };
+
+export const changeHeader = ({ commit }, header) => {
+  commit({
+    type: types.CHANGE_HEADER,
+    header: header
+  });
+}

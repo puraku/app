@@ -6,6 +6,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 import Profile from 'components/Profile.vue';
 import PlurksContainer from 'components/PlurksContainer.vue';
 
@@ -21,11 +23,18 @@ export default {
     PlurksContainer
   },
 
+  methods: {
+    ...mapActions([
+      'changeHeader'
+    ])
+  },
+
   mounted() {
    const { user_id } = this.$route.params;
 
    getPublicProfile(user_id).then(data => {
      this.userData = data;
+     this.changeHeader(data.user_info.display_name);
    });
 
    getPublicPlurks(user_id).then(data => {

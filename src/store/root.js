@@ -14,7 +14,9 @@ const state = {
 
 
   // { [user.id]: user }
-  userList: {}
+  userList: {},
+
+  navbarHeader: ''
 };
 
 const mutations = {
@@ -38,6 +40,10 @@ const mutations = {
 
   [types.FETCH_USERS] (state, { users }) {
     state.userList = { ...state.userList, ...users };
+  },
+
+  [types.CHANGE_HEADER] (state, { header }) {
+    state.navbarHeader = header;
   }
 };
 

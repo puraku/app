@@ -13,5 +13,6 @@ export const LOGOUT_USER = 'LOGOUT_USER';
 
 export const FETCH_USERS = 'FETCH_USERS';
 
+export const CHANGE_HEADER = 'CHANGE_HEADER';
 export const PUSH_HEADER = 'PUSH_HEADER';
 export const POP_HEADER = 'POP_HEADER';
