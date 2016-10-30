@@ -10,6 +10,7 @@ import { mapActions, mapState } from 'vuex';
 
 import Profile from 'components/Profile.vue';
 import PlurksContainer from 'components/PlurksContainer.vue';
+import { postedDateTagger } from 'helpers/plurkHelper';
 
 export default {
   name: 'About',
@@ -36,7 +37,7 @@ export default {
     },
 
     plurks() {
-      return this.userPlurks[this.userID] && this.userPlurks[this.userID].map(id => this.plurksObject[id]) || [];
+      return this.userPlurks[this.userID] && postedDateTagger(this.userPlurks[this.userID].map(id => this.plurksObject[id])) || [];
     },
 
     ...mapState({
