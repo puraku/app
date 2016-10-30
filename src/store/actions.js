@@ -33,7 +33,7 @@ export const fetchTimelinePlurks = ({ state, commit }) => {
 };
 
 export const fetchPlurk = ({ commit }, plurkID) => {
-  getPlurk(plurkID).then(({ plurk, user, plurk_users }) => {
+  getPlurk(plurkID).then(({ plurk, user, plurk_users: users }) => {
     commit({
       type: types.FETCH_PLURKS,
       plurks: [plurk]
@@ -41,7 +41,7 @@ export const fetchPlurk = ({ commit }, plurkID) => {
 
     commit({
       type: types.FETCH_USERS,
-      users: { ...plurk_users, [user.id]: user }
+      users: { ...users, [user.id]: user }
     });
   });
 };
