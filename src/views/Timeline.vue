@@ -1,10 +1,10 @@
 <template>
-  <plurks-container :plurks="plurks" :userList="userList" />
+  <plurks-container :plurks="plurks" />
 </template>
 
 <script>
 import PlurksContainer from 'components/PlurksContainer.vue';
-import { getPlurks } from 'api/timeline';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'Timeline',
@@ -13,18 +13,22 @@ export default {
     PlurksContainer
   },
 
-  data() {
-    return {
-      plurks: [],
-      userList: null
-    }
+  methods: {
+    ...mapActions([
+      'fetchTimelinePlurks',
+      'changeHeader'
+    ])
+  },
+
+  computed: {
+    ...mapGetters({
+      plurks: 'currentUserTimeline'
+    })
   },
 
   mounted() {
-    getPlurks().then(({plurk_users, plurks}) => {
-      this.userList = plurk_users;
-      this.plurks = plurks;
-    });
+    this.fetchTimelinePlurks();
+    this.changeHeader('我的河道');
   }
 }
 </script>

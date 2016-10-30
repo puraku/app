@@ -1,16 +1,15 @@
 <template>
   <div class="about-container">
-    <profile :userData="userData" v-if="userData" />
-    <plurks-container :plurks="plurks" :userList="userList" />
+    <profile :user="user" v-if="user" />
+    <plurks-container :plurks="plurks" />
   </div>
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex';
+
 import Profile from 'components/Profile.vue';
 import PlurksContainer from 'components/PlurksContainer.vue';
-
-import { getPublicProfile } from 'api/profile';
-import { getPublicPlurks } from 'api/timeline';
 import { postedDateTagger } from 'helpers/plurkHelper';
 
 export default {
@@ -21,17 +20,35 @@ export default {
     PlurksContainer
   },
 
+  methods: {
+    ...mapActions([
+      'changeHeader',
+      'fetchUserProfile'
+    ])
+  },
+
+  computed: {
+    userID() {
+      return this.$route.params.user_id;
+    },
+
+    user() {
+      return this.userList[this.userID];
+    },
+
+    plurks() {
+      return this.userPlurks[this.userID] && postedDateTagger(this.userPlurks[this.userID].map(id => this.plurksObject[id])) || [];
+    },
+
+    ...mapState({
+      userList: state => state.userList,
+      plurksObject: state => state.plurks.plurks,
+      userPlurks: state => state.plurks.userPlurks
+    })
+  },
+
   mounted() {
-   const { user_id } = this.$route.params;
-
-   getPublicProfile(user_id).then(data => {
-     this.userData = data;
-   });
-
-   getPublicPlurks(user_id).then(data => {
-     this.userList = data.plurk_users;
-     this.plurks = data.plurks;
-   });
+   this.fetchUserProfile(this.userID);
   },
 
   data() {

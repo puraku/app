@@ -4,6 +4,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { webFrame } from 'electron';
 
+import store from './store';
+
 import App from './App.vue';
 import Timeline from 'views/Timeline.vue';
 import PlurkDetail from 'views/PlurkDetail.vue';
@@ -30,6 +32,7 @@ const router = new VueRouter({
 });
 
 new Vue({
+  el: '#app',
   router,
-  el: '#app'
+  store
 });

@@ -5,8 +5,8 @@
     </a>
 
     <fa-icon iconName="arrow-left" :style="faStyle" :iconStyle="iconStyle" :click="goBack" />
-    <fa-icon iconName="home" :style="faStyle" :iconStyle="iconStyle" :click="goHome" />
-    <fa-icon iconName="user" :style="faStyle" :iconStyle="iconStyle" :click="goAbout" />
+    <fa-icon iconName="home" :style="faStyle" :iconStyle="iconStyle" :click="goHome" :highlighted="routeHome" :highlightedStyle="highlightedStyle" />
+    <fa-icon iconName="user" :style="faStyle" :iconStyle="iconStyle" :click="goAbout" :highlighted="routeProfile" :highlightedStyle="highlightedStyle" />
     <fa-icon iconName="inbox" :style="faStyle" :iconStyle="iconStyle" />
     <fa-icon iconName="heart" :style="faStyle" :iconStyle="iconStyle" />
 
@@ -14,10 +14,10 @@
 </template>
 
 <script>
-import FaIcon from 'components/FaIcon.vue';
+import { mapGetters } from 'vuex';
 
+import FaIcon from 'components/FaIcon.vue';
 import { avatarURL } from 'helpers/userHelper';
-import { getMe } from 'api/users';
 
 export default {
   name: 'NavigationBar',
@@ -43,19 +43,23 @@ export default {
   computed: {
     avatarURL() {
       return avatarURL(this.user);
-    }
-  },
+    },
 
-  mounted() {
-    getMe().then(data => {
-      this.user = data;
-    });
+    routeHome() {
+      return this.$route.path === '/';
+    },
+
+    routeProfile() {
+      return this.user && this.$route.path === `/about/${this.user.id}`;
+    },
+
+    ...mapGetters({
+      user: 'currentUser'
+    })
   },
 
   data() {
     return {
-      user: null,
-
       faStyle: {
         width: '1.5em',
         margin: '0 auto',
@@ -63,9 +67,14 @@ export default {
       },
 
       iconStyle: {
+        color: '#8899a6',
         fontSize: '1.5em',
         cursor: 'pointer',
         margin: '.7em 0'
+      },
+
+      highlightedStyle: {
+        color: '#f6882d'
       }
     };
   }
@@ -78,7 +87,7 @@ export default {
   padding-top: 3em;
   min-width: 75px;
   max-width: 75px;
-  color: #f6882d;
+
   background-color: #26323f;
 
   -webkit-app-region: drag;
@@ -97,5 +106,4 @@ export default {
     }
   }
 }
-
 </style>
