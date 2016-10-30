@@ -55,6 +55,9 @@ export default {
   background-color: #1a2733;
   text-align: center;
 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   z-index: 9999;
 
   -webkit-app-region: drag;
