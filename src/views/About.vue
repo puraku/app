@@ -51,11 +51,45 @@ export default {
    this.fetchUserProfile(this.userID);
   },
 
+  updated() {
+    const plurksContainer = this.$el.querySelector('.plurks-container');
+    const profile = this.$el.querySelector('.profile');
+
+    if (plurksContainer && profile) {
+      let self = this;
+      const handleWhell = function (e) {
+        e.preventDefault();
+
+        let deltaY = e.deltaY;
+        // smoothing
+        if (self.scrollLength + deltaY < 0) {
+          self.scrollLength = 0;
+        } else if (self.scrollLength + deltaY > plurksContainer.scrollHeight) {
+          self.scrollLength = plurksContainer.scrollHeight;
+        } else {
+          self.scrollLength += deltaY;
+        }
+
+        if (self.scrollLength < profile.offsetHeight) {
+          this.scrollTop = 0;
+        } else {
+          this.scrollTop = self.scrollLength - profile.offsetHeight;
+        }
+
+        console.log(`deltaY: ${deltaY}, scrollLength: ${self.scrollLength}, scrollTop: ${this.scrollTop}`);
+      }
+
+      plurksContainer.removeEventListener('mousewheel', handleWhell);
+      plurksContainer.addEventListener('mousewheel', handleWhell);
+    }
+  },
+
   data() {
     return {
       userList: null,
       plurks: [],
-      userData: null
+      userData: null,
+      scrollLength: 0
     };
   }
 }
