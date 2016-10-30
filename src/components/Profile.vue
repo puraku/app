@@ -1,5 +1,5 @@
 <template>
-  <div class="profile" v-if="user" :style="style">
+  <div class="profile" v-if="user">
     <div class="profile-background" :style="profileStyles" />
     <div class="profile-container">
       <div class="avatar">
@@ -33,22 +33,10 @@ export default {
     user: {
       type: Object,
       default: null
-    },
-
-    scaleHeight: {
-      type: Number,
-      default: 0
     }
   },
 
   computed: {
-    style() {
-      const op = this.scaleHeight < 0 ? '-' : '+';
-      return {
-        height: `calc(14em ${op} ${Math.abs(this.scaleHeight)}px)`
-      };
-    },
-
     avatarURL() {
       return avatarURL(this.user, 'big');
     },
@@ -68,6 +56,9 @@ export default {
   flex-direction: column;
   position: relative;
   z-index: 10;
+  max-height: 14em;
+  height: 14em;
+  min-height: 3em;
 
   // TODO: the color magic
   color: black;
