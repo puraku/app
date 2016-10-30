@@ -55,6 +55,7 @@ export default {
   position: relative;
   padding: 1.2em 1em;
   min-height: 10em;
+  z-index: 10;
 
   // TODO: the color magic
   color: black;
