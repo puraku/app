@@ -70,7 +70,7 @@ export default {
         color: '#8899a6',
         fontSize: '1.5em',
         cursor: 'pointer',
-        margin: '.7em 0'
+        margin: '.5em 0'
       },
 
       highlightedStyle: {
