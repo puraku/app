@@ -1,7 +1,11 @@
 <template>
   <div class="about-container">
     <profile :user="user" v-if="user" />
-    <plurks-container :plurks="plurks" />
+    <plurks-container
+      :plurks="plurks"
+      :timelineStyle="{top: 'auto', position: 'fixed'}"
+      :containerStyle="{position: 'absolute', zIndex: 10, marginTop: '14em', height: 'calc(100% - 15em)'}"
+    />
   </div>
 </template>
 
@@ -59,21 +63,23 @@ export default {
       let self = this;
       const handleWhell = function (e) {
         e.preventDefault();
-
         let deltaY = e.deltaY;
-        // smoothing
+        const originalHeight = profile.offsetHeight;
+
+        // prevent overscrolling
         if (self.scrollLength + deltaY < 0) {
           self.scrollLength = 0;
-        } else if (self.scrollLength + deltaY > plurksContainer.scrollHeight) {
+        } else if (self.scrollLength + deltaY > plurksContainer.scrollHeight + originalHeight) {
           self.scrollLength = plurksContainer.scrollHeight;
         } else {
           self.scrollLength += deltaY;
         }
 
-        if (self.scrollLength < profile.offsetHeight) {
+        // handle virtual scroll value
+        if (self.scrollLength < originalHeight) {
           this.scrollTop = 0;
         } else {
-          this.scrollTop = self.scrollLength - profile.offsetHeight;
+          this.scrollTop = self.scrollLength - originalHeight;
         }
 
         console.log(`deltaY: ${deltaY}, scrollLength: ${self.scrollLength}, scrollTop: ${this.scrollTop}`);

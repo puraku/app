@@ -2,7 +2,7 @@
   <div id="main-container">
     <navigation-bar />
     <div class="container">
-      <div id="header">
+      <div id="header" v-if="hideHead">
         <p>{{ header }}</p>
       </div>
       <router-view />
@@ -28,6 +28,10 @@ export default {
   },
 
   computed: {
+    hideHead() {
+      return !this.$route.path.includes('/about/');
+    },
+
     ...mapState({
       header: state => state.navbarHeader
     })
