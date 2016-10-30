@@ -5,7 +5,10 @@ const state = {
   plurks: {},
 
   // { [user_id]: [plurk_id, plurk_id] }
-  timeline: {}
+  timeline: {},
+
+  // { [other_user_id]: [plurk_id, plurk_id] }
+  userPlurks: {}
 };
 
 const mutations = {
@@ -21,6 +24,17 @@ const mutations = {
     const currentPlurkIds = state.timeline[userID] || [];
     state.timeline = {
       ...state.timeline,
+      [userID]: [
+        ...plurkIds,
+        ...currentPlurkIds
+      ]
+    };
+  },
+
+  [types.PREPEND_USER_PLURKS] (state, { plurkIds, userID }) {
+    const currentPlurkIds = state.userPlurks[userID] || [];
+    state.userPlurks = {
+      ...state.userPlurks,
       [userID]: [
         ...plurkIds,
         ...currentPlurkIds

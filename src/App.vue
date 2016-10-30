@@ -23,7 +23,7 @@ export default {
 
   methods: {
     ...mapActions([
-      'fetchUserInfo'
+      'loadUser'
     ])
   },
 
@@ -34,7 +34,7 @@ export default {
   },
 
   mounted() {
-    this.fetchUserInfo();
+    this.loadUser();
   }
 }
 </script>

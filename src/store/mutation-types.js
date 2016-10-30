@@ -4,6 +4,10 @@ export const PREPEND_TIMELINE = 'PREPEND_TIMELINE';
 export const POLL_PLURKS = 'POLL_PLURKS';
 export const UPDATE_PLURK = 'UPDATE_PLURK';
 export const REMOVE_PLURK = 'REMOVE_PLURK';
+export const PREPEND_USER_PLURKS = 'PREPEND_USER_PLURKS';
+
+/* profile mutations */
+export const FETCH_USER_DATA = 'FETCH_USER_DATA';
 
 /* root state mutations */
 export const LOGIN_USER = 'LOGIN_USER';

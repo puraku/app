@@ -1,5 +1,5 @@
 <template>
-  <div class="profile" v-if="userData" >
+  <div class="profile" v-if="user" >
     <div class="profile-background" :style="profileStyles" />
     <div class="avatar">
       <img :src="avatarURL" alt="avatar">
@@ -28,17 +28,13 @@ export default {
   name: 'Profile',
 
   props: {
-    userData: {
+    user: {
       type: Object,
       default: null
     }
   },
 
   computed: {
-    user() {
-      return this.userData.user_info;
-    },
-
     avatarURL() {
       return avatarURL(this.user, 'big');
     },

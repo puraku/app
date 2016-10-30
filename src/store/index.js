@@ -5,6 +5,7 @@ import * as actions from './actions';
 import * as getters from './getters';
 
 import plurks from './modules/plurks';
+import profile from './modules/profile';
 
 // root state and mutations
 import root from './root';
@@ -17,7 +18,8 @@ export default new Vuex.Store({
   actions,
   getters,
   modules: {
-    plurks
+    plurks,
+    profile
   },
   strict: debug,
   ...root

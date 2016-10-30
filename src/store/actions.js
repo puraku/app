@@ -1,5 +1,6 @@
 import * as types from './mutation-types';
 import { getPlurks } from 'api/timeline';
+import { getPublicProfile } from 'api/profile';
 import { getMe } from 'api/users';
 
 export const fetchTimelinePlurks = ({ state, commit }) => {
@@ -30,7 +31,7 @@ export const fetchTimelinePlurks = ({ state, commit }) => {
   });
 };
 
-export const fetchUserInfo = ({ commit }) => {
+export const loadUser = ({ commit }) => {
   getMe().then(user => {
     commit({
       type: types.LOGIN_USER,
@@ -55,4 +56,43 @@ export const changeHeader = ({ commit }, header) => {
     type: types.CHANGE_HEADER,
     header: header
   });
-}
+};
+
+export const fetchUserProfile = ({ state, commit }, userID) => {
+  getPublicProfile(userID).then(({ plurks, user_info, ...data }) => {
+    commit({
+      type: types.FETCH_USER_DATA,
+      data
+    });
+
+    commit({
+      type: types.FETCH_PLURKS,
+      plurks
+    });
+
+    const currentPlurkIds = state.plurks.userPlurks[userID];
+    let prependIds = plurks.map(plurk => plurk.plurk_id);
+    if (typeof currentPlurkIds !== 'undefined') {
+      prependIds = prependIds.filter(id => {
+        return currentPlurkIds.indexOf(id) === -1;
+      });
+    }
+    commit({
+      type: types.PREPEND_USER_PLURKS,
+      plurkIds: prependIds,
+      userID
+    });
+
+    commit({
+      type: types.FETCH_USERS,
+      users: {
+        [userID]: user_info
+      }
+    });
+
+    commit({
+      type: types.CHANGE_HEADER,
+      header: user_info.display_name || user_info.nick_name
+    });
+  });
+};
