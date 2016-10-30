@@ -12,12 +12,23 @@
 
 <script>
 import NavigationBar from './components/NavigationBar.vue';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'app',
 
   components: {
     NavigationBar
+  },
+
+  methods: {
+    ...mapActions([
+      'fetchUserInfo'
+    ])
+  },
+
+  mounted() {
+    this.fetchUserInfo();
   }
 }
 </script>

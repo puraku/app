@@ -14,10 +14,10 @@
 </template>
 
 <script>
-import FaIcon from 'components/FaIcon.vue';
+import { mapGetters } from 'vuex';
 
+import FaIcon from 'components/FaIcon.vue';
 import { avatarURL } from 'helpers/userHelper';
-import { getMe } from 'api/users';
 
 export default {
   name: 'NavigationBar',
@@ -43,19 +43,15 @@ export default {
   computed: {
     avatarURL() {
       return avatarURL(this.user);
-    }
-  },
+    },
 
-  mounted() {
-    getMe().then(data => {
-      this.user = data;
-    });
+    ...mapGetters({
+      user: 'currentUser'
+    })
   },
 
   data() {
     return {
-      user: null,
-
       faStyle: {
         width: '1.5em',
         margin: '0 auto',
@@ -97,5 +93,4 @@ export default {
     }
   }
 }
-
 </style>

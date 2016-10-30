@@ -6,7 +6,9 @@ export const UPDATE_PLURK = 'UPDATE_PLURK';
 export const REMOVE_PLURK = 'REMOVE_PLURK';
 
 /* root state mutations */
-export const LOGIN_AS = 'LOGIN_AS';
+export const LOGIN_USER = 'LOGIN_USER';
+export const REGISTER_USER_ID = 'REGISTER_USER_ID';
+export const SELECT_USER_ID = 'SELECT_USER_ID';
 export const LOGOUT_USER = 'LOGOUT_USER';
 
 export const PUSH_HEADER = 'PUSH_HEADER';
