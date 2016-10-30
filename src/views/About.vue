@@ -3,8 +3,7 @@
     <profile :user="user" v-if="user" />
     <plurks-container
       :plurks="plurks"
-      :timelineStyle="{top: 'auto', position: 'fixed'}"
-      :containerStyle="{position: 'absolute', zIndex: 10, marginTop: '14em', height: 'calc(100% - 15em)'}"
+      :containerStyle="{zIndex: 10}"
     />
   </div>
 </template>
@@ -58,13 +57,16 @@ export default {
   updated() {
     const plurksContainer = this.$el.querySelector('.plurks-container');
     const profile = this.$el.querySelector('.profile');
+    const originalHeight = profile.offsetHeight;
 
     if (plurksContainer && profile) {
       let self = this;
+
       const handleWhell = function (e) {
         e.preventDefault();
+
         let deltaY = e.deltaY;
-        const originalHeight = profile.offsetHeight;
+        const preserveHeight = 48;
 
         // prevent overscrolling
         if (self.scrollLength + deltaY < 0) {
@@ -82,7 +84,10 @@ export default {
           this.scrollTop = self.scrollLength - originalHeight;
         }
 
-        console.log(`deltaY: ${deltaY}, scrollLength: ${self.scrollLength}, scrollTop: ${this.scrollTop}`);
+        let op = self.scrollLength > 0 ? '-' : '+';
+        profile.style.height = `calc(14em ${op} ${Math.abs(self.scrollLength)}px)`;
+
+        // console.log(`deltaY: ${deltaY}, scrollLength: ${self.scrollLength}, scrollTop: ${this.scrollTop}, originalHeight: ${originalHeight}`);
       }
 
       plurksContainer.removeEventListener('mousewheel', handleWhell);
