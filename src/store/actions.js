@@ -9,9 +9,17 @@ export const fetchTimelinePlurks = ({ state, commit }) => {
       plurks
     });
 
+    const currentPlurkIds = state.plurks.timeline[state.selectedUserId];
+    let prependIds = plurks.map(plurk => plurk.plurk_id);
+    if (typeof currentPlurkIds !== 'undefined') {
+      prependIds = prependIds.filter(id => {
+        return currentPlurkIds.indexOf(id) === -1;
+      });
+    }
+
     commit({
       type: types.PREPEND_TIMELINE,
-      plurkIds: plurks.map(plurk => plurk.plurk_id),
+      plurkIds: prependIds,
       userID: state.selectedUserId
     });
 
