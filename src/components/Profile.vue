@@ -72,6 +72,7 @@ export default {
     height: 100%;
     top: 0;
     left: 0;
+    -webkit-app-region: drag;
 
     // TODO: the color magic
     filter: blur(18px) drop-shadow(5px 10px black);
