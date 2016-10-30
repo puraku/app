@@ -8,7 +8,13 @@ const state = {
   timeline: {},
 
   // { [other_user_id]: [plurk_id, plurk_id] }
-  userPlurks: {}
+  userPlurks: {},
+
+  // { [response_id]: ResponseObject }
+  responses: {},
+
+  // { [plurk_id]: [ response_id, response_id ] }
+  plurkResponses: {}
 };
 
 const mutations = {
@@ -38,6 +44,25 @@ const mutations = {
       [userID]: [
         ...plurkIds,
         ...currentPlurkIds
+      ]
+    };
+  },
+
+  [types.ADD_RESPONSES] (state, { responses }) {
+    state.responses = {
+      ...state.responses,
+      ...responses.reduce((prev, cur) => {
+        return { ...prev, [cur.id]: cur };
+      }, {})
+    };
+  },
+
+  [types.ADD_PLURK_RESPONSES] (state, { responseIds, plurkId }) {
+    const currentResponseIds = state.plurkResponses[plurkId] || [];
+    state.plurkResponses = {
+      [plurkId]: [
+        ...currentResponseIds,
+        ...responseIds
       ]
     };
   }

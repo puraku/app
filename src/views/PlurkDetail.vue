@@ -1,13 +1,15 @@
 <template>
   <div id="detail-container">
-    <plurk-card :plurk="plurk" v-if="plurk" :userList="userList" :displayTimestamp="displayTimestamp"/>
+    <plurk-card :plurk="plurk" v-if="plurk" :displayTimestamp="displayTimestamp"/>
     <div class="responses-container">
-      <response v-for="response in responses" :response="response" :userList="userList" />
+      <response v-for="response in responses" :response="response" v-if="response" />
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex';
+
 import PlurkCard from 'components/PlurkCard.vue';
 import Response from 'components/Response.vue';
 
@@ -22,26 +24,38 @@ export default {
     Response
   },
 
-  mounted() {
-    const { plurk_id } = this.$route.params;
+  methods: {
+    ...mapActions(['fetchPlurk', 'fetchPlurkResponses'])
+  },
 
-    getPlurk(plurk_id).then(data => {
-      this.plurk = data.plurk;
-      this.userList = { [data.user.id]: data.user };
+  computed: {
+    plurkId() {
+      return this.$route.params.plurk_id;
+    },
+
+    plurk() {
+      return this.plurkData[this.plurkId];
+    },
+
+    responses() {
+      return this.plurkResponses[this.plurkId] && this.plurkResponses[this.plurkId].map(id => this.responsesData[id]) || [];
+    },
+
+    ...mapState({
+      plurkData: state => state.plurks.plurks,
+      responsesData: state => state.plurks.responses,
+      plurkResponses: state => state.plurks.plurkResponses
     })
+  },
 
-    getResponses(plurk_id).then(data => {
-      this.userList = {...this.userList, ...data.friends};
-      this.responses = data.responses;
-    });
+  mounted() {
+    this.fetchPlurk(this.plurkId);
+    this.fetchPlurkResponses(this.plurkId);
   },
 
   data() {
     return {
-      plurk: null,
-      displayTimestamp: false,
-      userList: null,
-      responses: []
+      displayTimestamp: false
     };
   }
 }

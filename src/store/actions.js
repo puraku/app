@@ -1,5 +1,6 @@
 import * as types from './mutation-types';
-import { getPlurks } from 'api/timeline';
+import { getPlurks, getPlurk } from 'api/timeline';
+import { getResponses } from 'api/responses';
 import { getPublicProfile } from 'api/profile';
 import { getMe } from 'api/users';
 
@@ -27,6 +28,47 @@ export const fetchTimelinePlurks = ({ state, commit }) => {
     commit({
       type: types.FETCH_USERS,
       users: plurk_users
+    });
+  });
+};
+
+export const fetchPlurk = ({ commit }, plurkID) => {
+  getPlurk(plurkID).then(({ plurk, user, plurk_users }) => {
+    commit({
+      type: types.FETCH_PLURKS,
+      plurks: [plurk]
+    });
+
+    commit({
+      type: types.FETCH_USERS,
+      users: { ...plurk_users, [user.id]: user }
+    });
+  });
+};
+
+export const fetchPlurkResponses = ({ state, commit }, plurkId) => {
+  getResponses(plurkId).then(({ friends: users, response_count, responses_seen, responses }) => {
+    commit({
+      type: types.ADD_RESPONSES,
+      responses
+    });
+
+    const currentResponseIds = state.plurks.plurkResponses[plurkId];
+    let appendIds = responses.map(response => response.id);
+    if (typeof currentResponseIds !== 'undefined') {
+      appendIds = appendIds.filter(id => {
+        return currentResponseIds.indexOf(id) === -1;
+      });
+    }
+    commit({
+      type: types.ADD_PLURK_RESPONSES,
+      responseIds: appendIds,
+      plurkId
+    });
+
+    commit({
+      type: types.FETCH_USERS,
+      users
     });
   });
 };

@@ -17,6 +17,8 @@
 <script>
 import Qualifier from 'components/Qualifier.vue';
 
+import { mapState } from 'vuex';
+
 import { getPublicProfile } from 'api/profile';
 import { avatarURL } from 'helpers/userHelper';
 import { registerContentEvent } from 'helpers/plurkHelper';
@@ -30,11 +32,6 @@ export default {
 
   props: {
     response: {
-      type: Object,
-      default: null
-    },
-
-    userList: {
       type: Object,
       default: null
     }
@@ -55,7 +52,9 @@ export default {
 
     username() {
       return this.user && (this.user.display_name || this.user.nick_name);
-    }
+    },
+
+    ...mapState(['userList'])
   },
 
   methods: {
@@ -70,11 +69,6 @@ export default {
 
   updated() {
     registerContentEvent(this.$el);
-  },
-
-  data() {
-    return {
-    };
   }
 }
 </script>

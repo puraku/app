@@ -6,6 +6,9 @@ export const UPDATE_PLURK = 'UPDATE_PLURK';
 export const REMOVE_PLURK = 'REMOVE_PLURK';
 export const PREPEND_USER_PLURKS = 'PREPEND_USER_PLURKS';
 
+export const ADD_RESPONSES = 'ADD_RESPONSES';
+export const ADD_PLURK_RESPONSES = 'ADD_PLURK_RESPONSES';
+
 /* profile mutations */
 export const FETCH_USER_DATA = 'FETCH_USER_DATA';
 
