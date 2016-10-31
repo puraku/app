@@ -13,7 +13,7 @@ import { mapActions, mapState } from 'vuex';
 
 import Profile from 'components/Profile.vue';
 import PlurksContainer from 'components/PlurksContainer.vue';
-import { postedDateTagger } from 'helpers/plurkHelper';
+import { postedDateTagger, mouseWheelHandler } from 'helpers/plurkHelper';
 
 export default {
   name: 'About',
@@ -55,63 +55,24 @@ export default {
   },
 
   updated() {
-    const plurksContainer = this.$el.querySelector('.plurks-container');
-    const profile = this.$el.querySelector('.profile');
-    const originalHeight = profile.offsetHeight;
-
-    if (plurksContainer && profile) {
+    if (!this.handleWheelAdded) {
+      const plurksContainer = this.$el.querySelector('.plurks-container');
+      const profile = this.$el.querySelector('.profile');
+      const originalHeight = profile.offsetHeight;
       let self = this;
 
-      const handleWhell = function (e) {
-        e.preventDefault();
-
-        let deltaY = e.deltaY;
-        const preserveHeight = 48;
-        const maxNameTranslate = 82;
-        const maxContentTranslate = 60;
-
-        let contentMoved;
-        let nameMoved;
-
-        // prevent overscrolling
-        if (self.scrollLength + deltaY < 0) {
-          self.scrollLength = 0;
-        } else if (self.scrollLength + deltaY > plurksContainer.scrollHeight + originalHeight) {
-          self.scrollLength = plurksContainer.scrollHeight;
-        } else {
-          self.scrollLength += deltaY;
-        }
-
-        // handle virtual scroll value
-        if (self.scrollLength < originalHeight) {
-          nameMoved = self.scrollLength / originalHeight * maxNameTranslate;
-          contentMoved = self.scrollLength / originalHeight * maxContentTranslate;
-
-          this.scrollTop = 0;
-        } else {
-          nameMoved = maxNameTranslate;
-          contentMoved = maxContentTranslate;
-          this.scrollTop = self.scrollLength - originalHeight;
-        }
-
-        let op = self.scrollLength > 0 ? '-' : '+';
-        profile.style.height = `calc(14em ${op} ${Math.abs(self.scrollLength)}px)`;
-
-        profile.querySelector('.display-name').style.transform = `translateY(-${nameMoved}px)`;
-
-        profile.querySelector('.avatar').style.transform = `translateY(-${contentMoved}px)`;
-        profile.querySelector('.nickname').style.transform = `translateY(-${contentMoved}px)`;
-
-        const opacityPercentage = contentMoved / maxContentTranslate * 100;
-        profile.querySelector('.avatar img').style.filter = `opacity(${100 - opacityPercentage}%)`;
-        profile.querySelector('.nickname').style.filter = `opacity(${100 - opacityPercentage}%)`;
-
-        // console.log(`deltaY: ${deltaY}, scrollLength: ${self.scrollLength}, scrollTop: ${this.scrollTop}, originalHeight: ${originalHeight}`);
+      if (plurksContainer && profile) {
+        this.handleWheel = mouseWheelHandler({ plurksContainer, profile, originalHeight, self });
+        plurksContainer.addEventListener('mousewheel', this.handleWheel);
+        this.handleWheelAdded = true;
       }
-
-      plurksContainer.removeEventListener('mousewheel', handleWhell);
-      plurksContainer.addEventListener('mousewheel', handleWhell);
     }
+  },
+
+  beforeDestroy() {
+    const plurksContainer = this.$el.querySelector('.plurks-container');
+
+    plurksContainer.removeEventListener('mousewheel', this.handleWheel);
   },
 
   data() {
@@ -119,7 +80,9 @@ export default {
       userList: null,
       plurks: [],
       userData: null,
-      scrollLength: 0
+      scrollLength: 0,
+      handleWheel: () => {},
+      handleWheelAdded: false
     };
   }
 }
