@@ -29,6 +29,19 @@ export const fetchTimelinePlurks = ({ state, commit }) => {
       type: types.FETCH_USERS,
       users: plurk_users
     });
+
+    plurks.map(plurk => {
+      if (plurk.replurker_id) {
+        getPublicProfile(plurk.owner_id).then(({ plurks, user_info, ...data }) => {
+          commit({
+            type: types.FETCH_USERS,
+            users: {
+              [plurk.owner_id]: user_info
+            }
+          });
+        });
+      }
+    });
   });
 };
 
@@ -110,6 +123,19 @@ export const fetchUserProfile = ({ state, commit }, userID) => {
     commit({
       type: types.FETCH_PLURKS,
       plurks
+    });
+
+    plurks.map(plurk => {
+      if (plurk.replurker_id) {
+        getPublicProfile(plurk.owner_id).then(({ plurks, user_info, ...data }) => {
+          commit({
+            type: types.FETCH_USERS,
+            users: {
+              [plurk.owner_id]: user_info
+            }
+          });
+        });
+      }
     });
 
     const currentPlurkIds = state.plurks.userPlurks[userID];

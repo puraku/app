@@ -7,23 +7,34 @@
       <div class="timestamp" v-if="showTimestamp" @click="goToDetail" >
         {{ timestamp }}
       </div>
-      <div class="reply-count" v-if="plurk.response_count > 0" :class="{unread: isUnread}" @click="goToDetail" >
-        {{ plurk.response_count }}
-      </div>
-      <div class="profile">
-        <a class="avatar" @click="goToAbout">
-          <img :src="avatarURL" alt="avatar">
-        </a>
-        <div class="name" @click="goToAbout">
-          {{ user.display_name }}
+      <div class="replurker-card" v-if="plurk && replurker">
+        <div class="replurker-name">
+          {{ replurker.display_name }}
         </div>
-        <qualifier :qualifierKey="plurk.qualifier" :text="plurk.qualifier_translated"/>
+        <div class="replurk-icon">
+          <fa-icon iconName="refresh" :style="replurkStyle" />
+          轉噗
+        </div>
       </div>
-      <div class="content" v-html="plurk.content" @click="goToDetail" />
-      <div class="actions">
-        <fa-icon iconName="heart" :style="faStyle" />
-        <fa-icon iconName="refresh" :style="faStyle" />
-        <fa-icon iconName="volume-off" :style="faStyle" />
+      <div class="plurk-content">
+        <div class="reply-count" v-if="plurk.response_count > 0" :class="{unread: isUnread}" @click="goToDetail" >
+          {{ plurk.response_count }}
+        </div>
+        <div class="profile">
+          <a class="avatar" @click="goToAbout">
+            <img :src="avatarURL" alt="avatar">
+          </a>
+          <div class="name" @click="goToAbout">
+            {{ user.display_name }}
+          </div>
+          <qualifier :qualifierKey="plurk.qualifier" :text="plurk.qualifier_translated"/>
+        </div>
+        <div class="content" v-html="plurk.content" @click="goToDetail" />
+        <div class="actions">
+          <fa-icon iconName="heart" :style="faStyle" />
+          <fa-icon iconName="refresh" :style="faStyle" />
+          <fa-icon iconName="volume-off" :style="faStyle" />
+        </div>
       </div>
     </div>
   </div>
@@ -69,6 +80,11 @@ export default {
         color: '#c2c2c2',
         marginRight: '1em',
         cursor: 'pointer'
+      },
+
+      replurkStyle: {
+        marginRight: '.3em',
+        paddingTop: '.15em'
       }
     }
   },
@@ -117,6 +133,10 @@ export default {
       return this.userList[this.plurk.owner_id];
     },
 
+    replurker() {
+      return this.plurk.replurker_id && this.userList[this.plurk.replurker_id];
+    },
+
     ...mapState(['userList'])
   },
 
@@ -156,10 +176,8 @@ export default {
 
   .plurk-card {
     position: relative;
-    background-color: white;
     display: flex;
     flex-direction: column;
-    padding: .5em;
 
     .reply-count {
       position: absolute;
@@ -177,6 +195,32 @@ export default {
       &.unread {
         background-color: #ff002b;
       }
+    }
+
+    .replurker-card {
+      width: 100%;
+      height: 2em;
+      margin-bottom: 2px;
+      background-color: white;
+      display: flex;
+      font-size: 0.8em;
+      padding: .25em .5em;
+      box-sizing: border-box;
+
+      .replurk-icon {
+        display: flex;
+        color: white;
+        background: #008e12;
+        margin-left: .5em;
+        padding: 0 .5em;
+        border-radius: 5px;
+      }
+    }
+
+    .plurk-content {
+      padding: .5em;
+      background-color: white;
+
     }
 
     .timestamp {
