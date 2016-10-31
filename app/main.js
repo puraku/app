@@ -11,7 +11,6 @@ const plurkConfig = require('./config').plurk;
 
 let authWin, mainWin, puraku;
 
-
 protocol.registerStandardSchemes(['puraku']);
 
 function registerAuthFlow({oauthToken, oauthTokenSecret}) {
@@ -89,6 +88,14 @@ function initializeApp() {
     const { url, height, width } = args;
     const win = new BrowserWindow({ height, width });
     win.loadURL(url);
+  });
+
+  ipcMain.on('config:set', (event, { key, value }) => {
+    event.sender.send(`config:set:${key}`, config.set(key, value));
+  });
+
+  ipcMain.on('config:get', (event, { key }) => {
+    event.sender.send(`config:get:${key}`, config.get(key));
   });
 }
 

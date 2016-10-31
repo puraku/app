@@ -1,8 +1,8 @@
 <template>
   <div id="main-container">
     <navigation-bar />
-    <div class="container">
-      <div id="header" v-if="hideHead">
+    <div class="container" :class="{dark: isDarkTheme}">
+      <div id="header" v-if="hideHead" :class="{ dark: isDarkTheme }">
         <p>{{ header }}</p>
       </div>
       <router-view />
@@ -23,7 +23,8 @@ export default {
 
   methods: {
     ...mapActions([
-      'loadUser'
+      'loadUser',
+      'initializeApp'
     ])
   },
 
@@ -32,12 +33,18 @@ export default {
       return !this.$route.path.includes('/about/');
     },
 
+    isDarkTheme() {
+      return this.theme === 'dark';
+    },
+
     ...mapState({
-      header: state => state.navbarHeader
+      header: state => state.navbarHeader,
+      theme: state => state.appTheme
     })
   },
 
   mounted() {
+    this.initializeApp();
     this.loadUser();
   }
 }
@@ -50,13 +57,17 @@ export default {
   flex-grow: 1;
 
   background-color: #f7ede8;
+
+  &.dark {
+    background-color: #1a2733;
+  }
 }
 
 #header {
   width: 100%;
   height: 45px;
-  color: #e1e4ea;
-  background-color: #1a2733;
+  color: black;
+  background-color: #f1e4dd;
   text-align: center;
   font-size: 0.9em;
 
@@ -66,6 +77,11 @@ export default {
   z-index: 9999;
 
   -webkit-app-region: drag;
+
+  &.dark {
+    background-color: #1a2733;
+    color: #e1e4ea;
+  }
 }
 
 #main-container {

@@ -16,7 +16,9 @@ const state = {
   // { [user.id]: user }
   userList: {},
 
-  navbarHeader: ''
+  navbarHeader: '',
+
+  appTheme: 'light'
 };
 
 const mutations = {
@@ -44,6 +46,10 @@ const mutations = {
 
   [types.CHANGE_HEADER] (state, { header }) {
     state.navbarHeader = header;
+  },
+
+  [types.SET_THEME] (state, { theme }) {
+    state.appTheme = theme;
   }
 };
 

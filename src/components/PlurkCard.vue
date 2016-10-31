@@ -1,13 +1,13 @@
 <template>
   <div class="plurk-container">
-    <div class="posted-date" v-if="plurk.showPostedDate">
+    <div class="posted-date" v-if="plurk.showPostedDate" :class="{dark: isDarkTheme}">
       {{ postedDate }}
     </div>
     <div class="plurk-card" v-if="plurk && user">
-      <div class="timestamp" v-if="showTimestamp" @click="goToDetail" >
+      <div class="timestamp" v-if="showTimestamp" @click="goToDetail" :class="{dark: isDarkTheme}" >
         {{ timestamp }}
       </div>
-      <div class="replurker-card" v-if="plurk && replurker">
+      <div class="replurker-card" v-if="plurk && replurker" :class="{dark: isDarkTheme}">
         <div class="replurker-name">
           {{ replurker.display_name }}
         </div>
@@ -16,7 +16,7 @@
           轉噗
         </div>
       </div>
-      <div class="plurk-content">
+      <div class="plurk-content" :class="{dark: isDarkTheme}">
         <div class="reply-count" v-if="plurk.response_count > 0" :class="{unread: isUnread}" @click="goToDetail" >
           {{ plurk.response_count }}
         </div>
@@ -29,7 +29,7 @@
           </div>
           <qualifier :qualifierKey="plurk.qualifier" :text="plurk.qualifier_translated"/>
         </div>
-        <div class="content" v-html="plurk.content" @click="goToDetail" />
+        <div class="content" v-html="plurk.content" @click="goToDetail" :class="{dark: isDarkTheme}"/>
         <div class="actions">
           <fa-icon iconName="heart" :style="faStyle" />
           <fa-icon iconName="refresh" :style="faStyle" />
@@ -44,6 +44,7 @@
 import moment from 'moment';
 
 import { mapState } from 'vuex';
+import { themeConfigurable } from 'mixins';
 
 import { avatarURL } from 'helpers/userHelper';
 import { registerContentEvent, unregisterContentEvent } from 'helpers/plurkHelper';
@@ -53,6 +54,8 @@ import FaIcon from 'components/FaIcon.vue';
 
 export default {
   name: 'PlurkCard',
+
+  mixins: [themeConfigurable],
 
   components: {
     Qualifier,
@@ -137,7 +140,10 @@ export default {
       return this.plurk.replurker_id && this.userList[this.plurk.replurker_id];
     },
 
-    ...mapState(['userList'])
+    ...mapState({
+      userList: state => state.userList,
+      theme: state => state.appTheme
+    })
   },
 
   mounted() {
@@ -172,6 +178,11 @@ export default {
     background-color: white;
     overflow: hidden;
     border-radius: 7px;
+
+    &.dark {
+      color: #696969;
+      background-color: #f9f9f9;
+    }
   }
 
   .plurk-card {
@@ -208,6 +219,11 @@ export default {
       padding: .25em .5em;
       box-sizing: border-box;
 
+      &.dark {
+        background-color: #353c42;
+        color: #e8e8e8;
+      }
+
       .replurk-icon {
         display: flex;
         color: white;
@@ -222,6 +238,10 @@ export default {
       padding: .5em;
       background-color: white;
 
+      &.dark {
+        background-color: #353c42;
+        color: #e8e8e8;
+      }
     }
 
     .timestamp {
@@ -237,6 +257,10 @@ export default {
       border-radius: 5px;
       position: absolute;
       cursor: pointer;
+
+      &.dark {
+        color: #696969;
+      }
     }
 
     .profile {
@@ -281,6 +305,17 @@ export default {
 
         &:hover {
           text-decoration: underline;
+        }
+      }
+
+      &.dark {
+        a.ex_link.meta {
+          background-color: #353c42;
+          border-color: #1a2733;
+        }
+
+        a.ex_link {
+          color: #ffcc95;
         }
       }
 
