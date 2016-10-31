@@ -1,7 +1,7 @@
 <template>
   <div id="main-container">
     <navigation-bar />
-    <div class="container">
+    <div class="container" :class="{dark: isDarkTheme}">
       <div id="header" v-if="hideHead" :class="{ dark: isDarkTheme }">
         <p>{{ header }}</p>
       </div>
@@ -57,6 +57,10 @@ export default {
   flex-grow: 1;
 
   background-color: #f7ede8;
+
+  &.dark {
+    background-color: #1a2733;
+  }
 }
 
 #header {

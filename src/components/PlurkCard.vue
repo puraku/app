@@ -221,7 +221,7 @@ export default {
 
       &.dark {
         background-color: #353c42;
-        color: white;
+        color: #e8e8e8;
       }
 
       .replurk-icon {
@@ -240,7 +240,7 @@ export default {
 
       &.dark {
         background-color: #353c42;
-        color: white;
+        color: #e8e8e8;
       }
     }
 

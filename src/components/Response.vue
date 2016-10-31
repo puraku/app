@@ -1,5 +1,5 @@
 <template>
-  <div class="response" v-if="validResponse">
+  <div v-if="validResponse" :class="['response', {dark: isDarkTheme}]">
     <div class="profile">
       <div class="avatar" @click="goToAbout">
         <img :src="avatarURL" alt="">
@@ -18,6 +18,7 @@
 import Qualifier from 'components/Qualifier.vue';
 
 import { mapState } from 'vuex';
+import { themeConfigurable } from 'mixins';
 
 import { getPublicProfile } from 'api/profile';
 import { avatarURL } from 'helpers/userHelper';
@@ -25,6 +26,8 @@ import { registerContentEvent, unregisterContentEvent } from 'helpers/plurkHelpe
 
 export default {
   name: 'Response',
+
+  mixins: [themeConfigurable],
 
   components: {
     Qualifier
@@ -54,7 +57,10 @@ export default {
       return this.user && (this.user.display_name || this.user.nick_name);
     },
 
-    ...mapState(['userList'])
+    ...mapState({
+      userList: state => state.userList,
+      theme: state => state.appTheme
+    })
   },
 
   methods: {
@@ -83,6 +89,10 @@ export default {
   flex-direction: column;
   margin-bottom: 1em;
   -webkit-user-drag: element;
+
+  &.dark {
+    color: #e8e8e8;
+  }
 
   .profile {
     display: flex;
