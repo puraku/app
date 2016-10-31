@@ -12,7 +12,10 @@
       <fa-icon iconName="bar-chart" :style="faStyle" :iconStyle="iconStyle" />
       <fa-icon iconName="search" :style="faStyle" :iconStyle="iconStyle" />
     </div>
-    <fa-icon :iconName="toggleIconName" :style="faStyle" :iconStyle="iconStyle" :click="toggleStyle" />
+    <div class="button-group">
+      <fa-icon iconName="pencil-square-o" :style="faStyle" :iconStyle="iconStyle" />
+      <fa-icon :iconName="toggleIconName" :style="faStyle" :iconStyle="iconStyle" :click="toggleStyle" />
+    </div>
 
   </div>
 </template>
