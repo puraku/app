@@ -55,8 +55,8 @@ export default {
 #header {
   width: 100%;
   height: 45px;
-  color: #e1e4ea;
-  background-color: #1a2733;
+  color: black;
+  background-color: #f1e4dd;
   text-align: center;
   font-size: 0.9em;
 
@@ -66,6 +66,11 @@ export default {
   z-index: 9999;
 
   -webkit-app-region: drag;
+
+  &.dark {
+    background-color: #1a2733;
+    color: #e1e4ea;
+  }
 }
 
 #main-container {

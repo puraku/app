@@ -88,7 +88,11 @@ export default {
   min-width: 75px;
   max-width: 75px;
 
-  background-color: #26323f;
+  background-color: rgb(245, 231, 223);
+
+  &.dark {
+    background-color: #26323f;
+  }
 
   -webkit-app-region: drag;
 
