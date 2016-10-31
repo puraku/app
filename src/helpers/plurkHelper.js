@@ -24,6 +24,7 @@ export function formatDate(plurk) {
 
 function handleContentClick (e) {
   e.preventDefault();
+  e.stopPropagation();
 
   if (typeof e.target.href === 'undefined') {
     let img = new Image();
