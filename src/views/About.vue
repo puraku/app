@@ -1,7 +1,10 @@
 <template>
   <div class="about-container">
     <profile :user="user" v-if="user" />
-    <plurks-container :plurks="plurks" />
+    <plurks-container
+      :plurks="plurks"
+      :containerStyle="{zIndex: 10}"
+    />
   </div>
 </template>
 
@@ -10,7 +13,7 @@ import { mapActions, mapState } from 'vuex';
 
 import Profile from 'components/Profile.vue';
 import PlurksContainer from 'components/PlurksContainer.vue';
-import { postedDateTagger } from 'helpers/plurkHelper';
+import { postedDateTagger, mouseWheelHandler } from 'helpers/plurkHelper';
 
 export default {
   name: 'About',
@@ -51,11 +54,35 @@ export default {
    this.fetchUserProfile(this.userID);
   },
 
+  updated() {
+    if (!this.handleWheelAdded) {
+      const plurksContainer = this.$el.querySelector('.plurks-container');
+      const profile = this.$el.querySelector('.profile');
+      const originalHeight = profile.offsetHeight;
+      let self = this;
+
+      if (plurksContainer && profile) {
+        this.handleWheel = mouseWheelHandler({ plurksContainer, profile, originalHeight, self });
+        plurksContainer.addEventListener('mousewheel', this.handleWheel);
+        this.handleWheelAdded = true;
+      }
+    }
+  },
+
+  beforeDestroy() {
+    const plurksContainer = this.$el.querySelector('.plurks-container');
+
+    plurksContainer.removeEventListener('mousewheel', this.handleWheel);
+  },
+
   data() {
     return {
       userList: null,
       plurks: [],
-      userData: null
+      userData: null,
+      scrollLength: 0,
+      handleWheel: () => {},
+      handleWheelAdded: false
     };
   }
 }

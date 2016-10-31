@@ -1,6 +1,6 @@
 <template>
-  <div class="plurks-container">
-    <time-baseline />
+  <div class="plurks-container" :style="containerStyle">
+    <time-baseline :timelineStyle="timelineStyle" />
     <plurk-card v-for="plurk in plurks" :plurk="plurk"/>
   </div>
 </template>
@@ -13,7 +13,9 @@ export default {
   name: 'PlurksContainer',
 
   props: [
-    'plurks'
+    'plurks',
+    'timelineStyle',
+    'containerStyle'
   ],
 
   components: {

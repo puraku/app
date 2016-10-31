@@ -1,10 +1,12 @@
 <template>
-  <div class="timeline" />
+  <div class="timeline" :style="timelineStyle"/>
 </template>
 
 <script>
 export default {
-  name: 'TimeBaseline'
+  name: 'TimeBaseline',
+
+  props: ['timelineStyle']
 }
 </script>
 
@@ -15,6 +17,5 @@ export default {
   width: 0.2em;
   background-color: white;
   right: 1.5em;
-  top: 0;
 }
 </style>
