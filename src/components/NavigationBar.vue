@@ -1,14 +1,17 @@
 <template>
   <div class="navigation-bar" :class="{ dark: isDarkTheme }">
-    <a class="avatar">
-      <img :src="avatarURL" alt="">
-    </a>
-
-    <fa-icon iconName="arrow-left" :style="faStyle" :iconStyle="iconStyle" :click="goBack" />
-    <fa-icon iconName="home" :style="faStyle" :iconStyle="iconStyle" :click="goHome" :highlighted="routeHome" :highlightedStyle="highlightedStyle" />
-    <fa-icon iconName="user" :style="faStyle" :iconStyle="iconStyle" :click="goAbout" :highlighted="routeProfile" :highlightedStyle="highlightedStyle" />
-    <fa-icon iconName="inbox" :style="faStyle" :iconStyle="iconStyle" />
-    <fa-icon iconName="heart" :style="faStyle" :iconStyle="iconStyle" />
+    <div class="button-group">
+      <a class="avatar">
+        <img :src="avatarURL" alt="">
+      </a>
+      <fa-icon iconName="arrow-left" :style="faStyle" :iconStyle="iconStyle" :click="goBack" />
+      <fa-icon iconName="home" :style="faStyle" :iconStyle="iconStyle" :click="goHome" :highlighted="routeHome" :highlightedStyle="highlightedStyle" />
+      <fa-icon iconName="user" :style="faStyle" :iconStyle="iconStyle" :click="goAbout" :highlighted="routeProfile" :highlightedStyle="highlightedStyle" />
+      <fa-icon iconName="inbox" :style="faStyle" :iconStyle="iconStyle" />
+      <fa-icon iconName="heart" :style="faStyle" :iconStyle="iconStyle" />
+      <fa-icon iconName="bar-chart" :style="faStyle" :iconStyle="iconStyle" />
+      <fa-icon iconName="search" :style="faStyle" :iconStyle="iconStyle" />
+    </div>
     <fa-icon :iconName="toggleIconName" :style="faStyle" :iconStyle="iconStyle" :click="toggleStyle" />
 
   </div>
@@ -102,6 +105,7 @@ export default {
 .navigation-bar	{
   height: 100%;
   padding-top: 3em;
+  padding-bottom: 1em;
   min-width: 75px;
   max-width: 75px;
 
@@ -115,6 +119,13 @@ export default {
 
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+
+  .button-group {
+    display: flex;
+    flex-direction: column;
+  }
 
   a.avatar {
     padding: 10px;
