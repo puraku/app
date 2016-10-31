@@ -4,6 +4,31 @@ import { getResponses } from 'api/responses';
 import { getPublicProfile } from 'api/profile';
 import { getMe } from 'api/users';
 
+import config from 'utils/config';
+
+export const initializeApp = ({ commit }) => {
+  config.get('config:theme').then(theme => {
+    theme = theme || 'light';
+    config.set('config:theme', theme).then(() => {
+      commit({
+        type: types.SET_THEME,
+        theme
+      });
+    });
+  });
+};
+
+export const toggleStyle = ({ state, commit }) => {
+  const theme = state.appTheme;
+  const newTheme = theme === 'light' ? 'dark' : 'light';
+  config.set('config:theme', newTheme).then(() => {
+    commit({
+      type: types.SET_THEME,
+      theme: newTheme
+    });
+  });
+};
+
 export const fetchTimelinePlurks = ({ state, commit }) => {
   getPlurks().then(({ plurk_users, plurks }) => {
     commit({

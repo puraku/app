@@ -1,5 +1,5 @@
 <template>
-  <div class="navigation-bar">
+  <div class="navigation-bar" :class="{ dark: isDarkTheme }">
     <a class="avatar">
       <img :src="avatarURL" alt="">
     </a>
@@ -9,12 +9,13 @@
     <fa-icon iconName="user" :style="faStyle" :iconStyle="iconStyle" :click="goAbout" :highlighted="routeProfile" :highlightedStyle="highlightedStyle" />
     <fa-icon iconName="inbox" :style="faStyle" :iconStyle="iconStyle" />
     <fa-icon iconName="heart" :style="faStyle" :iconStyle="iconStyle" />
+    <fa-icon :iconName="toggleIconName" :style="faStyle" :iconStyle="iconStyle" :click="toggleStyle" />
 
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState, mapActions } from 'vuex';
 
 import FaIcon from 'components/FaIcon.vue';
 import { avatarURL } from 'helpers/userHelper';
@@ -37,7 +38,11 @@ export default {
 
     goAbout() {
       this.user && this.$router.push(`/about/${this.user.id}`);
-    }
+    },
+
+    ...mapActions([
+      'toggleStyle'
+    ])
   },
 
   computed: {
@@ -53,8 +58,20 @@ export default {
       return this.user && this.$route.path === `/about/${this.user.id}`;
     },
 
+    isDarkTheme() {
+      return this.theme === 'dark';
+    },
+
+    toggleIconName() {
+      return this.isDarkTheme ? 'toggle-on' : 'toggle-off';
+    },
+
     ...mapGetters({
       user: 'currentUser'
+    }),
+
+    ...mapState({
+      theme: state => state.appTheme
     })
   },
 

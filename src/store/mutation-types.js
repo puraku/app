@@ -18,6 +18,8 @@ export const REGISTER_USER_ID = 'REGISTER_USER_ID';
 export const SELECT_USER_ID = 'SELECT_USER_ID';
 export const LOGOUT_USER = 'LOGOUT_USER';
 
+export const SET_THEME = 'SET_THEME';
+
 export const FETCH_USERS = 'FETCH_USERS';
 
 export const CHANGE_HEADER = 'CHANGE_HEADER';

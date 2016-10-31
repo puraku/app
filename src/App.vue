@@ -2,7 +2,7 @@
   <div id="main-container">
     <navigation-bar />
     <div class="container">
-      <div id="header" v-if="hideHead">
+      <div id="header" v-if="hideHead" :class="{ dark: isDarkTheme }">
         <p>{{ header }}</p>
       </div>
       <router-view />
@@ -23,7 +23,8 @@ export default {
 
   methods: {
     ...mapActions([
-      'loadUser'
+      'loadUser',
+      'initializeApp'
     ])
   },
 
@@ -32,12 +33,18 @@ export default {
       return !this.$route.path.includes('/about/');
     },
 
+    isDarkTheme() {
+      return this.theme === 'dark';
+    },
+
     ...mapState({
-      header: state => state.navbarHeader
+      header: state => state.navbarHeader,
+      theme: state => state.appTheme
     })
   },
 
   mounted() {
+    this.initializeApp();
     this.loadUser();
   }
 }
