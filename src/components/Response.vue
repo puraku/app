@@ -82,6 +82,7 @@ export default {
   display: flex;
   flex-direction: column;
   margin-bottom: 1em;
+  -webkit-user-drag: element;
 
   .profile {
     display: flex;

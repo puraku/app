@@ -158,6 +158,7 @@ export default {
 .plurk-container {
   display: flex;
   flex-direction: column;
+  -webkit-user-drag: element;
 
   &:not(:first-child) {
     margin: .5em 0;
