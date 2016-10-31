@@ -71,8 +71,8 @@ export function mouseWheelHandler ({ plurksContainer, profile, originalHeight, s
     // prevent overscrolling
     if (self.scrollLength + deltaY < 0) {
       self.scrollLength = 0;
-    } else if (self.scrollLength + deltaY > plurksContainer.scrollHeight + originalHeight) {
-      self.scrollLength = plurksContainer.scrollHeight;
+    } else if (self.scrollLength + deltaY > plurksContainer.scrollHeight - 3 * originalHeight) {
+      self.scrollLength = plurksContainer.scrollHeight - 3 * originalHeight;
     } else {
       self.scrollLength += deltaY;
     }
@@ -101,7 +101,7 @@ export function mouseWheelHandler ({ plurksContainer, profile, originalHeight, s
     profile.querySelector('.avatar img').style.filter = `opacity(${100 - opacityPercentage}%)`;
     profile.querySelector('.nickname').style.filter = `opacity(${100 - opacityPercentage}%)`;
 
-    // console.log(`deltaY: ${deltaY}, scrollLength: ${self.scrollLength}, scrollTop: ${this.scrollTop}, originalHeight: ${originalHeight}`);
+    // console.log(`deltaY: ${deltaY}, scrollLength: ${self.scrollLength}, scrollTop: ${this.scrollTop}, originalHeight: ${originalHeight}, scrollHeight: ${plurksContainer.scrollHeight}`);
   };
 }
 
