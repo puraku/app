@@ -1,4 +1,4 @@
-const { app, BrowserWindow, protocol, ipcMain, shell } = require('electron');
+const { app, BrowserWindow, protocol, ipcMain, shell, Menu } = require('electron');
 const url = require('url');
 const qs = require('qs');
 const path = require('path');
@@ -7,6 +7,7 @@ const Puraku = require('purakujs');
 const Config = require('electron-config');
 const config = new Config();
 
+const appMenu = require('./menu');
 const plurkConfig = require('./config').plurk;
 
 let authWin, mainWin, puraku;
@@ -100,6 +101,8 @@ function initializeApp() {
 }
 
 app.on('ready', () => {
+  Menu.setApplicationMenu(appMenu);
+
   puraku = new Puraku({
     consumerKey: plurkConfig.consumerKey,
     consumerSecret: plurkConfig.consumerSecret,
