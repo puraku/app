@@ -63,7 +63,7 @@ export default {
       darkScrollbarStyle: `
         ::-webkit-scrollbar-thumb {
           background: #87919d;
-          border: 4px solid #303a46;
+          border: 3px solid #303a46;
         }
         ::-webkit-scrollbar-thumb:hover {
           background: #b8c5d3;
@@ -75,10 +75,10 @@ export default {
           background: #303a46;
         }
         ::-webkit-scrollbar-track:hover {
-          background: #313a45;
+          background: #303a46;
         }
         ::-webkit-scrollbar-track:active {
-          background: #333333;
+          background: #303a46;
         }`
     }
   }
