@@ -317,6 +317,10 @@ export default {
         a.ex_link {
           color: #ffcc95;
         }
+
+        a.meta {
+          color: #ffcc95;
+        }
       }
 
       a.ex_link {
