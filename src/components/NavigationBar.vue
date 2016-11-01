@@ -13,7 +13,7 @@
       <fa-icon iconName="search" :style="faStyle" :iconStyle="iconStyle" :highlightedStyle="highlightedStyle"/>
     </div>
     <div class="button-group">
-      <fa-icon iconName="pencil-square-o" :style="faStyle" :iconStyle="highlightIconStyle" />
+      <fa-icon iconName="pencil-square-o" :style="faStyle" :iconStyle="highlightIconStyle" :click="newPlurk" />
       <fa-icon :iconName="toggleIconName" :style="faStyle" :iconStyle="iconStyle" :click="toggleStyle"/>
     </div>
 
@@ -25,6 +25,7 @@ import { mapGetters, mapState, mapActions } from 'vuex';
 
 import FaIcon from 'components/FaIcon.vue';
 import { avatarURL } from 'helpers/userHelper';
+import { openCreatePlurkPopoup } from 'utils/ipcActions';
 
 export default {
   name: 'NavigationBar',
@@ -44,6 +45,10 @@ export default {
 
     goAbout() {
       this.user && this.$router.push(`/about/${this.user.id}`);
+    },
+
+    newPlurk() {
+      openCreatePlurkPopoup();
     },
 
     ...mapActions([
