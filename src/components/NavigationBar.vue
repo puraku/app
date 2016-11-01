@@ -4,17 +4,17 @@
       <a class="avatar">
         <img :src="avatarURL" alt="">
       </a>
-      <fa-icon iconName="arrow-left" :style="faStyle" :iconStyle="iconStyle" :click="goBack" />
+      <fa-icon iconName="arrow-left" :style="faStyle" :iconStyle="iconStyle" :click="goBack" :highlightedStyle="highlightedStyle"/>
       <fa-icon iconName="home" :style="faStyle" :iconStyle="iconStyle" :click="goHome" :highlighted="routeHome" :highlightedStyle="highlightedStyle" />
       <fa-icon iconName="user" :style="faStyle" :iconStyle="iconStyle" :click="goAbout" :highlighted="routeProfile" :highlightedStyle="highlightedStyle" />
-      <fa-icon iconName="inbox" :style="faStyle" :iconStyle="iconStyle" />
-      <fa-icon iconName="heart" :style="faStyle" :iconStyle="iconStyle" />
-      <fa-icon iconName="bar-chart" :style="faStyle" :iconStyle="iconStyle" />
-      <fa-icon iconName="search" :style="faStyle" :iconStyle="iconStyle" />
+      <fa-icon iconName="inbox" :style="faStyle" :iconStyle="iconStyle" :highlightedStyle="highlightedStyle"/>
+      <fa-icon iconName="heart" :style="faStyle" :iconStyle="iconStyle" :highlightedStyle="highlightedStyle"/>
+      <fa-icon iconName="bar-chart" :style="faStyle" :iconStyle="iconStyle" :highlightedStyle="highlightedStyle"/>
+      <fa-icon iconName="search" :style="faStyle" :iconStyle="iconStyle" :highlightedStyle="highlightedStyle"/>
     </div>
     <div class="button-group">
-      <fa-icon iconName="pencil-square-o" :style="faStyle" :iconStyle="iconStyle" />
-      <fa-icon :iconName="toggleIconName" :style="faStyle" :iconStyle="iconStyle" :click="toggleStyle" />
+      <fa-icon iconName="pencil-square-o" :style="faStyle" :iconStyle="highlightIconStyle" />
+      <fa-icon :iconName="toggleIconName" :style="faStyle" :iconStyle="iconStyle" :click="toggleStyle"/>
     </div>
 
   </div>
@@ -72,6 +72,10 @@ export default {
       return this.isDarkTheme ? 'toggle-on' : 'toggle-off';
     },
 
+    highlightIconStyle() {
+      return { ...this.iconStyle, ...this.highlightedStyle };
+    },
+
     ...mapGetters({
       user: 'currentUser'
     }),
@@ -92,7 +96,6 @@ export default {
       iconStyle: {
         color: '#8899a6',
         fontSize: '1.5em',
-        cursor: 'pointer',
         margin: '.5em 0'
       },
 

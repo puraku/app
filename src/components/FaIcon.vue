@@ -1,5 +1,5 @@
 <template>
-  <div class="icon"  @click="onClick" :style="style">
+  <div class="icon"  @click="onClick" :style="style" @mousedown="active = true" @mouseup="active = false">
     <i :class="iconClasses" aria-hidden="true" :style="styles" />
   </div>
 </template>
@@ -49,7 +49,13 @@ export default {
     },
 
     styles() {
-      return this.highlighted ? [this.iconStyle, this.highlightedStyle] : this.iconStyle;
+      return (this.highlighted || this.active) ? [this.iconStyle, this.highlightedStyle] : this.iconStyle;
+    }
+  },
+
+  data() {
+    return {
+      active: false
     }
   }
 }
