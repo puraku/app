@@ -37,6 +37,10 @@ export default {
       return this.theme === 'dark';
     },
 
+    scrollbarStyleNode() {
+      return document.querySelector('#scrollbarStyleNode');
+    },
+
     ...mapState({
       header: state => state.navbarHeader,
       theme: state => state.appTheme
@@ -46,7 +50,39 @@ export default {
   mounted() {
     this.initializeApp();
     this.loadUser();
+  },
+
+  updated() {
+    if (this.scrollbarStyleNode) {
+      scrollbarStyleNode.innerHTML = this.isDarkTheme ? this.darkScrollbarStyle : '';
+    }
+  },
+
+  data() {
+    return {
+      darkScrollbarStyle: `
+        ::-webkit-scrollbar-thumb {
+          background: #87919d;
+          border: 4px solid #303a46;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+          background: #b8c5d3;
+        }
+        ::-webkit-scrollbar-thumb:active {
+          background: #bac5d2;
+        }
+        ::-webkit-scrollbar-track {
+          background: #303a46;
+        }
+        ::-webkit-scrollbar-track:hover {
+          background: #313a45;
+        }
+        ::-webkit-scrollbar-track:active {
+          background: #333333;
+        }`
+    }
   }
+
 }
 </script>
 
