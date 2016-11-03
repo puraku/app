@@ -14,7 +14,7 @@ function sendAction (action) {
     win.restore();
   }
 
-  win.webContents.send(action);
+  win.webContents.send('vuex:action', { action });
 }
 
 const helpSubmenu = [
@@ -157,7 +157,7 @@ const template = [
         label: 'Toggle Dark Mode',
         accelerator: 'CmdOrCtrl+D',
         click () {
-          // sendAction('toggle-dark-mode');
+          sendAction('toggleStyle');
         }
       },
       {
@@ -229,7 +229,7 @@ if (process.platform === 'darwin') {
         label: 'Toggle Dark Mode',
         accelerator: 'CmdOrCtrl+D',
         click () {
-          // sendAction('toggle-dark-mode');
+          sendAction('toggleStyle');
         }
       },
       {
