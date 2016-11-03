@@ -122,10 +122,6 @@ function initializeApp() {
       popup.loadURL(`file://${path.join(__dirname, '../static/plurk_form.html')}`);
     }
   });
-
-  ipcMain.on('postWindow:close', (event, args) => {
-
-  });
 }
 
 app.on('ready', () => {
