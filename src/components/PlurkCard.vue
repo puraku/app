@@ -269,6 +269,7 @@ export default {
 
       .avatar {
         width: 2.5em;
+        min-width: 2.5em;
         height: 2.5em;
         border-radius: 50%;
         overflow: hidden;
