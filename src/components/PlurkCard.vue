@@ -8,7 +8,7 @@
         {{ timestamp }}
       </div>
       <div class="replurker-card" v-if="plurk && replurker" :class="{dark: isDarkTheme}">
-        <div class="replurker-name">
+        <div class="replurker-name" @click="goToReplurker">
           {{ replurker.display_name }}
         </div>
         <div class="replurk-icon">
@@ -99,6 +99,10 @@ export default {
 
     goToAbout() {
       this.$router.push(`/about/${this.plurk.owner_id}`);
+    },
+
+    goToReplurker() {
+      this.$router.push(`/about/${this.replurker.id}`);
     }
   },
 
@@ -218,6 +222,9 @@ export default {
       font-size: 0.8em;
       padding: .25em .5em;
       box-sizing: border-box;
+      cursor: pointer;
+
+      -webkit-user-select: none;
 
       &.dark {
         background-color: #353c42;
@@ -231,6 +238,7 @@ export default {
         margin-left: .5em;
         padding: 0 .5em;
         border-radius: 5px;
+        cursor: default;
       }
     }
 
