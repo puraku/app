@@ -4,9 +4,17 @@
 
 [issue-6]: https://github.com/puraku/client/issues/6
 
+## Screentshots
+
+<img src="./docs/images/light-mode-profile.png" alt="" width="400">
+<img src="./docs/images/dark-mode-profile.png" alt="" width="400">
+
+<img src="./docs/images/responses.png" alt="" width="400">
+
+
 ## Development
 
-請確定你已經裝完 node、npm 環境。
+確定已經設定好 node、npm 環境。
 
 跑：
 
