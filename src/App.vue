@@ -113,6 +113,7 @@ export default {
   z-index: 9999;
 
   -webkit-app-region: drag;
+  -webkit-user-select: none;
 
   &.dark {
     background-color: #1a2733;

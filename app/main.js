@@ -98,6 +98,34 @@ function initializeApp() {
   ipcMain.on('config:get', (event, { key }) => {
     event.sender.send(`config:get:${key}`, config.get(key));
   });
+
+  ipcMain.on('postWindow:new', (event, args) => {
+    const { x, y, width } = mainWin.getBounds();
+    // TODO: remember all open window status
+    const popup = new BrowserWindow({
+      x: x + width + 30,
+      y: y,
+      width: 340,
+      height: 256,
+      minWidth: 340,
+      minHeight: 256,
+      maxHeight: 475,
+      maxWidth: 440,
+      titleBarStyle: 'hidden-inset'
+    });
+
+    if (process.env.NODE_ENV === 'development') {
+      popup.loadURL('http://localhost:8080/plurk_form.html');
+      popup.openDevTools();
+    } else {
+      popup.setAlwaysOnTop(true);
+      popup.loadURL(`file://${path.join(__dirname, '../static/plurk_form.html')}`);
+    }
+  });
+
+  ipcMain.on('postWindow:close', (event, args) => {
+
+  });
 }
 
 app.on('ready', () => {
