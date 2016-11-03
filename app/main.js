@@ -122,6 +122,10 @@ function initializeApp() {
       popup.loadURL(`file://${path.join(__dirname, '../static/plurk_form.html')}`);
     }
   });
+
+  ipcMain.on('getMainWindowId', (event, args) => {
+    event.returnValue = mainWin.id;
+  });
 }
 
 app.on('ready', () => {

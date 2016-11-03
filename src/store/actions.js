@@ -24,9 +24,9 @@ export const initializeApp = ({ dispatch, commit }) => {
 };
 
 export const registerIpcActions = ({ dispatch }) => {
-  ipcRenderer.on('vuex:action', (event, args) => {
-    const { action } = args;
-    dispatch(action);
+  ipcRenderer.on('vuex:action', (event, arg) => {
+    const { action, args } = arg;
+    dispatch(action, args);
   });
 };
 

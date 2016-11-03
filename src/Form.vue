@@ -8,19 +8,34 @@
       <textarea v-model="plurkContent" id="plurk-content" cols="30" rows="10" placeholder="你在做什麼？"></textarea>
 
       <div class="actions">
-        <button id="plurk">Plurk</button>
+        <button id="plurk" @click="postPlurk" :disabled="locked">Plurk</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { addPlurk } from 'api/timeline';
+import { plurkCreated, refreshTimeline } from 'utils/ipcActions';
+
 export default {
   name: 'Form',
 
+  methods: {
+    postPlurk() {
+      this.locked = true;
+      addPlurk(this.plurkContent, 'says').then(data => {
+        plurkCreated(data.plurk_id);
+        refreshTimeline();
+        window.close();
+      });
+    }
+  },
+
   data() {
     return {
-      plurkContent: ''
+      plurkContent: '',
+      locked: false
     }
   }
 }
@@ -100,11 +115,23 @@ export default {
         background-color: #ef8733;
         color: white;
         height: 2.5em;
-        border: transparent 0px;
+        border: none;
         border-radius: 5px;
         font-size: 0.8em;
         padding: 0 1em;
         margin-top: 0.5em;
+
+        &:focus {
+          outline:0;
+        }
+
+        &:active {
+          background-color: #e48232;
+        }
+
+        &:disabled {
+          background-color: #969696;
+        }
       }
     }
   }
