@@ -67,6 +67,10 @@ export default {
         this.handleWheelAdded = true;
       }
     }
+
+    if (typeof this.user === 'undefined') {
+      this.fetchUserProfile(this.userID);
+    }
   },
 
   beforeDestroy() {
