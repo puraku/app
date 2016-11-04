@@ -64,7 +64,7 @@ export default {
     display: flex;
     flex-direction: row;
 
-    background-color: #f5ede8;
+    background-color: #f1e4dd;
 
     .avatar {
       width: 2.5em;
@@ -96,7 +96,7 @@ export default {
       height: calc(100% - 3em);
       left: 0;
 
-      background-color: #f5ede8;
+      background-color: #f1e4dd;
     }
 
     .actions {
