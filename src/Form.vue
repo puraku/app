@@ -3,7 +3,7 @@
     <div class="header">發新噗文</div>
     <div class="content-container">
       <div class="avatar">
-        <img src="https://i.imgur.com/a8fj4m.png" alt="avatar">
+        <img :src="avatarURL" alt="avatar">
       </div>
       <textarea v-model="plurkContent" id="plurk-content" cols="30" rows="10" placeholder="你在做什麼？"></textarea>
 
@@ -16,7 +16,9 @@
 
 <script>
 import { addPlurk } from 'api/timeline';
+import { getMe } from 'api/users';
 import { plurkCreated, refreshTimeline } from 'utils/ipcActions';
+import { avatarURL } from 'helpers/userHelper';
 
 export default {
   name: 'Form',
@@ -32,10 +34,23 @@ export default {
     }
   },
 
+  computed: {
+    avatarURL() {
+      return avatarURL(this.user);
+    }
+  },
+
+  mounted() {
+    getMe().then(user => {
+      this.user = user;
+    });
+  },
+
   data() {
     return {
       plurkContent: '',
-      locked: false
+      locked: false,
+      user: null
     }
   }
 }
@@ -51,7 +66,9 @@ export default {
   .header {
     text-align: center;
     padding: .5em 0;
+
     -webkit-app-region: drag;
+    -webkit-user-select: none;
 
     background-color: #f1e4dd;
   }
@@ -75,6 +92,8 @@ export default {
       border-radius: 10px;
       margin: .3em;
       margin-left: .5em;
+
+      -webkit-user-select: none;
 
       img {
         width: 100%;
