@@ -50,7 +50,7 @@ export default {
     postPlurk() {
       if (this.plurkContent.length > 0) {
         this.locked = true;
-        addPlurk(this.plurkContent, this.qualifier).then(data => {
+        addPlurk(this.plurkContent, this.qualifier, { lang: 'tr_ch' }).then(data => {
           plurkCreated(data.plurk_id);
           refreshTimeline();
           window.close();
