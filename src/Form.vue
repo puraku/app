@@ -5,14 +5,21 @@
       <div class="avatar">
         <img :src="avatarURL" alt="avatar">
       </div>
-      <div class="qualifier">
-        說
+      <div class="qualifier" :class="qualifier" @click="toggleQualifierSelectList">
+        {{ qualifierTranslated }}
         <fa-icon iconName="caret-down" :iconStyle="{padding: '.2em 0', marginLeft: '.3em'}" />
+      </div>
+      <div class="qulifier-selection-list" :class="{show: listOpen}">
+        <div v-for="(q, index) in qualifiers">
+          <div :class="qualifierClasses(q)" @click="selectQualifier(index)">
+            {{ q[2] }}
+          </div>
+        </div>
       </div>
       <textarea v-model="plurkContent" id="plurk-content" cols="30" rows="10" placeholder="你在做什麼？"></textarea>
 
       <div class="actions">
-        <button id="plurk" @click="postPlurk" :disabled="locked">Plurk</button>
+        <button id="plurk" @click="postPlurk" :disabled="locked" :class="qualifier">Plurk</button>
       </div>
     </div>
   </div>
@@ -23,6 +30,7 @@ import { addPlurk } from 'api/timeline';
 import { getMe } from 'api/users';
 import { plurkCreated, refreshTimeline } from 'utils/ipcActions';
 import { avatarURL } from 'helpers/userHelper';
+import { QUALIFIERS } from './constants';
 
 import FaIcon from 'components/FaIcon.vue';
 
@@ -35,18 +43,44 @@ export default {
 
   methods: {
     postPlurk() {
-      this.locked = true;
-      addPlurk(this.plurkContent, 'says').then(data => {
-        plurkCreated(data.plurk_id);
-        refreshTimeline();
-        window.close();
-      });
+      if (this.plurkContent.length > 0) {
+        this.locked = true;
+        addPlurk(this.plurkContent, this.qualifier).then(data => {
+          plurkCreated(data.plurk_id);
+          refreshTimeline();
+          window.close();
+        });
+      }
+    },
+
+    toggleQualifierSelectList() {
+      this.listOpen = !this.listOpen;
+    },
+
+    qualifierClasses(qualifier) {
+      return [
+        'qualifier',
+        qualifier[0]
+      ];
+    },
+
+    selectQualifier(index) {
+      this.selectedQualifierIndex = index;
+      this.listOpen = false;
     }
   },
 
   computed: {
     avatarURL() {
       return avatarURL(this.user);
+    },
+
+    qualifier() {
+      return QUALIFIERS[this.selectedQualifierIndex][0];
+    },
+
+    qualifierTranslated() {
+      return QUALIFIERS[this.selectedQualifierIndex][1];
     }
   },
 
@@ -60,7 +94,10 @@ export default {
     return {
       plurkContent: '',
       locked: false,
-      user: null
+      user: null,
+      selectedQualifierIndex: 0,
+      listOpen: false,
+      qualifiers: QUALIFIERS
     }
   }
 }
@@ -101,12 +138,54 @@ export default {
       height: 23px;
       margin-left: 5px;
       margin-right: 5px;
-      background-color: red;
       color: white;
       padding: 1px 5px;
       border-radius: 5px;
       margin-top: 8px;
       white-space: nowrap;
+
+      &.loves     { background-color: #b32e25; }
+      &.likes     { background-color: #cc362c; }
+      &.shares    { background-color: #a74949; }
+      &.gives     { background-color: #621510; }
+      &.hates     { background-color: #111111; }
+      &.wants     { background-color: #8db241; }
+      &.has       { background-color: #777777; }
+      &.will      { background-color: #b46db9; }
+      &.asks      { background-color: #8361bc; }
+      &.wishes    { background-color: #5bb017; }
+      &.was       { background-color: #525252; }
+      &.feels     { background-color: #3083be; }
+      &.thinks    { background-color: #689cc1; }
+      &.says      { background-color: #e25731; }
+      &.is        { background-color: #e57c43; }
+      &.freestyle { background-color: #cccccc; color: black; }
+      &.hopes     { background-color: #e05be9; }
+      &.needs     { background-color: #7a9a37; }
+      &.wonders   { background-color: #2e4e9e; }
+    }
+
+    .qulifier-selection-list {
+      display: none;
+      text-align: center;
+      overflow-y: scroll;
+      position: absolute;
+      overflow-x: hidden;
+      max-height: 170px;
+      top: 2.6em;
+      left: 3.3em;
+      z-index: 10;
+
+      &.show {
+        display: block;
+      }
+
+      .qualifier {
+        display: block;
+        margin: 0;
+        border-radius: 0;
+      }
+
     }
 
     .avatar {
@@ -177,6 +256,26 @@ export default {
         &:disabled {
           background-color: #969696;
         }
+
+        &.loves     { background-color: #b32e25; }
+        &.likes     { background-color: #cc362c; }
+        &.shares    { background-color: #a74949; }
+        &.gives     { background-color: #621510; }
+        &.hates     { background-color: #111111; }
+        &.wants     { background-color: #8db241; }
+        &.has       { background-color: #777777; }
+        &.will      { background-color: #b46db9; }
+        &.asks      { background-color: #8361bc; }
+        &.wishes    { background-color: #5bb017; }
+        &.was       { background-color: #525252; }
+        &.feels     { background-color: #3083be; }
+        &.thinks    { background-color: #689cc1; }
+        &.says      { background-color: #e25731; }
+        &.is        { background-color: #e57c43; }
+        /* &.freestyle { background-color: #cccccc; color: black; } */
+        &.hopes     { background-color: #e05be9; }
+        &.needs     { background-color: #7a9a37; }
+        &.wonders   { background-color: #2e4e9e; }
       }
     }
   }
