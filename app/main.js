@@ -14,7 +14,7 @@ let authWin, mainWin, puraku;
 
 protocol.registerStandardSchemes(['puraku']);
 
-function registerAuthFlow({oauthToken, oauthTokenSecret}) {
+function registerAuthFlow ({ oauthToken, oauthTokenSecret }) {
   const handleAuth = (queryString) => {
     authWin.hide();
 
@@ -23,7 +23,7 @@ function registerAuthFlow({oauthToken, oauthTokenSecret}) {
       oauth_token: oauthToken
     } = qs.parse(queryString);
 
-    puraku.getOAuthAccessToken({oauthToken, oauthTokenSecret, oauthVerifier}).then(({accessToken, accessTokenSecret}) => {
+    puraku.getOAuthAccessToken({ oauthToken, oauthTokenSecret, oauthVerifier }).then(({ accessToken, accessTokenSecret }) => {
       config.set('puraku:accessToken', accessToken);
       config.set('puraku:accessTokenSecret', accessTokenSecret);
 
@@ -44,7 +44,7 @@ function registerAuthFlow({oauthToken, oauthTokenSecret}) {
   });
 }
 
-function initializeApp() {
+function initializeApp () {
   mainWin = new BrowserWindow({
     x: 100,
     y: 30,
@@ -58,7 +58,7 @@ function initializeApp() {
   if (process.env.NODE_ENV === 'development') {
     mainWin.loadURL('http://localhost:8080');
 
-    let installExtension = require('electron-devtools-installer');
+    const installExtension = require('electron-devtools-installer');
 
     installExtension.default(installExtension.VUEJS_DEVTOOLS).then(() => {
       mainWin.openDevTools();
@@ -70,10 +70,10 @@ function initializeApp() {
   // listen for api call
   ipcMain.on('puraku:api', (event, args) => {
     const { method, endpoint, params, randomSeed } = args;
-    puraku.request(method, endpoint, params).then(({data}) => {
+    puraku.request(method, endpoint, params).then(({ data }) => {
       event.sender.send(`puraku:api:${endpoint}:${randomSeed}`, JSON.parse(data));
     }).catch(error => {
-      event.sender.send(`puraku:api:${endpoint}:${randomSeed}`, {error});
+      event.sender.send(`puraku:api:${endpoint}:${randomSeed}`, { error });
     });
   });
 
@@ -142,13 +142,13 @@ app.on('ready', () => {
     initializeApp();
   }).catch(() => {
     // start authorize flow
-    puraku.getRequestToken().then(({oauthToken, oauthTokenSecret}) => {
+    puraku.getRequestToken().then(({ oauthToken, oauthTokenSecret }) => {
       authWin = new BrowserWindow();
 
       // TODO: generate device id
       authWin.loadURL(`https://www.plurk.com/OAuth/authorize?oauth_token=${oauthToken}`);
 
-      registerAuthFlow({oauthToken, oauthTokenSecret});
+      registerAuthFlow({ oauthToken, oauthTokenSecret });
     });
   });
 });

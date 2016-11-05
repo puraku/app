@@ -1,4 +1,4 @@
-export function avatarURL(user, size = 'medium') {
+export function avatarURL (user, size = 'medium') {
   const ext = size === 'big' ? 'jpg' : 'gif';
 
   if (!user) {

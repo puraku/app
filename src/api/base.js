@@ -1,6 +1,6 @@
 import { ipcRenderer } from 'electron';
 
-export function request(method, endpoint, params = null) {
+export function request (method, endpoint, params = null) {
   return new Promise((resolve, reject) => {
     const randomSeed = performance.now();
     ipcRenderer.send('puraku:api', { method, endpoint, params, randomSeed });

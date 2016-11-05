@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { ipcRenderer } from 'electron';
 
-export function postedDateTagger(plurks) {
+export function postedDateTagger (plurks) {
   return plurks.map((plurk, index) => {
     const previousPlurk = plurks[index - 1];
 
@@ -12,7 +12,7 @@ export function postedDateTagger(plurks) {
   });
 }
 
-export function formatDate(plurk) {
+export function formatDate (plurk) {
   const formatedDate = moment.parseZone(plurk.posted).format('YYYY-MM-DD');
 
   if (moment().format('YYYY-MM-DD') === formatedDate) {
@@ -27,7 +27,7 @@ function handleContentClick (e) {
   e.stopPropagation();
 
   if (typeof e.target.href === 'undefined') {
-    let img = new Image();
+    const img = new Image();
     img.onload = function () {
       ipcRenderer.send(
         'open:externalImage',
@@ -44,14 +44,14 @@ function handleContentClick (e) {
   }
 }
 
-export function registerContentEvent(dom) {
+export function registerContentEvent (dom) {
   for (let anchor of dom.querySelectorAll('.content a')) {
     anchor.removeEventListener('click', handleContentClick);
     anchor.addEventListener('click', handleContentClick);
   }
 }
 
-export function unregisterContentEvent(dom) {
+export function unregisterContentEvent (dom) {
   for (let anchor of dom.querySelectorAll('.content a')) {
     anchor.removeEventListener('click', handleContentClick);
   }
