@@ -39,10 +39,10 @@ export default {
   &.has       { background-color: #777777; }
   &.will      { background-color: #b46db9; }
   &.asks      { background-color: #8361bc; }
-  &.wishes    { background-color: #e05be9; }
+  &.wishes    { background-color: #5bb017; }
   &.was       { background-color: #525252; }
   &.feels     { background-color: #3083be; }
-  &.thinks    { background-color: #3083be; }
+  &.thinks    { background-color: #689cc1; }
   &.says      { background-color: #e25731; }
   &.is        { background-color: #e57c43; }
   &.freestyle { background-color: #cccccc; color: black; }
