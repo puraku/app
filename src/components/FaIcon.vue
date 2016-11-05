@@ -1,6 +1,7 @@
 <template>
   <div class="icon"  @click="onClick" :style="style" @mousedown="active = true" @mouseup="active = false">
     <i :class="iconClasses" aria-hidden="true" :style="styles" />
+    <div class="badge-count" v-if="badgeCount && badgeCount > 0" :style="badgeStyle">{{ badgeCount }}</div>
   </div>
 </template>
 
@@ -33,6 +34,14 @@ export default {
     },
 
     highlightedStyle: {
+      type: Object
+    },
+
+    badgeCount: {
+      type: Number
+    },
+
+    badgeStyle: {
       type: Object
     }
   },
