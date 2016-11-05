@@ -22,6 +22,7 @@
         <div class="action-group">
           <fa-icon iconName="smile-o" :iconStyle="actionIconStyle" />
           <fa-icon iconName="picture-o" :iconStyle="actionIconStyle" />
+          <fa-icon iconName="share-alt" :iconStyle="actionIconStyle" />
           <fa-icon iconName="lock" :iconStyle="actionIconStyle" />
         </div>
         <button id="plurk" @click="postPlurk" :disabled="locked" :class="qualifier">Plurk</button>
