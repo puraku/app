@@ -171,7 +171,7 @@ export default {
       overflow-y: scroll;
       position: absolute;
       overflow-x: hidden;
-      max-height: 170px;
+      height: calc(100% - 3em);
       top: 2.6em;
       left: 3.3em;
       z-index: 10;
