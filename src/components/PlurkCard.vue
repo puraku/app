@@ -334,7 +334,8 @@ export default {
       font-size: 1em;
       word-break: break-all;
 
-      a.ex_link.meta {
+      a.ex_link.meta,
+      a.ogvideo.meta {
         background-color: #f6f8fd;
         display: flex;
         border-style: solid;
@@ -349,7 +350,8 @@ export default {
       }
 
       &.dark {
-        a.ex_link.meta {
+        a.ex_link.meta,
+        a.ogvideo.meta {
           background-color: #353c42;
           border-color: #1a2733;
         }

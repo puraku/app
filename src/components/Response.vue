@@ -10,7 +10,7 @@
       </div>
       <qualifier :qualifierKey="response.qualifier" :text="response.qualifier_translated" :styles="{height: '1.8em'}" />
     </div>
-    <div class="content" v-html="response.content"/>
+    <div class="content" v-html="response.content" :class="{dark: isDarkTheme}"/>
   </div>
 </template>
 
@@ -83,7 +83,7 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
 .response {
   display: flex;
   flex-direction: column;
@@ -128,6 +128,38 @@ export default {
     padding: 0 30px;
     font-size: 1em;
     word-break: break-all;
+
+    a.ex_link.meta,
+    a.ogvideo.meta {
+      background-color: #f6f8fd;
+      display: flex;
+      border-style: solid;
+      border-color: #e5ebfa;
+      font-size: 0.9em;
+      padding: 2px 5px;
+      margin-bottom: 5px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    &.dark {
+      a.ex_link.meta,
+      a.ogvideo.meta {
+        background-color: #1a2733;
+        border-color: #1a2733;
+      }
+
+      a.ex_link {
+        color: #ffcc95;
+      }
+
+      a.meta {
+        color: #ffcc95;
+      }
+    }
+
   }
 }
 
