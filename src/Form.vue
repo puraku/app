@@ -19,6 +19,11 @@
       <textarea v-model="plurkContent" id="plurk-content" cols="30" rows="10" placeholder="你在做什麼？"></textarea>
 
       <div class="actions">
+        <div class="action-group">
+          <fa-icon iconName="smile-o" :iconStyle="actionIconStyle" />
+          <fa-icon iconName="picture-o" :iconStyle="actionIconStyle" />
+          <fa-icon iconName="lock" :iconStyle="actionIconStyle" />
+        </div>
         <button id="plurk" @click="postPlurk" :disabled="locked" :class="qualifier">Plurk</button>
       </div>
     </div>
@@ -97,7 +102,13 @@ export default {
       user: null,
       selectedQualifierIndex: 0,
       listOpen: false,
-      qualifiers: QUALIFIERS
+      qualifiers: QUALIFIERS,
+
+      actionIconStyle: {
+        fontSize: '1.5em',
+        cursor: 'pointer',
+        marginRight: '.5em'
+      }
     }
   }
 }
@@ -233,7 +244,19 @@ export default {
       box-sizing: border-box;
       display: flex;
       flex-direction: row;
-      justify-content: flex-end;
+      justify-content: space-around;
+
+      .action-group {
+        display: flex;
+        flex-grow: 1;
+        margin-top: 1em;
+
+        color: #484848;
+
+        &.dark {
+          color: white;
+        }
+      }
 
       button#plurk {
         background-color: #ef8733;
