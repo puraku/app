@@ -170,7 +170,7 @@ export default {
     },
 
     isOwner() {
-      return this.plurk.owner_id == this.currentUser.id;
+      return this.plurk.owner_id == (this.currentUser && this.currentUser.id);
     },
 
     ...mapGetters(['currentUser']),
