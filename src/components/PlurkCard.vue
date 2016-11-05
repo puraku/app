@@ -31,9 +31,10 @@
         </div>
         <div class="content" v-html="plurk.content" @click="goToDetail" :class="{dark: isDarkTheme}"/>
         <div class="actions">
-          <fa-icon iconName="heart" :style="faStyle" />
-          <fa-icon iconName="refresh" :style="faStyle" />
-          <fa-icon iconName="volume-off" :style="faStyle" />
+          <fa-icon iconName="heart" :style="faStyle" :badgeCount="plurk.favorite_count" :badgeStyle="badgeStyle"/>
+          <fa-icon iconName="refresh" :style="faStyle" :badgeCount="plurk.replurkers_count" :badgeStyle="badgeStyle"/>
+          <fa-icon :iconName="volumnIconName" :style="faStyle"/>
+          <fa-icon iconName="trash" :style="faStyle" v-if="isOwner"/>
         </div>
       </div>
     </div>
@@ -43,7 +44,7 @@
 <script>
 import moment from 'moment';
 
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import { themeConfigurable } from 'mixins';
 
 import { avatarURL } from 'helpers/userHelper';
@@ -81,8 +82,24 @@ export default {
       postedAt: null,
       faStyle: {
         color: '#c2c2c2',
-        marginRight: '1em',
-        cursor: 'pointer'
+        marginRight: '1.87em',
+        cursor: 'pointer',
+        position: 'relative'
+      },
+
+      badgeStyle: {
+        position: 'absolute',
+        fontSize: '0.6em',
+        top: '-0.6em',
+        lineHeight: '0.8em',
+        borderRadius: '25px',
+        textAlign: 'center',
+        right: '-1.5em',
+        background: 'white',
+        boxSizing: 'border-box',
+        padding: '0.1em 0.5em',
+        borderWidth: '0.2em',
+        borderStyle: 'solid'
       },
 
       replurkStyle: {
@@ -132,6 +149,14 @@ export default {
       return this.plurk.is_unread == 1;
     },
 
+    isMuted() {
+      return this.plurk.is_unread == 2;
+    },
+
+    volumnIconName() {
+      return this.isMuted ? 'volume-off' : 'volume-up'
+    },
+
     avatarURL() {
       return avatarURL(this.user);
     },
@@ -143,6 +168,12 @@ export default {
     replurker() {
       return this.plurk.replurker_id && this.userList[this.plurk.replurker_id];
     },
+
+    isOwner() {
+      return this.plurk.owner_id == this.currentUser.id;
+    },
+
+    ...mapGetters(['currentUser']),
 
     ...mapState({
       userList: state => state.userList,
@@ -299,7 +330,7 @@ export default {
     }
 
     .content {
-      margin-top: .5em;
+      margin: .5em 0;
       font-size: 1em;
       word-break: break-all;
 
@@ -345,8 +376,8 @@ export default {
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
-      padding: 0.3em 0;
-      font-size: 1.2em;
+      padding: 0.5em .3em 0;
+      font-size: 1em;
     }
   }
 }
