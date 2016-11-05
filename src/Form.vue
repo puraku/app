@@ -5,6 +5,10 @@
       <div class="avatar">
         <img :src="avatarURL" alt="avatar">
       </div>
+      <div class="qualifier">
+        說
+        <fa-icon iconName="caret-down" :iconStyle="{padding: '.2em 0', marginLeft: '.3em'}" />
+      </div>
       <textarea v-model="plurkContent" id="plurk-content" cols="30" rows="10" placeholder="你在做什麼？"></textarea>
 
       <div class="actions">
@@ -20,8 +24,14 @@ import { getMe } from 'api/users';
 import { plurkCreated, refreshTimeline } from 'utils/ipcActions';
 import { avatarURL } from 'helpers/userHelper';
 
+import FaIcon from 'components/FaIcon.vue';
+
 export default {
   name: 'Form',
+
+  components: {
+    FaIcon
+  },
 
   methods: {
     postPlurk() {
@@ -80,8 +90,24 @@ export default {
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
+    padding: .3em 0;
 
     background-color: #f1e4dd;
+
+    .qualifier {
+      -webkit-user-select: none;
+      display: flex;
+      cursor: pointer;
+      height: 23px;
+      margin-left: 5px;
+      margin-right: 5px;
+      background-color: red;
+      color: white;
+      padding: 1px 5px;
+      border-radius: 5px;
+      margin-top: 8px;
+      white-space: nowrap;
+    }
 
     .avatar {
       width: 2.5em;
@@ -90,9 +116,9 @@ export default {
       overflow: hidden;
       box-sizing: border-box;
       border-radius: 10px;
-      margin: .3em;
       margin-left: .5em;
 
+      -webkit-app-region: drag;
       -webkit-user-select: none;
 
       img {
@@ -103,7 +129,7 @@ export default {
 
     textarea#plurk-content {
       margin: 0;
-      padding: .3em;
+      padding: 0 .3em;
       outline: 0;
       border: 0;
 
