@@ -58,7 +58,7 @@ export default {
     if (!this.handleWheelAdded) {
       const plurksContainer = this.$el.querySelector('.plurks-container');
       const profile = this.$el.querySelector('.profile');
-      const originalHeight = profile.offsetHeight;
+      const originalHeight = profile && profile.offsetHeight;
       let self = this;
 
       if (plurksContainer && profile) {

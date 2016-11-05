@@ -1,4 +1,5 @@
 import * as types from './mutation-types';
+
 import { getPlurks, getPlurk } from 'api/timeline';
 import { getResponses } from 'api/responses';
 import { getPublicProfile } from 'api/profile';
@@ -6,7 +7,9 @@ import { getMe } from 'api/users';
 
 import config from 'utils/config';
 
-export const initializeApp = ({ commit }) => {
+import { ipcRenderer } from 'electron';
+
+export const initializeApp = ({ dispatch, commit }) => {
   config.get('config:theme').then(theme => {
     theme = theme || 'light';
     config.set('config:theme', theme).then(() => {
@@ -15,6 +18,19 @@ export const initializeApp = ({ commit }) => {
         theme
       });
     });
+  });
+
+  dispatch('registerIpcActions');
+};
+
+export const registerIpcActions = ({ dispatch }) => {
+  ipcRenderer.on('vuex:action', (event, arg) => {
+    const { action, args } = arg;
+    if (Array.isArray(args)) {
+      dispatch(...[action, ...args]);
+    } else {
+      dispatch(action, args);
+    }
   });
 };
 

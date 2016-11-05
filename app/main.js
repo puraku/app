@@ -123,8 +123,8 @@ function initializeApp() {
     }
   });
 
-  ipcMain.on('postWindow:close', (event, args) => {
-
+  ipcMain.on('getMainWindowId', (event, args) => {
+    event.returnValue = mainWin.id;
   });
 }
 
