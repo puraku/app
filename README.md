@@ -1,4 +1,4 @@
-# Puraku 一個好用的 Plurk App
+# Puraku 你最愛的噗浪終於登陸 macOS 啦！
 
 **活躍開發中，任何問題都可以到 [issue#6][issue-6] 討論**
 
