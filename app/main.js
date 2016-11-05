@@ -103,7 +103,7 @@ function initializeApp() {
     const { x, y, width } = mainWin.getBounds();
     // TODO: remember all open window status
     const popup = new BrowserWindow({
-      x: x + width + 30,
+      x: x + width + 10,
       y: y,
       width: 340,
       height: 256,
