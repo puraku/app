@@ -1,7 +1,7 @@
 <template>
   <div class="icon"  @click="onClick" :style="style" @mousedown="active = true" @mouseup="active = false">
     <i :class="iconClasses" aria-hidden="true" :style="styles" />
-    <div class="badge-count" v-if="badgeCount && badgeCount > 0" :style="badgeStyle">{{ badgeCount }}</div>
+    <div class="badge-count" v-if="badgeCount && badgeCount > 0" :class="{dark: isDark}">{{ badgeCount }}</div>
   </div>
 </template>
 
@@ -41,8 +41,9 @@ export default {
       type: Number
     },
 
-    badgeStyle: {
-      type: Object
+    isDark: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -69,3 +70,24 @@ export default {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+.badge-count {
+  position: absolute;
+  font-size: 0.6em;
+  top: -0.6em;
+  line-height: 0.8em;
+  border-radius: 25px;
+  text-align: center;
+  right: -1.5em;
+  background-color: white;
+  box-sizing: border-box;
+  padding: 0.1em 0.5em;
+  border-width: .2em;
+  border-style: solid;
+
+  &.dark {
+    background-color: #353c42;
+  }
+}
+</style>

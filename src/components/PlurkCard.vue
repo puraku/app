@@ -31,8 +31,8 @@
         </div>
         <div class="content" v-html="plurk.content" @click="goToDetail" :class="{dark: isDarkTheme}"/>
         <div class="actions">
-          <fa-icon iconName="heart" :style="faStyle" :badgeCount="plurk.favorite_count" :badgeStyle="badgeStyle"/>
-          <fa-icon iconName="refresh" :style="faStyle" :badgeCount="plurk.replurkers_count" :badgeStyle="badgeStyle"/>
+          <fa-icon iconName="heart" :style="[faStyle, favoriteStyle]" :badgeCount="plurk.favorite_count" :isDark="isDarkTheme" />
+          <fa-icon iconName="refresh" :style="[faStyle, replurkedStyle]" :badgeCount="plurk.replurkers_count" :isDark="isDarkTheme"/>
           <fa-icon :iconName="volumnIconName" :style="faStyle"/>
           <fa-icon iconName="trash" :style="faStyle" v-if="isOwner"/>
         </div>
@@ -87,21 +87,6 @@ export default {
         position: 'relative'
       },
 
-      badgeStyle: {
-        position: 'absolute',
-        fontSize: '0.6em',
-        top: '-0.6em',
-        lineHeight: '0.8em',
-        borderRadius: '25px',
-        textAlign: 'center',
-        right: '-1.5em',
-        background: 'white',
-        boxSizing: 'border-box',
-        padding: '0.1em 0.5em',
-        borderWidth: '0.2em',
-        borderStyle: 'solid'
-      },
-
       replurkStyle: {
         marginRight: '.3em',
         paddingTop: '.15em'
@@ -151,6 +136,26 @@ export default {
 
     isMuted() {
       return this.plurk.is_unread == 2;
+    },
+
+    isFavorite() {
+      return this.favorite || this.currentUser.id && this.plurk.favorers.includes(this.currentUser.id);
+    },
+
+    favoriteStyle() {
+      return this.isFavorite ? {
+        color: '#e93f33'
+      } : {};
+    },
+
+    replurked() {
+      return this.plurk.replurked === true || this.replurker && this.replurker.id == this.currentUser.id;
+    },
+
+    replurkedStyle() {
+      return this.replurked ? {
+        color: '#00bf94'
+      } : {};
     },
 
     volumnIconName() {
