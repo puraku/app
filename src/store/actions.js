@@ -23,6 +23,7 @@ export const initializeApp = ({ dispatch, commit }) => {
   dispatch('registerIpcActions');
 };
 
+/* dispatch vuex action from main process */
 export const registerIpcActions = ({ dispatch }) => {
   ipcRenderer.on('vuex:action', (event, arg) => {
     const { action, args } = arg;
@@ -45,12 +46,11 @@ export const toggleStyle = ({ state, commit }) => {
   });
 };
 
-export const fetchTimelinePlurks = ({ state, commit }) => {
-  getPlurks().then(({ plurk_users, plurks }) => {
-    commit({
-      type: types.FETCH_PLURKS,
-      plurks
-    });
+export const fetchTimelinePlurks = async ({ dispatch, state, commit }) => {
+  try {
+    const { plurk_users, plurks } = await getPlurks();
+
+    dispatch('mergePlurks', plurks);
 
     const currentPlurkIds = state.plurks.timeline[state.selectedUserId];
     let prependIds = plurks.map(plurk => plurk.plurk_id);
@@ -67,63 +67,63 @@ export const fetchTimelinePlurks = ({ state, commit }) => {
     });
 
     commit({
-      type: types.FETCH_USERS,
+      type: types.MERGE_USERS,
       users: plurk_users
     });
 
     plurks.map(plurk => {
       if (plurk.replurker_id) {
-        getPublicProfile(plurk.owner_id).then(({ plurks, user_info, ...data }) => {
-          commit({
-            type: types.FETCH_USERS,
-            users: {
-              [plurk.owner_id]: user_info
-            }
-          });
-        });
+        dispatch('fetchUser', plurk.owner_id);
       }
     });
+  } catch (error) {
+    // TODO: error handling
+  }
+};
+
+export const mergePlurks = ({ commit }, plurks) => {
+  commit({
+    type: types.MERGE_PLURKS,
+    plurks
   });
 };
 
-export const fetchPlurk = ({ commit }, plurkID) => {
-  getPlurk(plurkID).then(({ plurk, user, plurk_users: users }) => {
-    commit({
-      type: types.FETCH_PLURKS,
-      plurks: [plurk]
-    });
+export const fetchPlurk = async ({ commit, dispatch }, plurkID) => {
+  try {
+    const { plurk, user, plurk_users: users } = await getPlurk(plurkID);
+    dispatch('mergePlurks', [plurk]);
 
     commit({
-      type: types.FETCH_USERS,
+      type: types.MERGE_USERS,
       users: { ...users, [user.id]: user }
     });
-  });
+  } catch (err) { /* TODO */ }
 };
 
-export const fetchPlurkResponses = ({ state, commit }, plurkId) => {
-  getResponses(plurkId).then(({ friends: users, response_count, responses_seen, responses }) => {
-    commit({
-      type: types.ADD_RESPONSES,
-      responses
-    });
+export const fetchPlurkResponses = async ({ state, commit }, plurkId) => {
+  const { friends: users, response_count, responses_seen, responses } = await getResponses(plurkId);
 
-    const currentResponseIds = state.plurks.plurkResponses[plurkId];
-    let appendIds = responses.map(response => response.id);
-    if (typeof currentResponseIds !== 'undefined') {
-      appendIds = appendIds.filter(id => {
-        return currentResponseIds.indexOf(id) === -1;
-      });
-    }
-    commit({
-      type: types.ADD_PLURK_RESPONSES,
-      responseIds: appendIds,
-      plurkId
-    });
+  commit({
+    type: types.ADD_RESPONSES,
+    responses
+  });
 
-    commit({
-      type: types.FETCH_USERS,
-      users
+  const currentResponseIds = state.plurks.plurkResponses[plurkId];
+  let appendIds = responses.map(response => response.id);
+  if (typeof currentResponseIds !== 'undefined') {
+    appendIds = appendIds.filter(id => {
+      return currentResponseIds.indexOf(id) === -1;
     });
+  }
+  commit({
+    type: types.ADD_PLURK_RESPONSES,
+    responseIds: appendIds,
+    plurkId
+  });
+
+  commit({
+    type: types.MERGE_USERS,
+    users
   });
 };
 
@@ -154,54 +154,55 @@ export const changeHeader = ({ commit }, header) => {
   });
 };
 
-export const fetchUserProfile = ({ state, commit }, userID) => {
-  getPublicProfile(userID).then(({ plurks, user_info, ...data }) => {
-    commit({
-      type: types.FETCH_USER_DATA,
-      data
-    });
+export const fetchUser = async ({ commit }, userID) => {
+  const { plurks, user_info, ...data } = await getPublicProfile(userID);
 
-    commit({
-      type: types.FETCH_PLURKS,
-      plurks
-    });
-
-    plurks.map(plurk => {
-      if (plurk.replurker_id) {
-        getPublicProfile(plurk.owner_id).then(({ plurks, user_info, ...data }) => {
-          commit({
-            type: types.FETCH_USERS,
-            users: {
-              [plurk.owner_id]: user_info
-            }
-          });
-        });
-      }
-    });
-
-    const currentPlurkIds = state.plurks.userPlurks[userID];
-    let prependIds = plurks.map(plurk => plurk.plurk_id);
-    if (typeof currentPlurkIds !== 'undefined') {
-      prependIds = prependIds.filter(id => {
-        return currentPlurkIds.indexOf(id) === -1;
-      });
+  commit({
+    type: types.MERGE_USERS,
+    users: {
+      [userID]: user_info
     }
-    commit({
-      type: types.PREPEND_USER_PLURKS,
-      plurkIds: prependIds,
-      userID
-    });
+  });
+};
 
-    commit({
-      type: types.FETCH_USERS,
-      users: {
-        [userID]: user_info
-      }
-    });
+export const fetchUserProfile = async ({ state, commit, dispatch }, userID) => {
+  const { plurks, user_info, ...data } = await getPublicProfile(userID);
 
-    commit({
-      type: types.CHANGE_HEADER,
-      header: user_info.display_name || user_info.nick_name
+  commit({
+    type: types.FETCH_USER_DATA,
+    data
+  });
+
+  dispatch('mergePlurks', plurks);
+
+  plurks.map(plurk => {
+    if (plurk.replurker_id) {
+      dispatch('fetchUser', plurk.owner_id);
+    }
+  });
+
+  const currentPlurkIds = state.plurks.userPlurks[userID];
+  let prependIds = plurks.map(plurk => plurk.plurk_id);
+  if (typeof currentPlurkIds !== 'undefined') {
+    prependIds = prependIds.filter(id => {
+      return currentPlurkIds.indexOf(id) === -1;
     });
+  }
+  commit({
+    type: types.PREPEND_USER_PLURKS,
+    plurkIds: prependIds,
+    userID
+  });
+
+  commit({
+    type: types.MERGE_USERS,
+    users: {
+      [userID]: user_info
+    }
+  });
+
+  commit({
+    type: types.CHANGE_HEADER,
+    header: user_info.display_name || user_info.nick_name
   });
 };

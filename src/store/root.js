@@ -40,7 +40,7 @@ const mutations = {
     state.selectedUserId = userID;
   },
 
-  [types.FETCH_USERS] (state, { users }) {
+  [types.MERGE_USERS] (state, { users }) {
     state.userList = { ...state.userList, ...users };
   },
 

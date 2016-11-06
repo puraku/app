@@ -18,7 +18,7 @@ const state = {
 };
 
 const mutations = {
-  [types.FETCH_PLURKS] (state, { plurks }) {
+  [types.MERGE_PLURKS] (state, { plurks }) {
     const newPlurks = plurks.reduce((prev, cur) => {
       return { ...prev, [cur.plurk_id]: cur };
     }, {});
