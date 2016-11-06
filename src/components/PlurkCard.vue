@@ -7,7 +7,7 @@
       <div class="timestamp" v-if="showTimestamp" @click="goToDetail" :class="{dark: isDarkTheme}" >
         {{ timestamp }}
       </div>
-      <div class="replurker-card" v-if="plurk && replurker" :class="{dark: isDarkTheme}">
+      <div class="replurker-card" v-if="showReplurkerCard" :class="{dark: isDarkTheme}">
         <div class="replurker-name" @click="goToReplurker">
           {{ replurker.display_name }}
         </div>
@@ -124,6 +124,10 @@ export default {
       } else {
         return formatedDate;
       }
+    },
+
+    showReplurkerCard() {
+      return this.plurk && this.replurker && !(this.$route.path === `/plurks/${this.plurk.plurk_id}`);
     },
 
     postedAt() {
