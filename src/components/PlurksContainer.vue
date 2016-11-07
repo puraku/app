@@ -40,7 +40,7 @@ export default {
     return {
       onScroll(self) {
         return function() {
-          const threshold = 300;
+          const threshold = 400;
           if (this.scrollTop + threshold > this.scrollHeight - this.offsetHeight) {
             self.onEndReached && self.onEndReached();
           }
