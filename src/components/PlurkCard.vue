@@ -143,7 +143,7 @@ export default {
     },
 
     isFavorite() {
-      return this.favorite || this.currentUser.id && this.plurk.favorers.includes(this.currentUser.id);
+      return this.favorite || this.currentUser && this.currentUser.id && this.plurk.favorers.includes(this.currentUser.id);
     },
 
     favoriteStyle() {
