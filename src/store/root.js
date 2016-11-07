@@ -18,7 +18,9 @@ const state = {
 
   navbarHeader: '',
 
-  appTheme: 'light'
+  appTheme: 'light',
+
+  timerID: null
 };
 
 const mutations = {
@@ -50,6 +52,10 @@ const mutations = {
 
   [types.SET_THEME] (state, { theme }) {
     state.appTheme = theme;
+  },
+
+  [types.SET_TIMER_ID] (state, { timerID }) {
+    state.timerID = timerID;
   }
 };
 

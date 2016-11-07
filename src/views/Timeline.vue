@@ -27,7 +27,9 @@ export default {
     ...mapActions([
       'fetchTimelinePlurks',
       'fetchTimelineNextPage',
-      'changeHeader'
+      'changeHeader',
+      'registerPolling',
+      'unregisterPolling'
     ])
   },
 
@@ -42,6 +44,8 @@ export default {
   },
 
   mounted() {
+    this.registerPolling();
+
     if (typeof this.timeline === 'undefined' || this.timeline.length == 0) {
       this.fetchTimelinePlurks();
     } else {
@@ -49,6 +53,10 @@ export default {
     }
 
     this.changeHeader('我的河道');
+  },
+
+  beforeDestroy() {
+    this.unregisterPolling();
   },
 
   data() {

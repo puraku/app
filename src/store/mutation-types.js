@@ -21,6 +21,7 @@ export const SELECT_USER_ID = 'SELECT_USER_ID';
 export const LOGOUT_USER = 'LOGOUT_USER';
 
 export const SET_THEME = 'SET_THEME';
+export const SET_TIMER_ID = 'SET_TIMER_ID';
 
 export const MERGE_USERS = 'MERGE_USERS';
 

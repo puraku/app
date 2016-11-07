@@ -1,6 +1,7 @@
 import * as types from './mutation-types';
 
 import { getPlurks, getPlurk } from 'api/timeline';
+import * as Polling from 'api/polling';
 import { getResponses } from 'api/responses';
 import { getPublicProfile } from 'api/profile';
 import { getMe } from 'api/users';
@@ -63,11 +64,7 @@ export const fetchTimelinePlurks = async ({ dispatch, state, commit }) => {
       userID: state.selectedUserId
     });
 
-    plurks.map(plurk => {
-      if (plurk.replurker_id) {
-        dispatch('fetchUser', plurk.owner_id);
-      }
-    });
+    dispatch('fetchReplurkers', plurks);
   } catch (error) {
     // TODO: show error dialog
     commit({
@@ -93,7 +90,59 @@ export const fetchTimelineNextPage = async ({ commit, state, dispatch }, callbac
     userID: state.selectedUserId
   });
 
+  dispatch('fetchReplurkers', plurks);
+
   callback();
+};
+
+export const fetchReplurkers = ({ dispatch }, plurks) => {
+  plurks.map(plurk => {
+    if (plurk.replurker_id) {
+      dispatch('fetchUser', plurk.owner_id);
+    }
+  });
+};
+
+export const registerPolling = ({ commit, state, dispatch }) => {
+  if (!state.timerID) {
+    const timerID = setInterval(() => {
+      dispatch('pollTimeline');
+    }, 15000);
+
+    commit({
+      type: types.SET_TIMER_ID,
+      timerID
+    });
+  }
+};
+
+export const unregisterPolling = ({ commit, state }) => {
+  if (state.timerID) {
+    clearInterval(state.timerID);
+
+    commit({
+      type: types.SET_TIMER_ID,
+      timerID: null
+    });
+  }
+};
+
+export const pollTimeline = async ({ commit, state, dispatch }) => {
+  const timelinePlurks = currentUserTimeline(state);
+  const offset = moment.tz(timelinePlurks[0].posted, 'UTC').format();
+
+  const { plurk_users, plurks } = await Polling.getPlurks({ offset });
+
+  dispatch('mergePlurks', plurks);
+  dispatch('mergeUsers', plurk_users);
+
+  commit({
+    type: types.PREPEND_TIMELINE,
+    plurkIds: plurks.map(p => p.plurk_id),
+    userID: state.selectedUserId
+  });
+
+  dispatch('fetchReplurkers', plurks);
 };
 
 export const mergePlurks = ({ commit }, plurks) => {
