@@ -66,6 +66,24 @@ const mutations = {
     };
   },
 
+  [types.APPEND_USER_PLURKS] (state, { plurkIds, userID }) {
+    const currentPlurkIds = state.userPlurks[userID] || [];
+    state.userPlurks = {
+      ...state.userPlurks,
+      [userID]: [
+        ...currentPlurkIds,
+        ...plurkIds
+      ]
+    };
+  },
+
+  [types.REPLACE_USER_PLURKS] (state, { plurkIds, userID }) {
+    state.userPlurks = {
+      ...state.userPlurks,
+      [userID]: plurkIds
+    };
+  },
+
   [types.ADD_RESPONSES] (state, { responses }) {
     state.responses = {
       ...state.responses,

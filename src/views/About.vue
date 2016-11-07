@@ -4,6 +4,7 @@
     <plurks-container
       :plurks="plurks"
       :containerStyle="{zIndex: 10}"
+      :onEndReached="onEndReached"
     />
   </div>
 </template>
@@ -24,9 +25,23 @@ export default {
   },
 
   methods: {
+    onEndReached() {
+      if (!this.isFetching) {
+        this.isFetching = true;
+
+        this.fetchUserPlurksNextPage({
+          userID: this.userID,
+          callback: () => {
+            this.isFetching = false;
+          }
+        });
+      }
+    },
+
     ...mapActions([
       'changeHeader',
-      'fetchUserProfile'
+      'fetchUserProfile',
+      'fetchUserPlurksNextPage'
     ])
   },
 
@@ -86,7 +101,8 @@ export default {
       userData: null,
       scrollLength: 0,
       handleWheel: () => {},
-      handleWheelAdded: false
+      handleWheelAdded: false,
+      isFetching: false
     };
   }
 }

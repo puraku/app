@@ -1,6 +1,6 @@
 import * as types from './mutation-types';
 
-import { getPlurks, getPlurk } from 'api/timeline';
+import { getPlurks, getPlurk, getPublicPlurks } from 'api/timeline';
 import * as Polling from 'api/polling';
 import { getResponses } from 'api/responses';
 import { getPublicProfile } from 'api/profile';
@@ -227,34 +227,49 @@ export const fetchUser = async ({ commit, dispatch }, userID) => {
   dispatch('mergeUsers', { [userID]: user_info });
 };
 
+export const fetchUserData = ({ commit }, { userID, data }) => {
+  commit({
+    type: types.FETCH_USER_DATA,
+    userID,
+    data
+  });
+};
+
 export const fetchUserProfile = async ({ state, commit, dispatch }, userID) => {
   const { plurks, user_info, ...data } = await getPublicProfile(userID);
 
-  commit({
-    type: types.FETCH_USER_DATA,
-    data
-  });
-
+  dispatch('fetchUserData', { data, userID });
   dispatch('mergePlurks', plurks);
   dispatch('fetchReplurkers', plurks);
+  dispatch('mergeUsers', { [userID]: user_info });
 
-  const currentPlurkIds = state.plurks.userPlurks[userID];
-  let prependIds = plurks.map(plurk => plurk.plurk_id);
-  if (typeof currentPlurkIds !== 'undefined') {
-    prependIds = prependIds.filter(id => {
-      return currentPlurkIds.indexOf(id) === -1;
-    });
-  }
   commit({
-    type: types.PREPEND_USER_PLURKS,
-    plurkIds: prependIds,
+    type: types.REPLACE_USER_PLURKS,
+    plurkIds: plurks.map(plurk => plurk.plurk_id),
     userID
   });
-
-  dispatch('mergeUsers', { [userID]: user_info });
 
   commit({
     type: types.CHANGE_HEADER,
     header: user_info.display_name || user_info.nick_name
   });
+};
+
+export const fetchUserPlurksNextPage = async ({ state, commit, dispatch }, { userID, callback }) => {
+  const userPlurks = state.plurks.userPlurks[userID].map(plurkID => state.plurks.plurks[plurkID]);
+  const offset = formatOffset(userPlurks[userPlurks.length - 1]);
+
+  const { plurks, plurk_users } = await getPublicPlurks(userID, { offset });
+
+  dispatch('mergePlurks', plurks);
+  dispatch('fetchReplurkers', plurks);
+  dispatch('mergeUsers', plurk_users);
+
+  commit({
+    type: types.APPEND_USER_PLURKS,
+    plurkIds: plurks.map(plurk => plurk.plurk_id),
+    userID
+  });
+
+  callback();
 };
