@@ -7,10 +7,11 @@ import { getPublicProfile } from 'api/profile';
 import { getMe } from 'api/users';
 import { currentUserTimeline } from 'store/getters';
 
+import { formatOffset } from 'helpers/plurkHelper';
+
 import config from 'utils/config';
 
 import { ipcRenderer } from 'electron';
-import moment from 'moment-timezone';
 
 export const initializeApp = ({ dispatch, commit }) => {
   config.get('config:theme').then(theme => {
@@ -77,7 +78,7 @@ export const fetchTimelinePlurks = async ({ dispatch, state, commit }) => {
 
 export const fetchTimelineNextPage = async ({ commit, state, dispatch }, callback) => {
   const timelinePlurks = currentUserTimeline(state);
-  const offset = moment.tz(timelinePlurks[timelinePlurks.length - 1].posted, 'UTC').format();
+  const offset = formatOffset(timelinePlurks[timelinePlurks.length - 1]);
 
   const { plurk_users, plurks } = await getPlurks({ offset });
 
@@ -129,7 +130,7 @@ export const unregisterPolling = ({ commit, state }) => {
 
 export const pollTimeline = async ({ commit, state, dispatch }) => {
   const timelinePlurks = currentUserTimeline(state);
-  const offset = moment.tz(timelinePlurks[0].posted, 'UTC').format();
+  const offset = formatOffset(timelinePlurks[0]);
 
   const { plurk_users, plurks } = await Polling.getPlurks({ offset });
 
@@ -235,12 +236,7 @@ export const fetchUserProfile = async ({ state, commit, dispatch }, userID) => {
   });
 
   dispatch('mergePlurks', plurks);
-
-  plurks.map(plurk => {
-    if (plurk.replurker_id) {
-      dispatch('fetchUser', plurk.owner_id);
-    }
-  });
+  dispatch('fetchReplurkers', plurks);
 
   const currentPlurkIds = state.plurks.userPlurks[userID];
   let prependIds = plurks.map(plurk => plurk.plurk_id);

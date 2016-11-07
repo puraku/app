@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { ipcRenderer } from 'electron';
 
 export function postedDateTagger (plurks) {
@@ -20,6 +20,10 @@ export function formatDate (plurk) {
   } else {
     return formatedDate;
   }
+}
+
+export function formatOffset (plurk) {
+  return moment.tz(plurk.posted, 'UTC').format();
 }
 
 function handleContentClick (e) {
