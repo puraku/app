@@ -80,7 +80,7 @@ export const fetchTimelinePlurks = async ({ dispatch, state, commit }) => {
 
 export const fetchTimelineNextPage = async ({ commit, state, dispatch }, callback) => {
   const timelinePlurks = currentUserTimeline(state);
-  const offset = moment.tz(timelinePlurks[timelinePlurks.length - 1].posted, 'UTC').format('YYYY-M-DTHH:mm:ss');
+  const offset = moment.tz(timelinePlurks[timelinePlurks.length - 1].posted, 'UTC').format();
 
   const { plurk_users, plurks } = await getPlurks({ offset });
 
