@@ -1,5 +1,5 @@
 <template>
-  <plurks-container :plurks="plurks" />
+  <plurks-container :plurks="plurks" :onEndReached="onEndReached" />
 </template>
 
 <script>
@@ -14,8 +14,19 @@ export default {
   },
 
   methods: {
+    onEndReached() {
+      if (!this.isFetching && this.plurks && this.plurks.length > 0) {
+        this.isFetching = true;
+
+        this.fetchTimelineNextPage(() => {
+          this.isFetching = false;
+        });
+      }
+    },
+
     ...mapActions([
       'fetchTimelinePlurks',
+      'fetchTimelineNextPage',
       'changeHeader'
     ])
   },
@@ -34,6 +45,12 @@ export default {
     }
 
     this.changeHeader('我的河道');
+  },
+
+  data() {
+    return {
+      isFetching: false
+    }
   }
 }
 </script>

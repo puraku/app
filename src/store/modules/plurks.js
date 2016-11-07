@@ -37,6 +37,17 @@ const mutations = {
     };
   },
 
+  [types.APPEND_TIMELINE] (state, { plurkIds, userID }) {
+    const currentPlurkIds = state.timeline[userID] || [];
+    state.timeline = {
+      ...state.timeline,
+      [userID]: [
+        ...currentPlurkIds,
+        ...plurkIds
+      ]
+    };
+  },
+
   [types.REPLACE_TIMELINE] (state, { plurkIds, userID }) {
     state.timeline = {
       ...state.timeline,

@@ -9,6 +9,7 @@ import { currentUserTimeline } from 'store/getters';
 import config from 'utils/config';
 
 import { ipcRenderer } from 'electron';
+import moment from 'moment-timezone';
 
 export const initializeApp = ({ dispatch, commit }) => {
   config.get('config:theme').then(theme => {
@@ -75,6 +76,24 @@ export const fetchTimelinePlurks = async ({ dispatch, state, commit }) => {
       userID: state.selectedUserId
     });
   }
+};
+
+export const fetchTimelineNextPage = async ({ commit, state, dispatch }, callback) => {
+  const timelinePlurks = currentUserTimeline(state);
+  const offset = moment.tz(timelinePlurks[timelinePlurks.length - 1].posted, 'UTC').format('YYYY-M-DTHH:mm:ss');
+
+  const { plurk_users, plurks } = await getPlurks({ offset });
+
+  dispatch('mergePlurks', plurks);
+  dispatch('mergeUsers', plurk_users);
+
+  commit({
+    type: types.APPEND_TIMELINE,
+    plurkIds: plurks.map(p => p.plurk_id),
+    userID: state.selectedUserId
+  });
+
+  callback();
 };
 
 export const mergePlurks = ({ commit }, plurks) => {

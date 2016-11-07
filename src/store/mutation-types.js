@@ -1,6 +1,7 @@
 /* plurks mutations */
 export const MERGE_PLURKS = 'MERGE_PLURKS';
 export const PREPEND_TIMELINE = 'PREPEND_TIMELINE';
+export const APPEND_TIMELINE = 'APPEND_TIMELINE';
 export const REPLACE_TIMELINE = 'REPLACE_TIMELINE';
 export const POLL_PLURKS = 'POLL_PLURKS';
 export const UPDATE_PLURK = 'UPDATE_PLURK';

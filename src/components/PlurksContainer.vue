@@ -21,7 +21,8 @@ export default {
   props: [
     'plurks',
     'timelineStyle',
-    'containerStyle'
+    'containerStyle',
+    'onEndReached'
   ],
 
   components: {
@@ -33,6 +34,29 @@ export default {
     ...mapState({
       theme: state => state.appTheme
     })
+  },
+
+  data() {
+    return {
+      onScroll(self) {
+        return function() {
+          const threshold = 300;
+          if (this.scrollTop + threshold > this.scrollHeight - this.offsetHeight) {
+            self.onEndReached && self.onEndReached();
+          }
+        }
+      }
+    }
+  },
+
+  mounted() {
+    const self = this;
+    this.$el.addEventListener('scroll', this.onScroll(self));
+  },
+
+  beforeDestroy() {
+    const self = this;
+    this.$el.removeEventListener('scroll', this.onScroll(self));
   }
 }
 </script>
