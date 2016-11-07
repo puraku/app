@@ -4,6 +4,7 @@ import { getPlurks, getPlurk } from 'api/timeline';
 import { getResponses } from 'api/responses';
 import { getPublicProfile } from 'api/profile';
 import { getMe } from 'api/users';
+import { currentUserTimeline } from 'store/getters';
 
 import config from 'utils/config';
 
@@ -47,26 +48,19 @@ export const toggleStyle = ({ state, commit }) => {
 };
 
 export const fetchTimelinePlurks = async ({ dispatch, state, commit }) => {
+  const currentPlurkIds = currentUserTimeline(state).map(p => p.plurk_id);
+
   try {
     const { plurk_users, plurks } = await getPlurks();
 
     dispatch('mergePlurks', plurks);
-
-    const currentPlurkIds = state.plurks.timeline[state.selectedUserId];
-    let prependIds = plurks.map(plurk => plurk.plurk_id);
-    if (typeof currentPlurkIds !== 'undefined') {
-      prependIds = prependIds.filter(id => {
-        return currentPlurkIds.indexOf(id) === -1;
-      });
-    }
+    dispatch('mergeUsers', plurk_users);
 
     commit({
-      type: types.PREPEND_TIMELINE,
-      plurkIds: prependIds,
+      type: types.REPLACE_TIMELINE,
+      plurkIds: plurks.map(plurk => plurk.plurk_id),
       userID: state.selectedUserId
     });
-
-    dispatch('mergeUsers', plurk_users);
 
     plurks.map(plurk => {
       if (plurk.replurker_id) {
@@ -74,7 +68,12 @@ export const fetchTimelinePlurks = async ({ dispatch, state, commit }) => {
       }
     });
   } catch (error) {
-    // TODO: error handling
+    // TODO: show error dialog
+    commit({
+      type: types.REPLACE_TIMELINE,
+      plurkIds: currentPlurkIds,
+      userID: state.selectedUserId
+    });
   }
 };
 

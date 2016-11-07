@@ -27,7 +27,12 @@ export default {
   },
 
   mounted() {
-    this.fetchTimelinePlurks();
+    if (typeof this.currentUserTimeline === 'undefined' || this.currentUserTimeline.length == 0) {
+      this.fetchTimelinePlurks();
+    } else {
+      // TODO: poll new plurks
+    }
+
     this.changeHeader('我的河道');
   }
 }
