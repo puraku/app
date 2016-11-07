@@ -66,10 +66,7 @@ export const fetchTimelinePlurks = async ({ dispatch, state, commit }) => {
       userID: state.selectedUserId
     });
 
-    commit({
-      type: types.MERGE_USERS,
-      users: plurk_users
-    });
+    dispatch('mergeUsers', plurk_users);
 
     plurks.map(plurk => {
       if (plurk.replurker_id) {
@@ -88,19 +85,24 @@ export const mergePlurks = ({ commit }, plurks) => {
   });
 };
 
+export const mergeUsers = ({ commit }, users) => {
+  commit({
+    type: types.MERGE_USERS,
+    users
+  });
+};
+
 export const fetchPlurk = async ({ commit, dispatch }, plurkID) => {
   try {
     const { plurk, user, plurk_users: users } = await getPlurk(plurkID);
-    dispatch('mergePlurks', [plurk]);
 
-    commit({
-      type: types.MERGE_USERS,
-      users: { ...users, [user.id]: user }
-    });
+    dispatch('mergePlurks', [plurk]);
+    dispatch('mergeUsers', users);
+    dispatch('mergeUsers', { [user.id]: user });
   } catch (err) { /* TODO */ }
 };
 
-export const fetchPlurkResponses = async ({ state, commit }, plurkId) => {
+export const fetchPlurkResponses = async ({ state, commit, dispatch }, plurkId) => {
   const { friends: users, response_count, responses_seen, responses } = await getResponses(plurkId);
 
   commit({
@@ -121,10 +123,7 @@ export const fetchPlurkResponses = async ({ state, commit }, plurkId) => {
     plurkId
   });
 
-  commit({
-    type: types.MERGE_USERS,
-    users
-  });
+  dispatch('mergeUsers', users);
 };
 
 export const loadUser = ({ commit }) => {
@@ -154,15 +153,10 @@ export const changeHeader = ({ commit }, header) => {
   });
 };
 
-export const fetchUser = async ({ commit }, userID) => {
+export const fetchUser = async ({ commit, dispatch }, userID) => {
   const { plurks, user_info, ...data } = await getPublicProfile(userID);
 
-  commit({
-    type: types.MERGE_USERS,
-    users: {
-      [userID]: user_info
-    }
-  });
+  dispatch('mergeUsers', { [userID]: user_info });
 };
 
 export const fetchUserProfile = async ({ state, commit, dispatch }, userID) => {
@@ -194,12 +188,7 @@ export const fetchUserProfile = async ({ state, commit, dispatch }, userID) => {
     userID
   });
 
-  commit({
-    type: types.MERGE_USERS,
-    users: {
-      [userID]: user_info
-    }
-  });
+  dispatch('mergeUsers', { [userID]: user_info });
 
   commit({
     type: types.CHANGE_HEADER,
