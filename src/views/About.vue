@@ -68,7 +68,7 @@ export default {
       }
     }
 
-    if (typeof this.user === 'undefined') {
+    if (typeof this.user === 'undefined' || typeof this.userPlurks[this.userID] === 'undefined' || this.userPlurks[this.userID].length == 0) {
       this.fetchUserProfile(this.userID);
     }
   },
