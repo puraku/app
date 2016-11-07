@@ -4,7 +4,7 @@
 
 <script>
 import PlurksContainer from 'components/PlurksContainer.vue';
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 
 export default {
   name: 'Timeline',
@@ -32,13 +32,17 @@ export default {
   },
 
   computed: {
+    ...mapState({
+      timeline: state => state.plurks.timeline[state.selectedUserId]
+    }),
+
     ...mapGetters({
       plurks: 'currentUserTimeline'
     })
   },
 
   mounted() {
-    if (typeof this.currentUserTimeline === 'undefined' || this.currentUserTimeline.length == 0) {
+    if (typeof this.timeline === 'undefined' || this.timeline.length == 0) {
       this.fetchTimelinePlurks();
     } else {
       // TODO: poll new plurks
