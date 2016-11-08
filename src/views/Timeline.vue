@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <title-bar />
-    <filter-group :filterItems="filterItems" :isSelected="isFilterItemSelected" />
+    <filter-group :filterItems="filterItems" :isSelected="isFilterItemSelected" :unreadData="unreadData" />
     <plurks-container :plurks="plurks" :onEndReached="onEndReached" />
   </div>
 </template>
@@ -65,7 +65,8 @@ export default {
       'fetchTimelineNextPage',
       'changeHeader',
       'registerPolling',
-      'unregisterPolling'
+      'unregisterPolling',
+      'fetchUnreadCount'
     ])
   },
 
@@ -75,7 +76,8 @@ export default {
     },
 
     ...mapState({
-      timeline: state => state.plurks.timeline[state.selectedUserId]
+      timeline: state => state.plurks.timeline[state.selectedUserId],
+      unreadData: state => state.plurks.unreadData
     }),
 
     ...mapGetters({

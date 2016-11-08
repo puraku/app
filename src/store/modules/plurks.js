@@ -14,7 +14,10 @@ const state = {
   responses: {},
 
   // { [plurk_id]: [ response_id, response_id ] }
-  plurkResponses: {}
+  plurkResponses: {},
+
+  // {"all": 2, "my": 1, "private": 1, "responded": 0}
+  unreadData: {}
 };
 
 const mutations = {
@@ -101,6 +104,10 @@ const mutations = {
         ...responseIds
       ]
     };
+  },
+
+  [types.FETCH_UNREAD_DATA] (state, { unreadData }) {
+    state.unreadData = unreadData;
   }
 };
 

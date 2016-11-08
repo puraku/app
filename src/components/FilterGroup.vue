@@ -1,6 +1,7 @@
 <template>
   <div class="filter-group" :class="{ dark: isDarkTheme }">
     <div class="filter-item" v-for="item in filterItems" :class="itemClasses(item)" @click="item.onClick">
+      <div class="unread-dot" v-if="hasUnreadItem(item.value)"/>
       {{ item.label }}
     </div>
   </div>
@@ -22,12 +23,20 @@ export default {
 
     isSelected: {
       type: Function
+    },
+
+    unreadData: {
+      type: Object
     }
   },
 
   methods: {
     itemClasses(item) {
       return this.isSelected(item) ? ['selected'] : [];
+    },
+
+    hasUnreadItem(key) {
+      return this.unreadData && this.unreadData[key] > 0;
     }
   },
 
@@ -55,11 +64,22 @@ export default {
       color: #c3c3c3;
       padding: .3em .4em;
       cursor: pointer;
+      position: relative;
 
       &.selected {
         color: #ef8733;
         border-style: solid;
         border-width: 0px 0 2px;
+      }
+
+      .unread-dot {
+        background-color: #ef8733;
+        position: absolute;
+        right: 0;
+        top: .3em;
+        border-radius: 50%;
+        width: 4px;
+        height: 4px;
       }
     }
 

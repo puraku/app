@@ -50,6 +50,7 @@ export const toggleStyle = ({ state, commit }) => {
   });
 };
 
+/* Timeline Actions */
 export const fetchTimelinePlurks = async ({ dispatch, state, commit }, options) => {
   const currentPlurkIds = currentUserTimeline(state).map(p => p.plurk_id);
 
@@ -96,6 +97,15 @@ export const fetchTimelineNextPage = async ({ commit, state, dispatch }, { optio
   callback();
 };
 
+export const fetchUnreadCount = async ({ commit }) => {
+  const unreadData = await Polling.getUnreadCount();
+
+  commit({
+    type: types.FETCH_UNREAD_DATA,
+    unreadData
+  });
+};
+
 export const fetchReplurkers = ({ dispatch }, plurks) => {
   plurks.map(plurk => {
     if (plurk.replurker_id) {
@@ -108,6 +118,7 @@ export const registerPolling = ({ commit, state, dispatch }) => {
   if (!state.timerID) {
     const timerID = setInterval(() => {
       dispatch('pollTimeline');
+      dispatch('fetchUnreadCount');
     }, 15000);
 
     commit({

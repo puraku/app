@@ -15,6 +15,8 @@ export const REPLACE_USER_PLURKS = 'REPLACE_USER_PLURKS';
 export const ADD_RESPONSES = 'ADD_RESPONSES';
 export const ADD_PLURK_RESPONSES = 'ADD_PLURK_RESPONSES';
 
+export const FETCH_UNREAD_DATA = 'FETCH_UNREAD_DATA';
+
 /* profile mutations */
 export const FETCH_USER_DATA = 'FETCH_USER_DATA';
 
