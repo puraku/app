@@ -26,7 +26,7 @@ export default {
 
   methods: {
     onEndReached() {
-      if (!this.isFetching) {
+      if (!this.isFetching && this.plurks && this.plurks.length === 0) {
         this.isFetching = true;
 
         this.fetchUserPlurksNextPage({
