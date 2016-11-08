@@ -5,8 +5,11 @@ export const currentUser = state => {
 };
 
 export const currentUserTimeline = state => {
-  const plurkIds = state.plurks.timeline[state.selectedUserId];
-  if (typeof plurkIds !== 'undefined') {
+  const timeline = state.plurks.timeline[state.selectedUserId] || {};
+
+  if (typeof timeline !== 'undefined' &&
+      typeof timeline[state.route.query.filter || 'all'] !== 'undefined') {
+    const plurkIds = timeline[state.route.query.filter || 'all'] || [];
     return postedDateTagger(plurkIds.map(id => state.plurks.plurks[id]));
   } else {
     return [];

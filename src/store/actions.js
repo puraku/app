@@ -53,6 +53,7 @@ export const toggleStyle = ({ state, commit }) => {
 /* Timeline Actions */
 export const fetchTimelinePlurks = async ({ dispatch, state, commit }, options) => {
   const currentPlurkIds = currentUserTimeline(state).map(p => p.plurk_id);
+  const { filter } = options || {};
 
   try {
     const { plurk_users, plurks } = await getPlurks(options);
@@ -63,7 +64,8 @@ export const fetchTimelinePlurks = async ({ dispatch, state, commit }, options) 
     commit({
       type: types.REPLACE_TIMELINE,
       plurkIds: plurks.map(plurk => plurk.plurk_id),
-      userID: state.selectedUserId
+      userID: state.selectedUserId,
+      filter: filter || 'all'
     });
 
     dispatch('fetchReplurkers', plurks);
@@ -72,13 +74,15 @@ export const fetchTimelinePlurks = async ({ dispatch, state, commit }, options) 
     commit({
       type: types.REPLACE_TIMELINE,
       plurkIds: currentPlurkIds,
-      userID: state.selectedUserId
+      userID: state.selectedUserId,
+      filter: filter || 'all'
     });
   }
 };
 
 export const fetchTimelineNextPage = async ({ commit, state, dispatch }, { options, callback }) => {
   const timelinePlurks = currentUserTimeline(state);
+  const { filter } = options || {};
   const offset = formatOffset(timelinePlurks[timelinePlurks.length - 1]);
 
   const { plurk_users, plurks } = await getPlurks({ offset, ...options });
@@ -89,7 +93,8 @@ export const fetchTimelineNextPage = async ({ commit, state, dispatch }, { optio
   commit({
     type: types.APPEND_TIMELINE,
     plurkIds: plurks.map(p => p.plurk_id),
-    userID: state.selectedUserId
+    userID: state.selectedUserId,
+    filter: filter || 'all'
   });
 
   dispatch('fetchReplurkers', plurks);
@@ -158,7 +163,8 @@ export const pollTimeline = async ({ commit, state, dispatch }) => {
   commit({
     type: types.PREPEND_TIMELINE,
     plurkIds: plurks.map(p => p.plurk_id),
-    userID: state.selectedUserId
+    userID: state.selectedUserId,
+    filter: 'all'
   });
 
   dispatch('fetchReplurkers', plurks);
