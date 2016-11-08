@@ -49,6 +49,7 @@ function handleContentClick (e) {
 }
 
 export function registerContentEvent (dom) {
+  if (typeof dom.querySelectorAll !== 'function') { return; }
   for (let anchor of dom.querySelectorAll('.content a')) {
     anchor.removeEventListener('click', handleContentClick);
     anchor.addEventListener('click', handleContentClick);
@@ -56,6 +57,7 @@ export function registerContentEvent (dom) {
 }
 
 export function unregisterContentEvent (dom) {
+  if (typeof dom.querySelectorAll !== 'function') { return; }
   for (let anchor of dom.querySelectorAll('.content a')) {
     anchor.removeEventListener('click', handleContentClick);
   }
