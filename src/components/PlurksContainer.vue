@@ -1,6 +1,9 @@
 <template>
   <div class="plurks-container" :style="containerStyle" :class="{ dark: isDarkTheme }">
     <time-baseline :timelineStyle="timelineStyle" />
+    <div class="unread-card" :class="{ dark: isDarkTheme }" v-if="unreadCount">
+      {{ unreadCount }} 則訊息有新回應
+    </div>
     <plurk-card v-for="plurk in plurks" :plurk="plurk"/>
   </div>
 </template>
@@ -22,7 +25,8 @@ export default {
     'plurks',
     'timelineStyle',
     'containerStyle',
-    'onEndReached'
+    'onEndReached',
+    'unreadCount'
   ],
 
   components: {
@@ -72,6 +76,19 @@ export default {
 
   &.dark {
     background-color: #1a2733;
+  }
+
+  .unread-card {
+    background-color: white;
+    color: #ffa458;
+    text-align: center;
+    margin-top: .5em;
+    padding: .3em 0;
+    cursor: pointer;
+
+    &.dark {
+      background-color: #353c42;
+    }
   }
 }
 </style>
