@@ -53,7 +53,7 @@ export default {
     })
   },
 
-  mounted() {
+  beforeMount() {
     this.fetchPlurk(this.plurkId);
     this.fetchPlurkResponses(this.plurkId);
   },

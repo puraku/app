@@ -86,7 +86,7 @@ export default {
     })
   },
 
-  mounted() {
+  beforeMount() {
     this.registerPolling();
 
     if (typeof this.timeline === 'undefined' || this.timeline.length == 0) {

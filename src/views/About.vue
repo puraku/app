@@ -67,7 +67,7 @@ export default {
     })
   },
 
-  mounted() {
+  beforeMount() {
    this.fetchUserProfile(this.userID);
   },
 
