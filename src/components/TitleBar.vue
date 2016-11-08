@@ -33,6 +33,9 @@ export default {
   text-align: center;
   font-size: 0.9em;
 
+  box-sizing: border-box;
+  padding-right: 24px;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
