@@ -50,11 +50,11 @@ export const toggleStyle = ({ state, commit }) => {
   });
 };
 
-export const fetchTimelinePlurks = async ({ dispatch, state, commit }) => {
+export const fetchTimelinePlurks = async ({ dispatch, state, commit }, options) => {
   const currentPlurkIds = currentUserTimeline(state).map(p => p.plurk_id);
 
   try {
-    const { plurk_users, plurks } = await getPlurks();
+    const { plurk_users, plurks } = await getPlurks(options);
 
     dispatch('mergePlurks', plurks);
     dispatch('mergeUsers', plurk_users);
@@ -76,11 +76,11 @@ export const fetchTimelinePlurks = async ({ dispatch, state, commit }) => {
   }
 };
 
-export const fetchTimelineNextPage = async ({ commit, state, dispatch }, callback) => {
+export const fetchTimelineNextPage = async ({ commit, state, dispatch }, { options, callback }) => {
   const timelinePlurks = currentUserTimeline(state);
   const offset = formatOffset(timelinePlurks[timelinePlurks.length - 1]);
 
-  const { plurk_users, plurks } = await getPlurks({ offset });
+  const { plurk_users, plurks } = await getPlurks({ offset, ...options });
 
   dispatch('mergePlurks', plurks);
   dispatch('mergeUsers', plurk_users);

@@ -52,8 +52,10 @@ export default {
       if (!this.isFetching && this.plurks && this.plurks.length > 0) {
         this.isFetching = true;
 
-        this.fetchTimelineNextPage(() => {
-          this.isFetching = false;
+        this.fetchTimelineNextPage({
+          callback: () => {
+            this.isFetching = false;
+          }
         });
       }
     },
