@@ -1,14 +1,7 @@
 <template>
   <div class="container">
     <title-bar />
-    <div class="filter-group" :class="{ dark: isDarkTheme }">
-      <div class="filter-item selected">所有</div>
-      <div class="filter-item">我的</div>
-      <div class="filter-item">私人</div>
-      <div class="filter-item">回應</div>
-      <div class="filter-item">喜歡</div>
-      <div class="filter-item">轉噗</div>
-    </div>
+    <filter-group :filterItems="filterItems" :isSelected="isFilterItemSelected" />
     <plurks-container :plurks="plurks" :onEndReached="onEndReached" />
   </div>
 </template>
@@ -16,22 +9,45 @@
 <script>
 import PlurksContainer from 'components/PlurksContainer.vue';
 import TitleBar from 'components/TitleBar.vue';
-
-import { themeConfigurable } from 'mixins';
+import FilterGroup from 'components/FilterGroup.vue';
 
 import { mapActions, mapGetters, mapState } from 'vuex';
 
 export default {
   name: 'Timeline',
 
-  mixins: [themeConfigurable],
-
   components: {
     PlurksContainer,
-    TitleBar
+    TitleBar,
+    FilterGroup
   },
 
   methods: {
+    isFilterItemSelected(item) {
+      const selectedFilter = this.$route.query.filter;
+      if (item.value === 'all') {
+        return typeof selectedFilter === 'undefined' || selectedFilter === item.value;
+      } else {
+        return selectedFilter === item.value;
+      }
+    },
+
+    mapFilterItem(item) {
+      const self = this;
+      return {
+        label: item[0],
+        value: item[1],
+        onClick: function() {
+          self.$router.push({
+            name: 'timeline',
+            query: {
+              filter: item[1]
+            }
+          })
+        }
+      }
+    },
+
     onEndReached() {
       if (!this.isFetching && this.plurks && this.plurks.length > 0) {
         this.isFetching = true;
@@ -52,9 +68,12 @@ export default {
   },
 
   computed: {
+    filterItems() {
+      return this.filters.map(this.mapFilterItem);
+    },
+
     ...mapState({
-      timeline: state => state.plurks.timeline[state.selectedUserId],
-      theme: state => state.appTheme
+      timeline: state => state.plurks.timeline[state.selectedUserId]
     }),
 
     ...mapGetters({
@@ -80,38 +99,16 @@ export default {
 
   data() {
     return {
-      isFetching: false
+      isFetching: false,
+      filters: [
+        ['所有', 'all'],
+        ['我的', 'my'],
+        ['私人', 'private'],
+        ['回應', 'responded'],
+        ['喜歡', 'favorite'],
+        ['轉噗', 'replurked']
+      ]
     }
   }
 }
 </script>
-
-<style lang="sass">
-  .filter-group {
-    background-color: white;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 .2em;
-    -webkit-user-select: none;
-    border-style: solid;
-    border-width: 0 0 0.1px;
-    border-color: #e8e8e8;
-
-    .filter-item {
-      color: #c3c3c3;
-      padding: .3em .4em;
-      cursor: pointer;
-
-      &.selected {
-        color: #ef8733;
-        border-style: solid;
-        border-width: 0px 0 2px;
-      }
-    }
-
-    &.dark {
-      background-color: #353c42;
-      border-color: #2b2b2b;
-    }
-  }
-</style>
