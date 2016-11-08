@@ -342,6 +342,7 @@ export default {
       margin: .5em 0;
       font-size: 1em;
       word-break: break-all;
+      white-space: pre-wrap;
 
       a.ex_link.meta,
       a.ogvideo.meta {
