@@ -41,6 +41,7 @@ export default {
           self.$router.push({
             name: 'timeline',
             query: {
+              ...self.$route.query,
               filter: item[1]
             }
           })

@@ -145,6 +145,9 @@ export const unregisterPolling = ({ commit, state }) => {
 
 export const pollTimeline = async ({ commit, state, dispatch }) => {
   const timelinePlurks = currentUserTimeline(state);
+
+  if (typeof timelinePlurks[0] === 'undefined') { return; }
+
   const offset = formatOffset(timelinePlurks[0]);
 
   const { plurk_users, plurks } = await Polling.getPlurks({ offset });

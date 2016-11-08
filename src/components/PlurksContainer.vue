@@ -1,10 +1,10 @@
 <template>
   <div class="plurks-container" :style="containerStyle" :class="{ dark: isDarkTheme }">
     <time-baseline :timelineStyle="timelineStyle" />
-    <div class="unread-card" :class="{ dark: isDarkTheme }" v-if="unreadCount">
+    <div class="unread-card" :class="{ dark: isDarkTheme }" v-if="showUnreadCard" @click="toggleUnread">
       {{ unreadCount }} 則訊息有新回應
     </div>
-    <div class="unread-card" :class="{ dark: isDarkTheme }" v-if="showUnreadActions">
+    <div class="unread-card" :class="{ dark: isDarkTheme }" v-if="showUnreadActions" @click="toggleUnread">
       <fa-icon iconName="commenting" :style="{display: 'inline-block'}" />
       顯示所有訊息
     </div>
@@ -34,8 +34,7 @@ export default {
     'plurks',
     'timelineStyle',
     'containerStyle',
-    'onEndReached',
-    'unreadCount'
+    'onEndReached'
   ],
 
   components: {
@@ -46,12 +45,37 @@ export default {
 
   computed: {
     showUnreadActions() {
+      return this.hasUnreadQuery && this.unreadCount > 0 && this.$route.name === 'timeline';
+    },
+
+    unreadCount() {
+      const filter = this.$route.query.filter || 'all';
+      return this.unreadData[filter];
+    },
+
+    showUnreadCard() {
+      return this.unreadCount > 0 && this.$route.name === 'timeline' && !this.hasUnreadQuery;
+    },
+
+    hasUnreadQuery() {
       return this.$route.query.unread === 'true';
     },
 
     ...mapState({
-      theme: state => state.appTheme
+      theme: state => state.appTheme,
+      unreadData: state => state.plurks.unreadData
     })
+  },
+
+  methods: {
+    toggleUnread() {
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          unread: this.$route.query.unread === 'true' ? 'false' : 'true'
+        }
+      })
+    }
   },
 
   data() {
