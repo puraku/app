@@ -1,16 +1,22 @@
 <template>
-  <plurks-container :plurks="plurks" :onEndReached="onEndReached" />
+  <div class="container">
+    <title-bar />
+    <plurks-container :plurks="plurks" :onEndReached="onEndReached" />
+  </div>
 </template>
 
 <script>
 import PlurksContainer from 'components/PlurksContainer.vue';
+import TitleBar from 'components/TitleBar.vue';
+
 import { mapActions, mapGetters, mapState } from 'vuex';
 
 export default {
   name: 'Timeline',
 
   components: {
-    PlurksContainer
+    PlurksContainer,
+    TitleBar
   },
 
   methods: {

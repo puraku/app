@@ -1,11 +1,13 @@
 <template>
-  <div class="about-container">
-    <profile :user="user" v-if="user" />
-    <plurks-container
-      :plurks="plurks"
-      :containerStyle="{zIndex: 10}"
-      :onEndReached="onEndReached"
-    />
+  <div class="container">
+    <div class="about-container">
+      <profile :user="user" v-if="user" />
+      <plurks-container
+        :plurks="plurks"
+        :containerStyle="{zIndex: 10}"
+        :onEndReached="onEndReached"
+      />
+    </div>
   </div>
 </template>
 

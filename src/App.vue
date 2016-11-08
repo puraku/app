@@ -1,12 +1,7 @@
 <template>
-  <div id="main-container">
+  <div id="main-container" :class="{dark: isDarkTheme}">
     <navigation-bar />
-    <div class="container" :class="{dark: isDarkTheme}">
-      <div id="header" v-if="hideHead" :class="{ dark: isDarkTheme }">
-        <p>{{ header }}</p>
-      </div>
-      <router-view />
-    </div>
+    <router-view />
   </div>
 </template>
 
@@ -29,10 +24,6 @@ export default {
   },
 
   computed: {
-    hideHead() {
-      return !this.$route.path.includes('/about/');
-    },
-
     isDarkTheme() {
       return this.theme === 'dark';
     },
@@ -42,7 +33,6 @@ export default {
     },
 
     ...mapState({
-      header: state => state.navbarHeader,
       theme: state => state.appTheme
     })
   },
@@ -87,43 +77,22 @@ export default {
 </script>
 
 <style lang="sass">
-.container {
+
+#main-container {
+  height: 100%;
   display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+  flex-direction: row;
 
   background-color: #f7ede8;
 
   &.dark {
     background-color: #1a2733;
   }
-}
 
-#header {
-  width: 100%;
-  height: 45px;
-  color: black;
-  background-color: #f1e4dd;
-  text-align: center;
-  font-size: 0.9em;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  z-index: 9999;
-
-  -webkit-app-region: drag;
-  -webkit-user-select: none;
-
-  &.dark {
-    background-color: #1a2733;
-    color: #e1e4ea;
+  .container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
   }
-}
-
-#main-container {
-  height: 100%;
-  display: flex;
-  flex-direction: row;
 }
 </style>
