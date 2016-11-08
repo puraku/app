@@ -2,6 +2,7 @@ import 'font-awesome/css/font-awesome.css';
 
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import { sync } from 'vuex-router-sync';
 import { webFrame } from 'electron';
 
 import store from './store';
@@ -30,6 +31,8 @@ const router = new VueRouter({
     }
   ]
 });
+
+sync(store, router);
 
 new Vue({
   el: '#app',
