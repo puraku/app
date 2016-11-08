@@ -116,10 +116,14 @@ export const fetchReplurkers = ({ dispatch }, plurks) => {
 
 export const registerPolling = ({ commit, state, dispatch }) => {
   if (!state.timerID) {
-    const timerID = setInterval(() => {
+    const repeatActions = () => {
       dispatch('pollTimeline');
       dispatch('fetchUnreadCount');
-    }, 15000);
+    };
+
+    const timerID = setInterval(repeatActions, 15000);
+
+    repeatActions();
 
     commit({
       type: types.SET_TIMER_ID,
