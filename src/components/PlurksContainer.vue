@@ -4,6 +4,14 @@
     <div class="unread-card" :class="{ dark: isDarkTheme }" v-if="unreadCount">
       {{ unreadCount }} 則訊息有新回應
     </div>
+    <div class="unread-card" :class="{ dark: isDarkTheme }" v-if="showUnreadActions">
+      <fa-icon iconName="commenting" :style="{display: 'inline-block'}" />
+      顯示所有訊息
+    </div>
+    <div class="unread-card" :class="{ dark: isDarkTheme }" v-if="showUnreadActions">
+      <fa-icon iconName="check" :style="{display: 'inline-block'}"/>
+      將這些訊息標為已讀
+    </div>
     <plurk-card v-for="plurk in plurks" :plurk="plurk"/>
   </div>
 </template>
@@ -14,6 +22,7 @@ import { mapState } from 'vuex';
 import { themeConfigurable } from 'mixins';
 
 import PlurkCard from 'components/PlurkCard.vue';
+import FaIcon from 'components/FaIcon.vue';
 import TimeBaseline from 'components/TimeBaseline.vue';
 
 export default {
@@ -31,10 +40,15 @@ export default {
 
   components: {
     PlurkCard,
-    TimeBaseline
+    TimeBaseline,
+    FaIcon
   },
 
   computed: {
+    showUnreadActions() {
+      return this.$route.query.unread === 'true';
+    },
+
     ...mapState({
       theme: state => state.appTheme
     })
