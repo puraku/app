@@ -23,9 +23,9 @@ const router = new VueRouter({
       path: '/',
       component: App,
       children: [
-        { path: '', component: Timeline },
-        { path: '/plurks/:plurk_id', component: PlurkDetail },
-        { path: '/about/:user_id', component: About }
+        { name: 'timeline', path: '', component: Timeline },
+        { name: 'plurkDetail', path: '/plurks/:plurk_id', component: PlurkDetail },
+        { name: 'about', path: '/about/:user_id', component: About }
       ]
     }
   ]

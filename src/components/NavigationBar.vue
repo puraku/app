@@ -39,11 +39,11 @@ export default {
     },
 
     goHome() {
-      this.$router.push('/');
+      this.$router.push({ name: 'timeline' });
     },
 
     goAbout() {
-      this.user && this.$router.push(`/about/${this.user.id}`);
+      this.user && this.$router.push({ name: 'about', params: { user_id: this.user.id } });
     },
 
     newPlurk() {

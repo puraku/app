@@ -65,7 +65,7 @@ export default {
 
   methods: {
     goToAbout() {
-      this.$router.push(`/about/${this.response.user_id}`);
+      this.$router.push({ name: 'about', params: { user_id: this.response.user_id }});
     }
   },
 

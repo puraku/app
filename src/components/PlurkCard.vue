@@ -96,15 +96,15 @@ export default {
 
   methods: {
     goToDetail() {
-      this.$router.push(`/plurks/${this.plurk.plurk_id}`);
+      this.$router.push({ name: 'plurkDetail', params: { plurk_id: this.plurk.plurk_id } });
     },
 
     goToAbout() {
-      this.$router.push(`/about/${this.plurk.owner_id}`);
+      this.$router.push({ name: 'about', params: { user_id: this.plurk.owner_id } });
     },
 
     goToReplurker() {
-      this.$router.push(`/about/${this.replurker.id}`);
+      this.$router.push({ name: 'about', params: { user_id: this.replurker.id } });
     }
   },
 
