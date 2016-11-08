@@ -8,7 +8,6 @@
       <fa-icon iconName="home" :style="faStyle" :iconStyle="iconStyle" :click="goHome" :highlighted="routeHome" :highlightedStyle="highlightedStyle" />
       <fa-icon iconName="user" :style="faStyle" :iconStyle="iconStyle" :click="goAbout" :highlighted="routeProfile" :highlightedStyle="highlightedStyle" />
       <fa-icon iconName="inbox" :style="faStyle" :iconStyle="iconStyle" :highlightedStyle="highlightedStyle"/>
-      <fa-icon iconName="heart" :style="faStyle" :iconStyle="iconStyle" :highlightedStyle="highlightedStyle"/>
       <fa-icon iconName="bar-chart" :style="faStyle" :iconStyle="iconStyle" :highlightedStyle="highlightedStyle"/>
       <fa-icon iconName="search" :style="faStyle" :iconStyle="iconStyle" :highlightedStyle="highlightedStyle"/>
     </div>
@@ -40,11 +39,11 @@ export default {
     },
 
     goHome() {
-      this.$router.push('/');
+      this.$router.push({ name: 'timeline' });
     },
 
     goAbout() {
-      this.user && this.$router.push(`/about/${this.user.id}`);
+      this.user && this.$router.push({ name: 'about', params: { user_id: this.user.id } });
     },
 
     newPlurk() {

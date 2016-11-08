@@ -18,7 +18,9 @@ const state = {
 
   navbarHeader: '',
 
-  appTheme: 'light'
+  appTheme: 'light',
+
+  timerID: null
 };
 
 const mutations = {
@@ -40,7 +42,7 @@ const mutations = {
     state.selectedUserId = userID;
   },
 
-  [types.FETCH_USERS] (state, { users }) {
+  [types.MERGE_USERS] (state, { users }) {
     state.userList = { ...state.userList, ...users };
   },
 
@@ -50,6 +52,10 @@ const mutations = {
 
   [types.SET_THEME] (state, { theme }) {
     state.appTheme = theme;
+  },
+
+  [types.SET_TIMER_ID] (state, { timerID }) {
+    state.timerID = timerID;
   }
 };
 

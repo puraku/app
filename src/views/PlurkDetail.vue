@@ -1,8 +1,11 @@
 <template>
-  <div id="detail-container">
-    <plurk-card :plurk="plurk" v-if="plurk" :displayTimestamp="displayTimestamp"/>
-    <div class="responses-container">
-      <response v-for="response in responses" :response="response" v-if="response" />
+  <div class="container">
+    <title-bar />
+    <div id="detail-container">
+      <plurk-card :plurk="plurk" v-if="plurk" :displayTimestamp="displayTimestamp"/>
+      <div class="responses-container">
+        <response v-for="response in responses" :response="response" v-if="response" />
+      </div>
     </div>
   </div>
 </template>
@@ -12,6 +15,7 @@ import { mapActions, mapState } from 'vuex';
 
 import PlurkCard from 'components/PlurkCard.vue';
 import Response from 'components/Response.vue';
+import TitleBar from 'components/TitleBar.vue';
 
 import { getPlurk } from 'api/timeline';
 import { getResponses } from 'api/responses';
@@ -21,7 +25,8 @@ export default {
 
   components: {
     PlurkCard,
-    Response
+    Response,
+    TitleBar
   },
 
   methods: {

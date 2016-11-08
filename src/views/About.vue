@@ -1,10 +1,13 @@
 <template>
-  <div class="about-container">
-    <profile :user="user" v-if="user" />
-    <plurks-container
-      :plurks="plurks"
-      :containerStyle="{zIndex: 10}"
-    />
+  <div class="container">
+    <div class="about-container">
+      <profile :user="user" v-if="user" />
+      <plurks-container
+        :plurks="plurks"
+        :containerStyle="{zIndex: 10}"
+        :onEndReached="onEndReached"
+      />
+    </div>
   </div>
 </template>
 
@@ -24,9 +27,23 @@ export default {
   },
 
   methods: {
+    onEndReached() {
+      if (!this.isFetching) {
+        this.isFetching = true;
+
+        this.fetchUserPlurksNextPage({
+          userID: this.userID,
+          callback: () => {
+            this.isFetching = false;
+          }
+        });
+      }
+    },
+
     ...mapActions([
       'changeHeader',
-      'fetchUserProfile'
+      'fetchUserProfile',
+      'fetchUserPlurksNextPage'
     ])
   },
 
@@ -68,7 +85,7 @@ export default {
       }
     }
 
-    if (typeof this.user === 'undefined') {
+    if (typeof this.user === 'undefined' || typeof this.userPlurks[this.userID] === 'undefined' || this.userPlurks[this.userID].length == 0) {
       this.fetchUserProfile(this.userID);
     }
   },
@@ -86,7 +103,8 @@ export default {
       userData: null,
       scrollLength: 0,
       handleWheel: () => {},
-      handleWheelAdded: false
+      handleWheelAdded: false,
+      isFetching: false
     };
   }
 }

@@ -6,6 +6,7 @@
   },
   "extends": ["eslint:recommended", "vue"],
   "parserOptions": {
+    "ecmaVersion": 8,
     "sourceType": "module",
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true

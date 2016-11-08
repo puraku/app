@@ -1,6 +1,9 @@
 <template>
   <div class="plurks-container" :style="containerStyle" :class="{ dark: isDarkTheme }">
     <time-baseline :timelineStyle="timelineStyle" />
+    <div class="unread-card" :class="{ dark: isDarkTheme }" v-if="unreadCount">
+      {{ unreadCount }} 則訊息有新回應
+    </div>
     <plurk-card v-for="plurk in plurks" :plurk="plurk"/>
   </div>
 </template>
@@ -21,7 +24,9 @@ export default {
   props: [
     'plurks',
     'timelineStyle',
-    'containerStyle'
+    'containerStyle',
+    'onEndReached',
+    'unreadCount'
   ],
 
   components: {
@@ -33,6 +38,29 @@ export default {
     ...mapState({
       theme: state => state.appTheme
     })
+  },
+
+  data() {
+    return {
+      onScroll(self) {
+        return function() {
+          const threshold = 400;
+          if (this.scrollTop + threshold > this.scrollHeight - this.offsetHeight) {
+            self.onEndReached && self.onEndReached();
+          }
+        }
+      }
+    }
+  },
+
+  mounted() {
+    const self = this;
+    this.$el.addEventListener('scroll', this.onScroll(self));
+  },
+
+  beforeDestroy() {
+    const self = this;
+    this.$el.removeEventListener('scroll', this.onScroll(self));
   }
 }
 </script>
@@ -48,6 +76,19 @@ export default {
 
   &.dark {
     background-color: #1a2733;
+  }
+
+  .unread-card {
+    background-color: white;
+    color: #ffa458;
+    text-align: center;
+    margin-top: .5em;
+    padding: .3em 0;
+    cursor: pointer;
+
+    &.dark {
+      background-color: #353c42;
+    }
   }
 }
 </style>

@@ -2,6 +2,7 @@ import 'font-awesome/css/font-awesome.css';
 
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import { sync } from 'vuex-router-sync';
 import { webFrame } from 'electron';
 
 import store from './store';
@@ -23,13 +24,15 @@ const router = new VueRouter({
       path: '/',
       component: App,
       children: [
-        { path: '', component: Timeline },
-        { path: '/plurks/:plurk_id', component: PlurkDetail },
-        { path: '/about/:user_id', component: About }
+        { name: 'timeline', path: '', component: Timeline },
+        { name: 'plurkDetail', path: '/plurks/:plurk_id', component: PlurkDetail },
+        { name: 'about', path: '/about/:user_id', component: About }
       ]
     }
   ]
 });
+
+sync(store, router);
 
 new Vue({
   el: '#app',

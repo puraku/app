@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { ipcRenderer } from 'electron';
 
 export function postedDateTagger (plurks) {
@@ -20,6 +20,10 @@ export function formatDate (plurk) {
   } else {
     return formatedDate;
   }
+}
+
+export function formatOffset (plurk) {
+  return moment.tz(plurk.posted, 'UTC').format();
 }
 
 function handleContentClick (e) {
@@ -45,6 +49,7 @@ function handleContentClick (e) {
 }
 
 export function registerContentEvent (dom) {
+  if (typeof dom.querySelectorAll !== 'function') { return; }
   for (let anchor of dom.querySelectorAll('.content a')) {
     anchor.removeEventListener('click', handleContentClick);
     anchor.addEventListener('click', handleContentClick);
@@ -52,6 +57,7 @@ export function registerContentEvent (dom) {
 }
 
 export function unregisterContentEvent (dom) {
+  if (typeof dom.querySelectorAll !== 'function') { return; }
   for (let anchor of dom.querySelectorAll('.content a')) {
     anchor.removeEventListener('click', handleContentClick);
   }

@@ -18,7 +18,7 @@ const state = {
 };
 
 const mutations = {
-  [types.FETCH_PLURKS] (state, { plurks }) {
+  [types.MERGE_PLURKS] (state, { plurks }) {
     const newPlurks = plurks.reduce((prev, cur) => {
       return { ...prev, [cur.plurk_id]: cur };
     }, {});
@@ -37,6 +37,24 @@ const mutations = {
     };
   },
 
+  [types.APPEND_TIMELINE] (state, { plurkIds, userID }) {
+    const currentPlurkIds = state.timeline[userID] || [];
+    state.timeline = {
+      ...state.timeline,
+      [userID]: [
+        ...currentPlurkIds,
+        ...plurkIds
+      ]
+    };
+  },
+
+  [types.REPLACE_TIMELINE] (state, { plurkIds, userID }) {
+    state.timeline = {
+      ...state.timeline,
+      [userID]: plurkIds
+    };
+  },
+
   [types.PREPEND_USER_PLURKS] (state, { plurkIds, userID }) {
     const currentPlurkIds = state.userPlurks[userID] || [];
     state.userPlurks = {
@@ -45,6 +63,24 @@ const mutations = {
         ...plurkIds,
         ...currentPlurkIds
       ]
+    };
+  },
+
+  [types.APPEND_USER_PLURKS] (state, { plurkIds, userID }) {
+    const currentPlurkIds = state.userPlurks[userID] || [];
+    state.userPlurks = {
+      ...state.userPlurks,
+      [userID]: [
+        ...currentPlurkIds,
+        ...plurkIds
+      ]
+    };
+  },
+
+  [types.REPLACE_USER_PLURKS] (state, { plurkIds, userID }) {
+    state.userPlurks = {
+      ...state.userPlurks,
+      [userID]: plurkIds
     };
   },
 

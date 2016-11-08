@@ -52,6 +52,7 @@ function initializeApp () {
     height: 817,
     minWidth: 360,
     maxWidth: 560,
+    minHeight: 670,
     titleBarStyle: 'hidden-inset'
   });
 

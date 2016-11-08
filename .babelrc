@@ -4,6 +4,7 @@
   ],
   "plugins": [
     "transform-runtime",
-    "transform-object-rest-spread"
+    "transform-object-rest-spread",
+    "transform-async-to-generator"
   ]
 }
