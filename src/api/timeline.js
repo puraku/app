@@ -19,3 +19,7 @@ export function getPublicPlurks (user_id, options = {}) {
 export function addPlurk (content, qualifier, options = {}) {
   return request('GET', '/APP/Timeline/plurkAdd', { content, qualifier, ...options });
 }
+
+export function markAsRead (ids, options) {
+  return request('POST', '/APP/Timeline/markAsRead', { ids: JSON.stringify(ids), ...options });
+}

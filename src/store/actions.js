@@ -1,6 +1,6 @@
 import * as types from './mutation-types';
 
-import { getPlurks, getPlurk, getPublicPlurks, getUnreadPlurks } from 'api/timeline';
+import { getPlurks, getPlurk, getPublicPlurks, getUnreadPlurks, markAsRead } from 'api/timeline';
 import * as Polling from 'api/polling';
 import { getResponses } from 'api/responses';
 import { getPublicProfile } from 'api/profile';
@@ -163,6 +163,28 @@ export const fetchReplurkers = ({ dispatch }, plurks) => {
       dispatch('fetchUser', plurk.owner_id);
     }
   });
+};
+
+export const markReadTimelinePlurks = async ({ commit, state }) => {
+  const currentUnreadPlurks = currentUserUnread(state);
+  const { success_text } = await markAsRead(currentUnreadPlurks.map(plurk => plurk.plurk_id));
+
+  const { filter, unread } = state.route.query;
+
+  if (success_text === 'ok') {
+    if (unread === 'true') {
+      commit({
+        type: types.REPLACE_UNREAD,
+        plurkIds: [],
+        userID: state.selectedUserId,
+        filter: filter || 'all'
+      });
+    } else {
+      // TODO: handle error, display badge or something
+    }
+  } else {
+    // TODO: handle error
+  }
 };
 
 export const registerPolling = ({ commit, state, dispatch }) => {

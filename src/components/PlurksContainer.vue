@@ -8,7 +8,7 @@
       <fa-icon iconName="commenting" :style="{display: 'inline-block'}" />
       顯示所有訊息
     </div>
-    <div class="unread-card" :class="{ dark: isDarkTheme }" v-if="showUnreadActions">
+    <div class="unread-card" :class="{ dark: isDarkTheme }" v-if="showUnreadActions" @click="markReadTimelinePlurks">
       <fa-icon iconName="check" :style="{display: 'inline-block'}"/>
       將這些訊息標為已讀
     </div>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 import { themeConfigurable } from 'mixins';
 
@@ -84,7 +84,11 @@ export default {
       this.$nextTick(function() {
         this.unreadToggleCallback();
       })
-    }
+    },
+
+    ...mapActions([
+      'markReadTimelinePlurks'
+    ])
   },
 
   data() {

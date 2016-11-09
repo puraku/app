@@ -28,8 +28,9 @@ export default {
   background-color: #cccccc;
   padding: 0 4px;
   border-radius: 5px;
-
   color: white;
+
+  -webkit-user-select: none;
 
   @extend .qualifier-colors;
 }
