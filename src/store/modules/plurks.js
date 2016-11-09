@@ -7,6 +7,9 @@ const state = {
   // { [user_id]: { all: [plurk_id, plurk_id], my: [plurk_id, plurk_id] } }
   timeline: {},
 
+    // { [user_id]: { all: [plurk_id, plurk_id], my: [plurk_id, plurk_id] } }
+  unreadPlurks: {},
+
   // { [other_user_id]: [plurk_id, plurk_id] }
   userPlurks: {},
 
@@ -63,6 +66,31 @@ const mutations = {
       ...state.timeline,
       [userID]: {
         ...currentUserTimeline,
+        [filter]: plurkIds
+      }
+    };
+  },
+
+  [types.APPEND_UNREAD] (state, { plurkIds, userID, filter }) {
+    const currentPlurkIds = state.unreadPlurks[userID] && state.unreadPlurks[userID][filter] || [];
+    state.unreadPlurks = {
+      ...state.unreadPlurks,
+      [userID]: {
+        ...state.unreadPlurks[userID],
+        [filter]: [
+          ...currentPlurkIds,
+          ...plurkIds
+        ]
+      }
+    };
+  },
+
+  [types.REPLACE_UNREAD] (state, { plurkIds, userID, filter }) {
+    const currentUserUnreadPlurks = state.unreadPlurks[userID] || {};
+    state.unreadPlurks = {
+      ...state.unreadPlurks,
+      [userID]: {
+        ...currentUserUnreadPlurks,
         [filter]: plurkIds
       }
     };

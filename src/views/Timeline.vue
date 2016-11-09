@@ -2,7 +2,7 @@
   <div class="container">
     <title-bar />
     <filter-group :filterItems="filterItems" :isSelected="isFilterItemSelected" :unreadData="unreadData" />
-    <plurks-container :plurks="plurks" :onEndReached="onEndReached" />
+    <plurks-container :plurks="plurks" :onEndReached="onEndReached" :unreadToggleCallback="fetchTimelineIfNeeded" />
   </div>
 </template>
 
@@ -46,14 +46,7 @@ export default {
           });
 
           this.$nextTick(function() {
-            if (item[1] !== 'all' || typeof this.plurks === 'undefined' || this.plurks.length == 0) {
-              this.isFetching = true;
-              this.clearTimelinePlurks({ filter: this.$route.query.filter });
-              this.fetchTimelinePlurks({
-                options: { filter: this.$route.query.filter },
-                callback: () => { this.isFetching = false; }
-              });
-            }
+            this.fetchTimelineIfNeeded();
           });
         }
       }
@@ -64,11 +57,26 @@ export default {
         this.isFetching = true;
 
         this.fetchTimelineNextPage({
-          options: { filter: this.$route.query.filter },
           callback: () => {
             this.isFetching = false;
           }
         });
+      }
+    },
+
+    fetchTimeline() {
+      this.isFetching = true
+      this.fetchTimelinePlurks({
+        callback: () => {
+          this.isFetching = false;
+        }
+      });
+    },
+
+    fetchTimelineIfNeeded() {
+      if (this.$route.query.filter !== 'all' || typeof this.plurks === 'undefined' || this.plurks.length == 0) {
+        this.clearTimelinePlurks();
+        this.fetchTimeline();
       }
     },
 
@@ -88,27 +96,32 @@ export default {
       return this.filters.map(this.mapFilterItem);
     },
 
+    plurks() {
+      const { unread } = this.$route.query;
+      if (typeof unread !== 'undefined' && unread === 'true') {
+        return this.currentUserUnread
+      } else {
+        return this.currentUserTimeline
+      }
+    },
+
     ...mapState({
       timeline: state => state.plurks.timeline[state.selectedUserId],
+
       unreadData: state => state.plurks.unreadData
     }),
 
-    ...mapGetters({
-      plurks: 'currentUserTimeline'
-    })
+    ...mapGetters([
+      'currentUserTimeline',
+      'currentUserUnread'
+    ])
   },
 
   beforeMount() {
     this.registerPolling();
 
     if (typeof this.plurks === 'undefined' || this.plurks.length == 0) {
-      this.isFetching = true
-      this.fetchTimelinePlurks({
-        options: { filter: this.$route.query.filter },
-        callback: () => {
-          this.isFetching = false;
-        }
-      });
+      this.fetchTimeline();
     }
 
     this.changeHeader('我的河道');

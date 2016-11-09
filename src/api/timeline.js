@@ -1,7 +1,11 @@
 import { request } from './base';
 
 export function getPlurks (options = {}) {
-  return request('GET', '/APP/Timeline/getPlurks', options);
+  return request('GET', '/APP/Timeline/getPlurks', { limit: 20, ...options });
+}
+
+export function getUnreadPlurks (options = {}) {
+  return request('GET', '/APP/Timeline/getUnreadPlurks', { limit: 20, ...options });
 }
 
 export function getPlurk (plurk_id, options = {}) {

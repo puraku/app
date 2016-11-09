@@ -1,11 +1,11 @@
 import * as types from './mutation-types';
 
-import { getPlurks, getPlurk, getPublicPlurks } from 'api/timeline';
+import { getPlurks, getPlurk, getPublicPlurks, getUnreadPlurks } from 'api/timeline';
 import * as Polling from 'api/polling';
 import { getResponses } from 'api/responses';
 import { getPublicProfile } from 'api/profile';
 import { getMe } from 'api/users';
-import { currentUserTimeline } from 'store/getters';
+import { currentUserTimeline, currentUserUnread } from 'store/getters';
 
 import { formatOffset } from 'helpers/plurkHelper';
 
@@ -52,17 +52,31 @@ export const toggleStyle = ({ state, commit }) => {
 
 /* Timeline Actions */
 export const fetchTimelinePlurks = async ({ dispatch, state, commit }, { options, callback }) => {
-  const currentPlurkIds = currentUserTimeline(state).map(p => p.plurk_id);
-  const { filter } = options || {};
+  const { filter, unread } = state.route.query;
+
+  let timelineMethod, replaceMutationType, plurksGetter;
+  if (typeof unread !== 'undefined' && unread === 'true') {
+    // fetch unread
+    timelineMethod = getUnreadPlurks;
+    replaceMutationType = types.REPLACE_UNREAD;
+    plurksGetter = currentUserUnread;
+  } else {
+    timelineMethod = getPlurks;
+    replaceMutationType = types.REPLACE_TIMELINE;
+    plurksGetter = currentUserTimeline;
+  }
+
+  const currentPlurkIds = plurksGetter(state).map(p => p.plurk_id);
 
   try {
-    const { plurk_users, plurks } = await getPlurks(options);
+    const { plurk_users, plurks } = await timelineMethod({ filter, ...options });
 
     dispatch('mergePlurks', plurks);
     dispatch('mergeUsers', plurk_users);
 
+    // NOTE: the 'all' filter params should act the same as when there's no filter params
     commit({
-      type: types.REPLACE_TIMELINE,
+      type: replaceMutationType,
       plurkIds: plurks.map(plurk => plurk.plurk_id),
       userID: state.selectedUserId,
       filter: filter || 'all'
@@ -72,7 +86,7 @@ export const fetchTimelinePlurks = async ({ dispatch, state, commit }, { options
   } catch (error) {
     // TODO: show error dialog
     commit({
-      type: types.REPLACE_TIMELINE,
+      type: replaceMutationType,
       plurkIds: currentPlurkIds,
       userID: state.selectedUserId,
       filter: filter || 'all'
@@ -82,9 +96,17 @@ export const fetchTimelinePlurks = async ({ dispatch, state, commit }, { options
   callback();
 };
 
-export const clearTimelinePlurks = ({ commit, state }, { filter }) => {
+export const clearTimelinePlurks = ({ commit, state }) => {
+  const { filter, unread } = state.route.query;
+  let mutationType;
+  if (typeof unread !== 'undefined' && unread === 'true') {
+    mutationType = types.REPLACE_UNREAD;
+  } else {
+    mutationType = types.REPLACE_TIMELINE;
+  }
+
   commit({
-    type: types.REPLACE_TIMELINE,
+    type: mutationType,
     plurkIds: [],
     userID: state.selectedUserId,
     filter
@@ -92,17 +114,30 @@ export const clearTimelinePlurks = ({ commit, state }, { filter }) => {
 };
 
 export const fetchTimelineNextPage = async ({ commit, state, dispatch }, { options, callback }) => {
-  const timelinePlurks = currentUserTimeline(state);
-  const { filter } = options || {};
+  const { filter, unread } = state.route.query;
+
+  let timelineMethod, replaceMutationType, plurksGetter;
+  if (typeof unread !== 'undefined' && unread === 'true') {
+    // fetch unread
+    timelineMethod = getUnreadPlurks;
+    replaceMutationType = types.APPEND_UNREAD;
+    plurksGetter = currentUserUnread;
+  } else {
+    timelineMethod = getPlurks;
+    replaceMutationType = types.APPEND_TIMELINE;
+    plurksGetter = currentUserTimeline;
+  }
+
+  const timelinePlurks = plurksGetter(state);
   const offset = formatOffset(timelinePlurks[timelinePlurks.length - 1]);
 
-  const { plurk_users, plurks } = await getPlurks({ offset, ...options });
+  const { plurk_users, plurks } = await timelineMethod({ offset, filter, ...options });
 
   dispatch('mergePlurks', plurks);
   dispatch('mergeUsers', plurk_users);
 
   commit({
-    type: types.APPEND_TIMELINE,
+    type: replaceMutationType,
     plurkIds: plurks.map(p => p.plurk_id),
     userID: state.selectedUserId,
     filter: filter || 'all'

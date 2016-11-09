@@ -4,7 +4,7 @@
     <div class="unread-card" :class="{ dark: isDarkTheme }" v-if="showUnreadCard" @click="toggleUnread">
       {{ unreadCount }} 則訊息有新回應
     </div>
-    <div class="unread-card" :class="{ dark: isDarkTheme }" v-if="showUnreadActions" @click="toggleUnread">
+    <div class="unread-card" :class="{ dark: isDarkTheme }" v-if="showDisplayAll" @click="toggleUnread">
       <fa-icon iconName="commenting" :style="{display: 'inline-block'}" />
       顯示所有訊息
     </div>
@@ -34,7 +34,8 @@ export default {
     'plurks',
     'timelineStyle',
     'containerStyle',
-    'onEndReached'
+    'onEndReached',
+    'unreadToggleCallback'
   ],
 
   components: {
@@ -46,6 +47,10 @@ export default {
   computed: {
     showUnreadActions() {
       return this.hasUnreadQuery && this.unreadCount > 0 && this.$route.name === 'timeline';
+    },
+
+    showDisplayAll() {
+      return this.hasUnreadQuery && this.$route.name === 'timeline';
     },
 
     unreadCount() {
@@ -74,6 +79,10 @@ export default {
           ...this.$route.query,
           unread: this.$route.query.unread === 'true' ? 'false' : 'true'
         }
+      });
+
+      this.$nextTick(function() {
+        this.unreadToggleCallback();
       })
     }
   },

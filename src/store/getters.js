@@ -15,3 +15,15 @@ export const currentUserTimeline = state => {
     return [];
   }
 };
+
+export const currentUserUnread = state => {
+  const unreadPlurks = state.plurks.unreadPlurks[state.selectedUserId] || {};
+
+  if (typeof unreadPlurks !== 'undefined' &&
+      typeof unreadPlurks[state.route.query.filter || 'all'] !== 'undefined') {
+    const plurkIds = unreadPlurks[state.route.query.filter || 'all'] || [];
+    return postedDateTagger(plurkIds.map(id => state.plurks.plurks[id]));
+  } else {
+    return [];
+  }
+};
