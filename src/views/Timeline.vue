@@ -74,7 +74,7 @@ export default {
     },
 
     fetchTimelineIfNeeded() {
-      if (this.$route.query.filter !== 'all' || typeof this.plurks === 'undefined' || this.plurks.length == 0) {
+      if (this.$route.query.filter !== 'all' || this.$route.query.unread === 'true' || typeof this.plurks === 'undefined' || this.plurks.length == 0) {
         this.clearTimelinePlurks();
         this.fetchTimeline();
       }
