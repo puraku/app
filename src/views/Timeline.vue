@@ -33,25 +33,25 @@ export default {
     },
 
     mapFilterItem(item) {
-      const self = this;
       return {
         label: item[0],
         value: item[1],
-        onClick: function() {
-          self.$router.push({
+        onClick: () => {
+          this.$router.push({
             name: 'timeline',
             query: {
-              ...self.$route.query,
+              ...this.$route.query,
               filter: item[1]
             }
           });
 
-          self.$nextTick(function() {
-            if (item[1] !== 'all' || typeof self.plurks === 'undefined' || self.plurks.length == 0) {
-              self.clearTimelinePlurks({ filter: self.$route.query.filter });
-              self.fetchTimelinePlurks({
-                options: { filter: self.$route.query.filter },
-                callback: () => { }
+          this.$nextTick(function() {
+            if (item[1] !== 'all' || typeof this.plurks === 'undefined' || this.plurks.length == 0) {
+              this.isFetching = true;
+              this.clearTimelinePlurks({ filter: this.$route.query.filter });
+              this.fetchTimelinePlurks({
+                options: { filter: this.$route.query.filter },
+                callback: () => { this.isFetching = false; }
               });
             }
           });
