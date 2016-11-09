@@ -51,7 +51,7 @@ export const toggleStyle = ({ state, commit }) => {
 };
 
 /* Timeline Actions */
-export const fetchTimelinePlurks = async ({ dispatch, state, commit }, options) => {
+export const fetchTimelinePlurks = async ({ dispatch, state, commit }, { options, callback }) => {
   const currentPlurkIds = currentUserTimeline(state).map(p => p.plurk_id);
   const { filter } = options || {};
 
@@ -78,6 +78,17 @@ export const fetchTimelinePlurks = async ({ dispatch, state, commit }, options) 
       filter: filter || 'all'
     });
   }
+
+  callback();
+};
+
+export const clearTimelinePlurks = ({ commit, state }, { filter }) => {
+  commit({
+    type: types.REPLACE_TIMELINE,
+    plurkIds: [],
+    userID: state.selectedUserId,
+    filter
+  });
 };
 
 export const fetchTimelineNextPage = async ({ commit, state, dispatch }, { options, callback }) => {

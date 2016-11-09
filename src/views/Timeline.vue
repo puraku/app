@@ -44,7 +44,17 @@ export default {
               ...self.$route.query,
               filter: item[1]
             }
-          })
+          });
+
+          self.$nextTick(function() {
+            if (item[1] !== 'all' || typeof self.plurks === 'undefined' || self.plurks.length == 0) {
+              self.clearTimelinePlurks({ filter: self.$route.query.filter });
+              self.fetchTimelinePlurks({
+                options: { filter: self.$route.query.filter },
+                callback: () => { }
+              });
+            }
+          });
         }
       }
     },
@@ -54,6 +64,7 @@ export default {
         this.isFetching = true;
 
         this.fetchTimelineNextPage({
+          options: { filter: this.$route.query.filter },
           callback: () => {
             this.isFetching = false;
           }
@@ -67,7 +78,8 @@ export default {
       'changeHeader',
       'registerPolling',
       'unregisterPolling',
-      'fetchUnreadCount'
+      'fetchUnreadCount',
+      'clearTimelinePlurks'
     ])
   },
 
@@ -89,10 +101,14 @@ export default {
   beforeMount() {
     this.registerPolling();
 
-    if (typeof this.timeline === 'undefined' || this.timeline.length == 0) {
-      this.fetchTimelinePlurks();
-    } else {
-      // TODO: poll new plurks
+    if (typeof this.plurks === 'undefined' || this.plurks.length == 0) {
+      this.isFetching = true
+      this.fetchTimelinePlurks({
+        options: { filter: this.$route.query.filter },
+        callback: () => {
+          this.isFetching = false;
+        }
+      });
     }
 
     this.changeHeader('我的河道');
