@@ -4,8 +4,11 @@ const state = {
   // { [plurk_id]: PlurkObject }
   plurks: {},
 
-  // { [user_id]: [plurk_id, plurk_id] }
+  // { [user_id]: { all: [plurk_id, plurk_id], my: [plurk_id, plurk_id] } }
   timeline: {},
+
+    // { [user_id]: { all: [plurk_id, plurk_id], my: [plurk_id, plurk_id] } }
+  unreadPlurks: {},
 
   // { [other_user_id]: [plurk_id, plurk_id] }
   userPlurks: {},
@@ -14,7 +17,10 @@ const state = {
   responses: {},
 
   // { [plurk_id]: [ response_id, response_id ] }
-  plurkResponses: {}
+  plurkResponses: {},
+
+  // {"all": 2, "my": 1, "private": 1, "responded": 0}
+  unreadData: {}
 };
 
 const mutations = {
@@ -26,32 +32,67 @@ const mutations = {
     state.plurks = { ...state.plurks, ...newPlurks };
   },
 
-  [types.PREPEND_TIMELINE] (state, { plurkIds, userID }) {
-    const currentPlurkIds = state.timeline[userID] || [];
+  [types.PREPEND_TIMELINE] (state, { plurkIds, userID, filter }) {
+    const currentPlurkIds = state.timeline[userID] && state.timeline[userID][filter] || [];
     state.timeline = {
       ...state.timeline,
-      [userID]: [
-        ...plurkIds,
-        ...currentPlurkIds
-      ]
+      [userID]: {
+        ...state.timeline[userID],
+        [filter]: [
+          ...plurkIds,
+          ...currentPlurkIds
+        ]
+      }
     };
   },
 
-  [types.APPEND_TIMELINE] (state, { plurkIds, userID }) {
-    const currentPlurkIds = state.timeline[userID] || [];
+  [types.APPEND_TIMELINE] (state, { plurkIds, userID, filter }) {
+    const currentPlurkIds = state.timeline[userID] && state.timeline[userID][filter] || [];
     state.timeline = {
       ...state.timeline,
-      [userID]: [
-        ...currentPlurkIds,
-        ...plurkIds
-      ]
+      [userID]: {
+        ...state.timeline[userID],
+        [filter]: [
+          ...currentPlurkIds,
+          ...plurkIds
+        ]
+      }
     };
   },
 
-  [types.REPLACE_TIMELINE] (state, { plurkIds, userID }) {
+  [types.REPLACE_TIMELINE] (state, { plurkIds, userID, filter }) {
+    const currentUserTimeline = state.timeline[userID] || {};
     state.timeline = {
       ...state.timeline,
-      [userID]: plurkIds
+      [userID]: {
+        ...currentUserTimeline,
+        [filter]: plurkIds
+      }
+    };
+  },
+
+  [types.APPEND_UNREAD] (state, { plurkIds, userID, filter }) {
+    const currentPlurkIds = state.unreadPlurks[userID] && state.unreadPlurks[userID][filter] || [];
+    state.unreadPlurks = {
+      ...state.unreadPlurks,
+      [userID]: {
+        ...state.unreadPlurks[userID],
+        [filter]: [
+          ...currentPlurkIds,
+          ...plurkIds
+        ]
+      }
+    };
+  },
+
+  [types.REPLACE_UNREAD] (state, { plurkIds, userID, filter }) {
+    const currentUserUnreadPlurks = state.unreadPlurks[userID] || {};
+    state.unreadPlurks = {
+      ...state.unreadPlurks,
+      [userID]: {
+        ...currentUserUnreadPlurks,
+        [filter]: plurkIds
+      }
     };
   },
 
@@ -101,6 +142,10 @@ const mutations = {
         ...responseIds
       ]
     };
+  },
+
+  [types.FETCH_UNREAD_DATA] (state, { unreadData }) {
+    state.unreadData = unreadData;
   }
 };
 

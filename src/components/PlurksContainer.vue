@@ -1,19 +1,28 @@
 <template>
   <div class="plurks-container" :style="containerStyle" :class="{ dark: isDarkTheme }">
     <time-baseline :timelineStyle="timelineStyle" />
-    <div class="unread-card" :class="{ dark: isDarkTheme }" v-if="unreadCount">
+    <div class="unread-card" :class="{ dark: isDarkTheme }" v-if="showUnreadCard" @click="toggleUnread">
       {{ unreadCount }} 則訊息有新回應
+    </div>
+    <div class="unread-card" :class="{ dark: isDarkTheme }" v-if="showDisplayAll" @click="toggleUnread">
+      <fa-icon iconName="commenting" :style="{display: 'inline-block'}" />
+      顯示所有訊息
+    </div>
+    <div class="unread-card" :class="{ dark: isDarkTheme }" v-if="showUnreadActions" @click="markReadTimelinePlurks">
+      <fa-icon iconName="check" :style="{display: 'inline-block'}"/>
+      將這些訊息標為已讀
     </div>
     <plurk-card v-for="plurk in plurks" :plurk="plurk"/>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 import { themeConfigurable } from 'mixins';
 
 import PlurkCard from 'components/PlurkCard.vue';
+import FaIcon from 'components/FaIcon.vue';
 import TimeBaseline from 'components/TimeBaseline.vue';
 
 export default {
@@ -26,18 +35,60 @@ export default {
     'timelineStyle',
     'containerStyle',
     'onEndReached',
-    'unreadCount'
+    'unreadToggleCallback'
   ],
 
   components: {
     PlurkCard,
-    TimeBaseline
+    TimeBaseline,
+    FaIcon
   },
 
   computed: {
+    showUnreadActions() {
+      return this.hasUnreadQuery && this.unreadCount > 0 && this.$route.name === 'timeline';
+    },
+
+    showDisplayAll() {
+      return this.hasUnreadQuery && this.$route.name === 'timeline';
+    },
+
+    unreadCount() {
+      const filter = this.$route.query.filter || 'all';
+      return this.unreadData[filter];
+    },
+
+    showUnreadCard() {
+      return this.unreadCount > 0 && this.$route.name === 'timeline' && !this.hasUnreadQuery;
+    },
+
+    hasUnreadQuery() {
+      return this.$route.query.unread === 'true';
+    },
+
     ...mapState({
-      theme: state => state.appTheme
+      theme: state => state.appTheme,
+      unreadData: state => state.plurks.unreadData
     })
+  },
+
+  methods: {
+    toggleUnread() {
+      this.$router.push({
+        query: {
+          ...this.$route.query,
+          unread: this.$route.query.unread === 'true' ? 'false' : 'true'
+        }
+      });
+
+      this.$nextTick(function() {
+        this.unreadToggleCallback();
+      })
+    },
+
+    ...mapActions([
+      'markReadTimelinePlurks'
+    ])
   },
 
   data() {

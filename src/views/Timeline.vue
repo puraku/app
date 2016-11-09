@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <title-bar />
-    <filter-group :filterItems="filterItems" :isSelected="isFilterItemSelected" />
-    <plurks-container :plurks="plurks" :onEndReached="onEndReached" />
+    <filter-group :filterItems="filterItems" :isSelected="isFilterItemSelected" :unreadData="unreadData" />
+    <plurks-container :plurks="plurks" :onEndReached="onEndReached" :unreadToggleCallback="fetchTimelineIfNeeded" />
   </div>
 </template>
 
@@ -33,17 +33,21 @@ export default {
     },
 
     mapFilterItem(item) {
-      const self = this;
       return {
         label: item[0],
         value: item[1],
-        onClick: function() {
-          self.$router.push({
+        onClick: () => {
+          this.$router.push({
             name: 'timeline',
             query: {
+              ...this.$route.query,
               filter: item[1]
             }
-          })
+          });
+
+          this.$nextTick(function() {
+            this.fetchTimelineIfNeeded();
+          });
         }
       }
     },
@@ -52,9 +56,27 @@ export default {
       if (!this.isFetching && this.plurks && this.plurks.length > 0) {
         this.isFetching = true;
 
-        this.fetchTimelineNextPage(() => {
-          this.isFetching = false;
+        this.fetchTimelineNextPage({
+          callback: () => {
+            this.isFetching = false;
+          }
         });
+      }
+    },
+
+    fetchTimeline() {
+      this.isFetching = true
+      this.fetchTimelinePlurks({
+        callback: () => {
+          this.isFetching = false;
+        }
+      });
+    },
+
+    fetchTimelineIfNeeded() {
+      if (this.$route.query.filter !== 'all' || this.$route.query.unread === 'true' || typeof this.plurks === 'undefined' || this.plurks.length == 0) {
+        this.clearTimelinePlurks();
+        this.fetchTimeline();
       }
     },
 
@@ -63,7 +85,9 @@ export default {
       'fetchTimelineNextPage',
       'changeHeader',
       'registerPolling',
-      'unregisterPolling'
+      'unregisterPolling',
+      'fetchUnreadCount',
+      'clearTimelinePlurks'
     ])
   },
 
@@ -72,22 +96,32 @@ export default {
       return this.filters.map(this.mapFilterItem);
     },
 
+    plurks() {
+      const { unread } = this.$route.query;
+      if (typeof unread !== 'undefined' && unread === 'true') {
+        return this.currentUserUnread
+      } else {
+        return this.currentUserTimeline
+      }
+    },
+
     ...mapState({
-      timeline: state => state.plurks.timeline[state.selectedUserId]
+      timeline: state => state.plurks.timeline[state.selectedUserId],
+
+      unreadData: state => state.plurks.unreadData
     }),
 
-    ...mapGetters({
-      plurks: 'currentUserTimeline'
-    })
+    ...mapGetters([
+      'currentUserTimeline',
+      'currentUserUnread'
+    ])
   },
 
-  mounted() {
+  beforeMount() {
     this.registerPolling();
 
-    if (typeof this.timeline === 'undefined' || this.timeline.length == 0) {
-      this.fetchTimelinePlurks();
-    } else {
-      // TODO: poll new plurks
+    if (typeof this.plurks === 'undefined' || this.plurks.length == 0) {
+      this.fetchTimeline();
     }
 
     this.changeHeader('我的河道');
