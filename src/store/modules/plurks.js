@@ -58,9 +58,11 @@ const mutations = {
   },
 
   [types.REPLACE_TIMELINE] (state, { plurkIds, userID, filter }) {
+    const currentUserTimeline = state.timeline[userID] || {};
     state.timeline = {
       ...state.timeline,
       [userID]: {
+        ...currentUserTimeline,
         [filter]: plurkIds
       }
     };
