@@ -5,7 +5,7 @@ import * as Polling from 'api/polling';
 import { getResponses } from 'api/responses';
 import { getPublicProfile } from 'api/profile';
 import { getMe } from 'api/users';
-import { currentUserTimeline, currentUserUnread } from 'store/getters';
+import { currentUserTimeline, currentUserUnread, currentUserTimelineAll } from 'store/getters';
 
 import { formatOffset } from 'helpers/plurkHelper';
 
@@ -116,15 +116,15 @@ export const clearTimelinePlurks = ({ commit, state }) => {
 export const fetchTimelineNextPage = async ({ commit, state, dispatch }, { options, callback }) => {
   const { filter, unread } = state.route.query;
 
-  let timelineMethod, replaceMutationType, plurksGetter;
+  let timelineMethod, appendMutationType, plurksGetter;
   if (typeof unread !== 'undefined' && unread === 'true') {
     // fetch unread
     timelineMethod = getUnreadPlurks;
-    replaceMutationType = types.APPEND_UNREAD;
+    appendMutationType = types.APPEND_UNREAD;
     plurksGetter = currentUserUnread;
   } else {
     timelineMethod = getPlurks;
-    replaceMutationType = types.APPEND_TIMELINE;
+    appendMutationType = types.APPEND_TIMELINE;
     plurksGetter = currentUserTimeline;
   }
 
@@ -137,7 +137,7 @@ export const fetchTimelineNextPage = async ({ commit, state, dispatch }, { optio
   dispatch('mergeUsers', plurk_users);
 
   commit({
-    type: replaceMutationType,
+    type: appendMutationType,
     plurkIds: plurks.map(p => p.plurk_id),
     userID: state.selectedUserId,
     filter: filter || 'all'
@@ -217,7 +217,7 @@ export const unregisterPolling = ({ commit, state }) => {
 };
 
 export const pollTimeline = async ({ commit, state, dispatch }) => {
-  const timelinePlurks = currentUserTimeline(state);
+  const timelinePlurks = currentUserTimelineAll(state);
 
   if (typeof timelinePlurks[0] === 'undefined') { return; }
 
