@@ -6,6 +6,8 @@
 
 [issue-6]: https://github.com/puraku/client/issues/6
 
+下載請到 GitHub 的 [Releases 頁面](https://github.com/puraku/app/releases)
+
 ## Screentshots
 
 <img src="./docs/images/light-mode-profile.png" alt="" width="230">
