@@ -1,6 +1,6 @@
 {
   "name": "puraku-client",
-  "version": "1.0.0",
+  "version": "0.8.7",
   "description": "",
   "main": "app/main.js",
   "scripts": {
