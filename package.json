@@ -1,14 +1,17 @@
 {
   "name": "puraku-client",
+  "productName": "Puraku",
   "version": "0.8.7",
-  "description": "",
+  "description": "跟噗浪官方 iOS App 有 87% 像的電腦版噗浪 App",
   "main": "app/main.js",
   "scripts": {
     "electron:dev": "cross-env NODE_ENV=development electron .",
     "electron:start": "cross-env NODE_ENV=production electron .",
+    "electron:build": "build -mwl",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --content-base static/",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-    "build:watch": "cross-env NODE_ENV=production webpack --progress --watch --hide-modules"
+    "build:watch": "cross-env NODE_ENV=production webpack --progress --watch --hide-modules",
+    "dist": "npm run build && npm run electron:build"
   },
   "repository": {
     "type": "git",
@@ -36,6 +39,7 @@
     "cross-env": "^3.1.3",
     "css-loader": "^0.25.0",
     "electron": "^1.4.4",
+    "electron-builder": "^7.24.1",
     "electron-devtools-installer": "^2.0.1",
     "eslint": "^3.8.1",
     "eslint-config-vue": "^1.1.0",
@@ -64,5 +68,11 @@
     "vue-router": "^2.0.1",
     "vuex": "^2.0.0",
     "vuex-router-sync": "3.0.0"
+  },
+  "build": {
+    "appId": "tds.apps.puraku",
+    "mac": {
+      "category": "public.app-category.social-networking"
+    }
   }
 }
