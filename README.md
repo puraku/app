@@ -22,7 +22,7 @@
     bin/setup
     ```
 
-    此 bash 腳本會幫你安裝 `yarn`，並且把需要的 npm 套件裝好。
+    此 bash 腳本會幫你安裝 [`yarn`][yarn]，並且把需要的 npm 套件裝好。
 
 2. 接下來請編輯 `app/config.js`，填入你在[噗浪開發者][plurk-developer]申請的 oauth consumer key 和 secret key。要注意的是，在申請 App 時，OAuth callback 需填入：
 
@@ -30,16 +30,19 @@
     puraku://oauth_callback
     ```
 
+    如下圖：
+
     ![](docs/images/oauth-callback.png)
 
-3. 最後開啟兩個 Terminal 分別跑：
+3. 最後開啟兩個 Terminal 分別執行以下指令：
 
     ```bash
-    npm run dev # Terminal 1, webpack Development server
+    npm run dev          # Terminal 1, webpack Development server
 
     npm run electron:dev # Terminal 2, start electron
     ```
 
+[yarn]: https://github.com/yarnpkg/yarn
 [plurk-developer]: http://www.plurk.com/PlurkApp/
 
 ## Directory Structure
