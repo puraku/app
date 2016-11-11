@@ -7,8 +7,8 @@ module.exports = {
     plurkForm: './src/form.js'
   },
   output: {
-    path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
+    path: path.resolve(__dirname, './out'),
+    publicPath: '/out/',
     filename: '[name].js'
   },
   module: {

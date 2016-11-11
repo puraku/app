@@ -48,8 +48,8 @@ jspm_packages
 *.tgz
 
 # webpack build
-build
 dist
+out
 
 # build config file
 app/config.js
