@@ -1,4 +1,4 @@
-# Puraku 你最愛的噗浪終於登陸 macOS 啦！
+# Puraku 你最愛的噗浪終於登陸 macOS啦！
 
 跟噗浪官方 iOS App 有 87% 像的電腦版噗浪 App！
 
@@ -10,9 +10,10 @@
 
 ## Screentshots
 
-<img src="./docs/images/light-mode-profile.png" alt="" width="230">
-<img src="./docs/images/dark-mode-profile.png" alt="" width="230">
-<img src="./docs/images/responses.png" alt="" width="230">
+<img src="./docs/images/light-mode-profile.png?" alt="" width="350">
+<img src="./docs/images/dark-mode-profile.png?" alt="" width="350">
+<img src="./docs/images/responses.png?" alt="" width="350">
+<img src="./docs/images/dark-mode-user-plurks.png?" alt="" width="350">
 
 ## Development
 
