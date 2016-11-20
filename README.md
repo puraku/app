@@ -61,6 +61,18 @@
 └── yarn.lock
 ```
 
+## Q&A
+
+1. 為毛還要做一個桌面版的 App 呀？不是都有網頁版惹？
+
+    > 我也不知道為什麼 Twiiter 會有那麼多開發者出桌面版 App，可能都是吃飽太閒吧 😅 有 App 是好事啊，代表 API 有人在用耶 XD
+
+2. 選用 Web 技術 Vue.js 有什麼特別的考量嗎？
+
+    > 去年有用過用 React.js + Electon 做的 Twitter App - [Tweetman][tweetman]，體驗並沒有想像中的美好，開發者也沒有後續更新。既然自己號稱 Web Developer ，就來自己幹一個八。選用 Vue.js 原因之一是因為他的簡潔易學，做完這個專案也剛好證明邊做邊學 Vue 是可行的。
+
+[tweetman]: https://tweetman.kksg.net/
+
 ## License
 
 MIT
