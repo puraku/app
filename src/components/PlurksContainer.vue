@@ -12,7 +12,7 @@
       <fa-icon iconName="check" :style="{display: 'inline-block'}"/>
       將這些訊息標為已讀
     </div>
-    <plurk-card v-for="plurk in plurks" :plurk="plurk"/>
+    <plurk-card v-for="plurk in plurks" :plurk="plurk" :key="plurk.plurk_id"/>
   </div>
 </template>
 
@@ -95,12 +95,19 @@ export default {
     return {
       onScroll(self) {
         return function() {
+          window.preserveScrollTop = this.scrollTop;
           const threshold = 400;
           if (this.scrollTop + threshold > this.scrollHeight - this.offsetHeight) {
             self.onEndReached && self.onEndReached();
           }
         }
       }
+    }
+  },
+
+  activated() {
+    if (window.preserveScrollTop) {
+      this.$el.scrollTop = window.preserveScrollTop;
     }
   },
 

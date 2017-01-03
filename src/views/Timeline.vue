@@ -2,7 +2,9 @@
   <div class="container">
     <title-bar />
     <filter-group :filterItems="filterItems" :isSelected="isFilterItemSelected" :unreadData="unreadData" />
-    <plurks-container :plurks="plurks" :onEndReached="onEndReached" :unreadToggleCallback="fetchTimelineIfNeeded" />
+    <keep-alive>
+      <plurks-container :plurks="plurks" :onEndReached="onEndReached" :unreadToggleCallback="fetchTimelineIfNeeded" />
+    </keep-alive>
   </div>
 </template>
 
