@@ -1,7 +1,7 @@
 {
   "name": "puraku-client",
   "productName": "Puraku",
-  "version": "0.8.7",
+  "version": "0.8.8",
   "description": "跟噗浪官方 iOS App 有 87% 像的電腦版噗浪 App",
   "main": "app/main.js",
   "scripts": {
