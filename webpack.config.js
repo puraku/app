@@ -43,7 +43,8 @@ module.exports = {
     modules: [path.resolve('./src'), 'node_modules'],
     extensions: ['.vue', '.js'],
     alias: {
-      'vue$': 'vue/dist/vue'
+      'vue$': 'vue/dist/vue.js',
+      'vue-router$': 'vue-router/dist/vue-router.js'
     }
   },
   devServer: {
